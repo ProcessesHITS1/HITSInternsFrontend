@@ -8,15 +8,16 @@ export const ApplicationRouter = () => {
   const router = createBrowserRouter([
     {
       path: '/',
+      errorElement: <ErrorPage />,
+      children: publicList,
+    },
+    {
+      path: '/',
       element: <Layout />,
       errorElement: <ErrorPage />,
       children: privateList,
     },
-    {
-      path: '/',
-      errorElement: <ErrorPage />,
-      children: [...publicList, { path: '*', element: <NotFoundPage /> }],
-    },
+    { path: '*', element: <NotFoundPage /> },
   ])
   return <RouterProvider router={router} />
 }

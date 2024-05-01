@@ -1,14 +1,19 @@
 import './styles/index.scss'
-import { ApplicationRouter } from '~app/routes'
+import { ApplicationRouter } from './routes'
+import { StoreProvider } from './store'
 import { Toaster } from './toaster'
 
-function App() {
-  return (
-    <>
-      <Toaster />
-      <ApplicationRouter />
-    </>
-  )
-}
+const App = () => (
+  <>
+    <Toaster />
+    <ApplicationRouter />
+  </>
+)
 
-export default App
+const WrappedApp = () => (
+  <StoreProvider>
+    <App />
+  </StoreProvider>
+)
+
+export default WrappedApp
