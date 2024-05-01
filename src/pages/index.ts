@@ -1,0 +1,5 @@
+export * from './loginPage'
+export * from './mainPage'
+export * from './registerPage'
+export * from './notFoundPage'
+export * from './errorPage'

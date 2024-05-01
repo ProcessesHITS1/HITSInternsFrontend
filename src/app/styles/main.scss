@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Manrope';
+  src: url('/font/Manrope.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+#root,
+main {
+  width: 100% !important;
+}
+
+body {
+  background-color: rgb(var(--app-bg-color));
+}
+
+* {
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: Manrope, sans-serif;
+}
