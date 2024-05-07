@@ -1,1 +1,1 @@
-export const JWT_LS_KEYNAME = 'token'
+export const JWT_LS_KEYNAME = 'interns_token'
