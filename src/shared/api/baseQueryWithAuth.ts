@@ -1,6 +1,6 @@
 import { FetchArgs, FetchBaseQueryArgs } from '@reduxjs/toolkit/dist/query/fetchBaseQuery'
 import { BaseQueryApi, fetchBaseQuery } from '@reduxjs/toolkit/query'
-import { AppRoutes, JWT_LS_KEYNAME } from '~shared/config'
+import { unsetAuthToken } from '~shared/lib/store'
 
 export const baseQueryWithAuth = (args: FetchBaseQueryArgs) => {
   const baseQuery = fetchBaseQuery({
@@ -21,8 +21,7 @@ export const baseQueryWithAuth = (args: FetchBaseQueryArgs) => {
     const query = await baseQuery(args, api, extraOptions)
 
     if (query.error?.status === 401) {
-      localStorage.removeItem(JWT_LS_KEYNAME)
-      document.location = AppRoutes.LOGIN
+      api.dispatch(unsetAuthToken())
     }
 
     return query
