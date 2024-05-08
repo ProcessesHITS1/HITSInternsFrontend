@@ -7,12 +7,10 @@ import { publicList } from './public'
 export const ApplicationRouter = () => {
   const router = createBrowserRouter([
     {
-      path: '/',
       errorElement: <ErrorPage />,
       children: publicList,
     },
     {
-      path: '/',
       element: <Layout />,
       errorElement: <ErrorPage />,
       children: privateList,
