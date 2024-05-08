@@ -18,4 +18,5 @@ export type UserInfo = {
   phone: string
   sex: Sex
   roles: Role[]
+  group: string
 }

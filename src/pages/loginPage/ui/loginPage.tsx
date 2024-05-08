@@ -20,12 +20,7 @@ export const LoginPage = () => {
   return (
     <Card bordered className='w-5/6 md:w-2/3 lg:w-1/2 m-auto my-5'>
       <Typography.Title level={3}>Вход</Typography.Title>
-      <Form
-        className='login-form'
-        onFinish={handleLogin}
-        layout='vertical'
-        validateTrigger='onBlur'
-      >
+      <Form onFinish={handleLogin} layout='vertical' validateTrigger='onBlur'>
         <Form.Item
           name='email'
           rules={[
