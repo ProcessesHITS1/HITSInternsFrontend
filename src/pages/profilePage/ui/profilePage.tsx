@@ -1,9 +1,12 @@
-import { Card, Spin } from 'antd'
+import { Button, Card, Spin } from 'antd'
 import { Sex, getRoleName, useGetMyInfoQuery } from '~entities/user'
+import { unsetAuthToken, useAppDispatch } from '~shared/lib/store'
 import { ProfileProp } from './profileProp'
 
 export const ProfilePage = () => {
   const profileQuery = useGetMyInfoQuery()
+  const dispatch = useAppDispatch()
+  const logout = () => dispatch(unsetAuthToken())
 
   if (profileQuery.isFetching) {
     return <Spin size='large' className='mt-5' />
@@ -13,7 +16,17 @@ export const ProfilePage = () => {
   }
 
   return (
-    <Card title='Мой профиль' className='w-full md:w-1/2'>
+    <Card
+      title={
+        <div className='flex items-center'>
+          <span>Мой профиль</span>
+          <Button className='ms-auto my-0' danger onClick={logout}>
+            Выход
+          </Button>
+        </div>
+      }
+      className='w-full md:w-1/2'
+    >
       <ProfileProp
         name='Роли'
         value={
