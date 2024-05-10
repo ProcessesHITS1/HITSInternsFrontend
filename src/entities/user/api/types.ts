@@ -1,7 +1,10 @@
 import { PageInfo } from '~shared/api'
 import { UserInfo } from '../model'
 
-export type GetAllUsersReq = void
+export type GetAllUsersReq = {
+  page: number
+  size: number
+}
 export type GetAllUsersResp = {
   pageInfo: PageInfo
   data: UserInfo[]

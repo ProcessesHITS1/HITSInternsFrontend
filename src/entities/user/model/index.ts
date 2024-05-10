@@ -1,3 +1,5 @@
+import { Group } from '~entities/group/@x/user'
+
 export enum Sex {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
@@ -17,5 +19,6 @@ export type UserInfo = {
   email: string
   phone: string
   sex: Sex
+  group?: Group
   roles: Role[]
 }

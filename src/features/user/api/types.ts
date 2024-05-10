@@ -20,6 +20,7 @@ export type SignInResp = {
 }
 
 export type CreateUserReq = Omit<UserInfo, 'roles' | 'id'> & {
+  groupId: string
   isStudent: boolean
   isSchoolRepresentative: boolean
   isAdmin: boolean

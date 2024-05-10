@@ -11,6 +11,8 @@ export const baseQueryWithAuth = (args: FetchBaseQueryArgs) => {
         headers.set('Authorization', `Bearer ${token}`)
       }
 
+      headers.set('credentials', 'omit')
+
       return headers
     },
     ...args,

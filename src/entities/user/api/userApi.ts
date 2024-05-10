@@ -11,8 +11,9 @@ import {
 const endpoints = authApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query<GetAllUsersResp, GetAllUsersReq>({
-      query: () => ({
+      query: (params) => ({
         url: '/users',
+        params,
       }),
       providesTags: ['userList'],
     }),

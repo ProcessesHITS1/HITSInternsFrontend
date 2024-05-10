@@ -4,6 +4,7 @@ import { baseQueryWithAuth } from '../baseQueryWithAuth'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
+  refetchOnMountOrArgChange: true,
   baseQuery: baseQueryWithAuth({ baseUrl: API_AUTH_URL }),
   endpoints: () => ({}),
   tagTypes: ['userList', 'groupList'],

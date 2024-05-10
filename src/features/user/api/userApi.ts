@@ -35,7 +35,7 @@ const endpoints = authApi.injectEndpoints({
     }),
     createUser: builder.mutation<CreateUserResp, CreateUserReq>({
       query: (body) => ({
-        url: '/users/create',
+        url: '/users',
         method: 'POST',
         body,
       }),
