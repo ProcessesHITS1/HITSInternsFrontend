@@ -5,4 +5,5 @@ export enum AppRoutes {
   PROFILE = '/profile',
   INTERVIEWS = '/interviews',
   PRACTICE = '/practice',
+  GROUPS = '/groups',
 }
