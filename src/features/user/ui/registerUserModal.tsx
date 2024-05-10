@@ -1,11 +1,13 @@
 import { Button, Col, Flex, Form, Input, Modal, Row, Select } from 'antd'
 import { toast } from 'react-toastify'
+import { Group } from '~entities/group'
 import { Role, Sex } from '~entities/user'
 import { useCreateUserMutation } from '../api'
 
 export interface RegisterUserModal {
   open: boolean
   setOpen: (open: boolean) => void
+  groups: Group[]
 }
 
 export const RegisterUserModal = (props: RegisterUserModal) => {
@@ -44,7 +46,11 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
         layout='vertical'
         validateTrigger='onBlur'
         form={form}
-        initialValues={{ role: Role.ROLE_STUDENT, sex: Sex.MALE }}
+        initialValues={{
+          role: Role.ROLE_STUDENT,
+          sex: Sex.MALE,
+          groupId: props.groups?.[0]?.id,
+        }}
       >
         <Row gutter={12}>
           <Col xs={24} md={12}>
@@ -117,8 +123,8 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
               name='phone'
               rules={[
                 {
-                  required: true,
                   message: 'Введите телефон',
+                  pattern: /^\d{11}$/,
                 },
               ]}
               label='Телефон'
@@ -131,6 +137,14 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
                 {
                   required: true,
                   message: 'Введите пароль',
+                },
+                {
+                  min: 6,
+                  message: 'Минимум 6 символов',
+                },
+                {
+                  max: 64,
+                  message: 'Максимум 64 символа',
                 },
               ]}
               label='Пароль'
@@ -152,7 +166,18 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
               />
             </Form.Item>
           </Col>
-          {role === Role.ROLE_STUDENT && <Col>Группа</Col>}
+          {role === Role.ROLE_STUDENT && (
+            <Col xs={24}>
+              <Form.Item name='groupId' label='Группа'>
+                <Select
+                  options={props.groups.map((group) => ({
+                    value: group.id,
+                    label: group.number,
+                  }))}
+                />
+              </Form.Item>
+            </Col>
+          )}
         </Row>
         <Form.Item>
           <Flex>

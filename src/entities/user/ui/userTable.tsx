@@ -10,7 +10,7 @@ export interface UserTableProps {
 
 export const UserTable = (props: UserTableProps) => {
   const groups = [
-    ...new Set(props.users.flatMap((user) => (user.group ? [user.group] : []))),
+    ...new Map(props.users.map((user) => [user.group?.id, user.group])).values(),
   ]
   return (
     <Table

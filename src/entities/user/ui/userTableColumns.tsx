@@ -14,12 +14,14 @@ export const userTableColumns: (groups: UserInfo['group'][]) => ColumnsType<User
   {
     title: 'Группа',
     key: 'group',
-    render: (_, user) => user.group ?? '—',
-    filters: groups.map((group) => ({
-      text: group,
-      value: group,
-    })),
-    onFilter: (value, user) => user.group === (value as string),
+    render: (_, user) => user.group?.number ?? '—',
+    filters: groups
+      .filter((group) => group != null)
+      .map((group) => ({
+        text: group!.number,
+        value: group!.id,
+      })),
+    onFilter: (value, user) => user.group?.id === (value as string),
   },
   {
     title: 'Почта',
