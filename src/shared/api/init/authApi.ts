@@ -6,5 +6,5 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: baseQueryWithAuth({ baseUrl: API_AUTH_URL }),
   endpoints: () => ({}),
-  tagTypes: ['userList'],
+  tagTypes: ['userList', 'groupList'],
 })

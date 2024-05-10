@@ -3,6 +3,7 @@ import { NotFoundPage, ErrorPage } from '~pages'
 import { Layout } from './layout'
 import { privateList } from './private'
 import { publicList } from './public'
+import { schoolRepresentativeList } from './schoolRepresentative'
 
 export const ApplicationRouter = () => {
   const router = createBrowserRouter([
@@ -13,7 +14,7 @@ export const ApplicationRouter = () => {
     {
       element: <Layout />,
       errorElement: <ErrorPage />,
-      children: privateList,
+      children: [...privateList, ...schoolRepresentativeList],
     },
     { path: '*', element: <NotFoundPage /> },
   ])
