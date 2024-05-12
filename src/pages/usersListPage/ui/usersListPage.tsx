@@ -4,7 +4,7 @@ import { RegisterUserModal } from '~features/user'
 import { useGetGroupsQuery } from '~entities/group'
 import { UserTable, useGetAllUsersQuery } from '~entities/user'
 
-export const StudentsListPage = () => {
+export const UsersListPage = () => {
   const usersQuery = useGetAllUsersQuery({ page: 1, size: 10000 })
   const groupsQuery = useGetGroupsQuery()
 
