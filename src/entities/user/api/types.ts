@@ -1,14 +1,8 @@
-import { PageInfo } from '~shared/api'
+import { PaginationReq, PaginationResp } from '~shared/api'
 import { UserInfo } from '../model'
 
-export type GetAllUsersReq = {
-  page: number
-  size: number
-}
-export type GetAllUsersResp = {
-  pageInfo: PageInfo
-  data: UserInfo[]
-}
+export type GetAllUsersReq = PaginationReq
+export type GetAllUsersResp = PaginationResp<UserInfo>
 
 export type GetUserInfoReq = {
   id: string

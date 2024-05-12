@@ -1,4 +1,4 @@
-import { Button, Spin } from 'antd'
+import { Button, Spin, Typography } from 'antd'
 import { useState } from 'react'
 import { AddGroupModal } from '~features/group'
 import { GroupList, useGetGroupsQuery } from '~entities/group'
@@ -17,6 +17,7 @@ export const GroupsPage = () => {
 
   return (
     <>
+      <Typography.Title level={3}>Группы</Typography.Title>
       <AddGroupModal open={isModalOpen} setOpen={setIsModalOpen} />
       <Button onClick={() => setIsModalOpen(true)}>Добавить группу</Button>
       <GroupList groups={groupsQuery.data!} />
