@@ -1,8 +1,6 @@
 import { ReactNode } from 'react'
-import { Navigate, RouteObject } from 'react-router-dom'
+import { RouteObject } from 'react-router-dom'
 import { Role, useGetMyInfoQuery } from '~entities/user'
-
-import { AppRoutes } from '~shared/config'
 
 export const SchoolRepresentativeRoute = ({ elem }: { elem: ReactNode }) => {
   const infoQuery = useGetMyInfoQuery()
@@ -19,7 +17,7 @@ export const SchoolRepresentativeRoute = ({ elem }: { elem: ReactNode }) => {
     (role) => role === Role.ROLE_SCHOOL_REPRESENTATIVE || Role.ROLE_ADMIN
   )
 
-  return hasAccess ? elem : <Navigate to={AppRoutes.MAIN} />
+  return hasAccess ? elem : 'У Вас нет доступа к данной странице'
 }
 
 export const SchoolRepresentativeRoutesWrapper = (routes: RouteObject[]) =>

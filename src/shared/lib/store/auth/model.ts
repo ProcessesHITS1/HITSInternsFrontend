@@ -1,9 +1,6 @@
 export type AuthState = {
   isAuth: boolean
   jwt: string | undefined
-  isStudent: boolean | undefined
-  isManager: boolean | undefined
-  isAdmin: boolean | undefined
 }
 
 export type JWT_PAYLOAD = {

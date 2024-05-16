@@ -7,9 +7,6 @@ import { parseJwt } from './parseJwt'
 const emptyState: AuthState = {
   jwt: undefined,
   isAuth: false,
-  isAdmin: undefined,
-  isManager: undefined,
-  isStudent: undefined,
 }
 
 const getCachedAuthState = (): AuthState | undefined => {

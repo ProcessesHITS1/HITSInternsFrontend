@@ -19,7 +19,7 @@
 			"~app": ["src/app"],
 		},
     "module": "ESNext",
-		"target": "es2015",
+		"target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowUnreachableCode": false,
     "exactOptionalPropertyTypes": true,
