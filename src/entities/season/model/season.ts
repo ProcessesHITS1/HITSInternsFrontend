@@ -1,7 +1,7 @@
 export type Season = {
   year: number
-  interviewStart: string
-  interviewEnd: string
+  seasonStart: string
+  seasonEnd: string
 }
 
 export type ExtendedSeason = {

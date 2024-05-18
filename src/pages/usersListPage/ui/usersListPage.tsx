@@ -29,11 +29,9 @@ export const UsersListPage = () => {
         <Typography.Title level={3} className='text-center'>
           Пользователи
         </Typography.Title>
-        {groupsQuery.data?.length !== 0 && (
-          <Button type='primary' className='mb-4' onClick={() => setOpen(true)}>
-            Новый пользователь
-          </Button>
-        )}
+        <Button type='primary' className='mb-4' onClick={() => setOpen(true)}>
+          Новый пользователь
+        </Button>
         <UserTable users={usersQuery.data?.data} />
       </div>
     </>

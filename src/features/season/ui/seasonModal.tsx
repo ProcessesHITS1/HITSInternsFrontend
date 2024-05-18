@@ -31,27 +31,38 @@ export const SeasonModal = (props: SeasonModalProps) => {
 
   useEffect(() => {
     if (season) {
-      form.setFieldsValue(season)
+      if (open) {
+        form.setFieldsValue({
+          year: season.year,
+          seasonDates: [
+            dayjs(season.seasonStart.slice(0, 10), dateFormat),
+            dayjs(season.seasonEnd.slice(0, 10), dateFormat),
+          ],
+        })
+      }
     } else {
       form.resetFields()
     }
-  }, [season])
+  }, [season, open])
 
   const wrappedClose = () => {
     if (!isResultLoading) {
       close()
-      form.resetFields()
     }
   }
 
-  const onFinish = async (data: any) => {
+  const onFinish = async (rawData: any) => {
     try {
+      const data = {
+        year: rawData.year,
+        seasonStart: rawData.seasonDates[0]?.format(dateFormat) + 'T00:00:00Z',
+        seasonEnd: rawData.seasonDates[1]?.format(dateFormat) + 'T00:00:00Z',
+      }
       if (season) {
         await editSeason({ year: season.year, data }).unwrap()
       } else {
         await createSeason(data).unwrap()
       }
-      form.resetFields()
       close()
     } catch {
       toast.error('Произошла ошибка')
@@ -77,7 +88,7 @@ export const SeasonModal = (props: SeasonModalProps) => {
           season
             ? {
                 year: season.year,
-                interviews: [season.interviewStart, season.interviewEnd],
+                interviews: [season.seasonStart, season.seasonEnd],
               }
             : {}
         }
@@ -106,7 +117,7 @@ export const SeasonModal = (props: SeasonModalProps) => {
               />
             </Form.Item>
             <Form.Item
-              name='interviews'
+              name='seasonDates'
               label='Даты собеседований'
               dependencies={['year']}
               rules={[{ required: true, message: 'Введите даты' }]}
@@ -120,6 +131,7 @@ export const SeasonModal = (props: SeasonModalProps) => {
                 minDate={dayjs(`${watch?.year}-01-01`, dateFormat)}
                 disabled={!yearIsValid}
                 allowEmpty
+                allowClear={false}
               />
             </Form.Item>
             <Form.Item>

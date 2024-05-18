@@ -8,5 +8,6 @@ export enum AppRoutes {
   USERS = '/users',
   COMPANITES = '/companies',
   SEASONS = '/seasons',
+  SEASON = '/season/:id',
   ADMIN = '/',
 }

@@ -7,6 +7,7 @@ import {
   AdminPage,
   InterviewsPage,
   PracticePage,
+  SeasonPage,
 } from '~pages'
 import { AppRoutes } from '~shared/config'
 import { SchoolRepresentativeRoutesWrapper } from './schoolRepresentativeRoute'
@@ -31,6 +32,10 @@ const _schoolRepresentativeRoutes: RouteObject[] = [
   {
     path: AppRoutes.SEASONS,
     element: <SeasonsPage />,
+  },
+  {
+    path: AppRoutes.SEASON,
+    element: <SeasonPage />,
   },
   {
     path: AppRoutes.INTERVIEWS,

@@ -16,8 +16,9 @@ const endpoints = interviewsApi.injectEndpoints({
     }),
     getSeasonByYear: builder.query<GetSeasonByYearResp, GetSeasonByYearReq>({
       query: ({ year }) => ({
-        url: `/seasons/${year}`,
+        url: `/season/${year}`,
       }),
+      providesTags: ['season'],
     }),
   }),
 })

@@ -35,7 +35,10 @@ export const SeasonsPage = () => {
         season={modalState.season}
         close={() => setModalState({ ...modalState, open: false })}
       />
-      <Button onClick={() => setModalState({ open: true, season: null })}>
+      <Button
+        onClick={() => setModalState({ open: true, season: null })}
+        className='mb-4'
+      >
         Добавить сезон
       </Button>
       <SeasonsList

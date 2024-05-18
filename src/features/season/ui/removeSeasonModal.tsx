@@ -6,10 +6,11 @@ export interface SeasonRemoveModal {
   open: boolean
   close: () => void
   year: number | null
+  onFinish?: () => void
 }
 
 export const RemoveSeasonModal = (props: SeasonRemoveModal) => {
-  const { year, open, close } = props
+  const { year, open, close, onFinish } = props
 
   const [removeSeason, removeSeasonResult] = useDeleteSeasonMutation()
 
@@ -25,6 +26,9 @@ export const RemoveSeasonModal = (props: SeasonRemoveModal) => {
         await removeSeason({ year }).unwrap()
         toast.success('Сезон удален')
         close()
+        if (onFinish) {
+          onFinish()
+        }
       } catch {
         toast.error('Произошла ошибка')
       }
@@ -40,7 +44,7 @@ export const RemoveSeasonModal = (props: SeasonRemoveModal) => {
       onOk={removeSeasonHandler}
       maskClosable={false}
     >
-      Вы уверены, что хотите удалить компанию?
+      Вы уверены, что хотите удалить сезон?
     </Modal>
   )
 }
