@@ -1,6 +1,11 @@
 export type Season = {
-  id: string
   year: number
-  interviewStart: string
-  interviewEnd: string
+  seasonStart: string
+  seasonEnd: string
+}
+
+export type ExtendedSeason = {
+  season: Season
+  companies: { id: string; name: string }[]
+  students: { id: string; name: string }[]
 }

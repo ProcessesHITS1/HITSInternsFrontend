@@ -5,17 +5,11 @@ export const parseJwt = (jwt: string): AuthState => {
     return {
       jwt,
       isAuth: true,
-      isAdmin: undefined,
-      isManager: undefined,
-      isStudent: undefined,
     }
   } catch (err) {
     return {
       jwt: undefined,
       isAuth: false,
-      isAdmin: undefined,
-      isManager: undefined,
-      isStudent: undefined,
     }
   }
 }

@@ -1,7 +1,7 @@
-import { Season } from '../model'
+import { Season, ExtendedSeason } from '../model'
 
 export type GetAllSeasonsReq = void
 export type GetAllSeasonsResp = Season[]
 
-export type GetSeasonsByYearReq = { year: number }
-export type GetSeasonsByYearResp = Season
+export type GetSeasonByYearReq = { year: number }
+export type GetSeasonByYearResp = ExtendedSeason

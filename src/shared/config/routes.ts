@@ -1,5 +1,4 @@
 export enum AppRoutes {
-  MAIN = '/',
   LOGIN = '/login',
   REGISTER = '/register',
   PROFILE = '/profile',
@@ -8,4 +7,7 @@ export enum AppRoutes {
   GROUPS = '/groups',
   USERS = '/users',
   COMPANITES = '/companies',
+  SEASONS = '/seasons',
+  SEASON = '/season/:id',
+  ADMIN = '/',
 }

@@ -1,3 +1,3 @@
 export * from './authApi'
-export * from './companiesApi'
+export * from './companyApi'
 export * from './interviewsApi'

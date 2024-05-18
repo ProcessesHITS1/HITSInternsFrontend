@@ -2,8 +2,8 @@ import { interviewsApi } from '~shared/api'
 import {
   GetAllSeasonsReq,
   GetAllSeasonsResp,
-  GetSeasonsByYearReq,
-  GetSeasonsByYearResp,
+  GetSeasonByYearReq,
+  GetSeasonByYearResp,
 } from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
@@ -14,10 +14,11 @@ const endpoints = interviewsApi.injectEndpoints({
       }),
       providesTags: ['seasonsList'],
     }),
-    getSeasonByYear: builder.query<GetSeasonsByYearResp, GetSeasonsByYearReq>({
+    getSeasonByYear: builder.query<GetSeasonByYearResp, GetSeasonByYearReq>({
       query: ({ year }) => ({
-        url: `/seasons/${year}`,
+        url: `/season/${year}`,
       }),
+      providesTags: ['season'],
     }),
   }),
 })
