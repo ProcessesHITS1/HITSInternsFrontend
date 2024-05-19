@@ -18,6 +18,11 @@ export const AdminPage = () => {
       route: AppRoutes.COMPANITES,
     },
     { title: 'Сезоны', descr: 'Страница управления сезонами', route: AppRoutes.SEASONS },
+    {
+      title: 'Профессии',
+      descr: 'Страница управления профессиями',
+      route: AppRoutes.PROFESSIONS,
+    },
   ]
   return (
     <>
