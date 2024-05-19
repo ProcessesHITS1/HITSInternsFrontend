@@ -31,6 +31,8 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
     }
   }
 
+  const hasGroups = props.groups?.length > 0
+
   return (
     <Modal
       forceRender
@@ -47,9 +49,9 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
         validateTrigger='onBlur'
         form={form}
         initialValues={{
-          role: Role.ROLE_STUDENT,
+          role: hasGroups ? Role.ROLE_STUDENT : Role.ROLE_SCHOOL_REPRESENTATIVE,
           sex: Sex.MALE,
-          groupId: props.groups?.[0]?.id,
+          groupId: hasGroups ? props.groups?.[0]?.id : null,
         }}
       >
         <Row gutter={12}>
@@ -124,7 +126,7 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
               rules={[
                 {
                   message: 'Введите телефон',
-                  pattern: /^\d{11}$/,
+                  required: true,
                 },
               ]}
               label='Телефон'
@@ -157,6 +159,7 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
                   {
                     value: Role.ROLE_STUDENT,
                     label: 'Студент',
+                    disabled: !hasGroups,
                   },
                   {
                     value: Role.ROLE_SCHOOL_REPRESENTATIVE,

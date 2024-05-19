@@ -3,10 +3,14 @@ import Avatar from '~assets/avatar.jpg'
 import Logo from '~assets/logo.png'
 import { Role, useGetMyInfoQuery } from '~entities/user'
 import { AppRoutes } from '~shared/config'
+import { selectIsAuth, useAppSelector } from '~shared/lib/store'
 import styles from './index.module.scss'
 
 export const Navbar = () => {
-  const profileQuery = useGetMyInfoQuery()
+  const isAuth = useAppSelector(selectIsAuth)
+  const profileQuery = useGetMyInfoQuery(undefined, {
+    skip: !isAuth,
+  })
 
   if (profileQuery.isLoading || profileQuery.isError) {
     return null
