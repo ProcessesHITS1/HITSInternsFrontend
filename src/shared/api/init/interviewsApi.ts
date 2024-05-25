@@ -7,5 +7,11 @@ export const interviewsApi = createApi({
   refetchOnMountOrArgChange: true,
   baseQuery: baseQueryWithAuth({ baseUrl: API_INTERVIEWS_URL }),
   endpoints: () => ({}),
-  tagTypes: ['seasonsList', 'season', 'professionsList'],
+  tagTypes: [
+    'seasonsList',
+    'season',
+    'professionsList',
+    'companiesInSeasonList',
+    'studentsInSeasonList',
+  ],
 })
