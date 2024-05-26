@@ -1,5 +1,9 @@
 .ant-card-body {
-  padding: 8px 16px !important;
+  padding: 8px 12px !important;
+}
+
+.ant-card-head {
+  padding: 0 12px !important;
 }
 
 .ant-table-cell {
@@ -22,4 +26,16 @@
 .ant-form-item-explain-error {
   font-size: 12px;
   line-height: normal;
+}
+
+.ant-tabs-tab {
+  padding: 8px 0px 4px 0px !important;
+}
+
+h4.ant-typography {
+  margin-bottom: 0;
+}
+
+.ant-checkbox-wrapper {
+  user-select: none;
 }

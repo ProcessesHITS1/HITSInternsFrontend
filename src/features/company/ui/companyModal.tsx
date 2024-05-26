@@ -50,7 +50,6 @@ export const CompanyModal = (props: CompanyModalProps) => {
       } else {
         await createCompany({ data }).unwrap()
       }
-      form.resetFields()
       close()
     } catch {
       toast.error('Произошла ошибка')
@@ -98,17 +97,6 @@ export const CompanyModal = (props: CompanyModalProps) => {
                 }))}
               />
             </Form.Item>
-            {/*<Form.Item name='seasonIds' label='Сезоны'>
-              <Select
-                placeholder='Выберите сезоны'
-                mode='multiple'
-                allowClear
-                options={seasons.map((season) => ({
-                  value: season.id,
-                  label: season.year,
-                }))}
-              />
-              </Form.Item>*/}
             <Form.List name='contacts'>
               {(fields, { add, remove }) => (
                 <>

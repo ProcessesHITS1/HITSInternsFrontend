@@ -52,11 +52,11 @@ export const SeasonsList = (props: SeasonsListProps) => {
                 </Flex>
               }
             >
-              <div className='flex ms-2'>
+              <div className='flex'>
                 <span className='text-stone-500'>Начало собеседований:</span>
                 <span className='ms-[0.25rem]'>{parseDate(season.seasonStart)}</span>
               </div>
-              <div className='flex ms-2'>
+              <div className='flex'>
                 <span className='text-stone-500'>Конец собеседований:</span>
                 <span className='ms-[0.25rem]'>{parseDate(season.seasonEnd)}</span>
               </div>

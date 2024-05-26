@@ -1,10 +1,15 @@
-import { Button } from 'antd'
+import { Button, Checkbox, Flex } from 'antd'
 import { useState } from 'react'
 import {
   StudentInSeasonModal,
   StudentInSeasonRemoveModal,
 } from '~features/studentInSeason'
-import { StudentInSeason, StudentInSeasonList } from '~entities/studentInSeason'
+import {
+  EmploymentStatus,
+  StudentInSeason,
+  StudentInSeasonList,
+  getStatusName,
+} from '~entities/studentInSeason'
 import { UserInfo } from '~entities/user'
 
 export interface StudentInSeasonSectionProps {
@@ -20,8 +25,24 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
     open: false,
     studentId: null as string | null,
   })
+  const [panelState, setPanelState] = useState({
+    [EmploymentStatus.Pending]: true,
+    [EmploymentStatus.Employed]: true,
+    [EmploymentStatus.Unemployed]: true,
+  })
+
   const availableStudents = students.filter(
     (student) => !studentsInSeason.some((sIs) => sIs.id === student.id)
+  )
+
+  const checkbox = [
+    EmploymentStatus.Pending,
+    EmploymentStatus.Unemployed,
+    EmploymentStatus.Employed,
+  ]
+
+  const showStudentsInSeason = studentsInSeason.filter(
+    (student) => panelState[student.employmentStatus]
   )
 
   return (
@@ -49,8 +70,18 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
         >
           Добавить студента
         </Button>
+        <Flex className='mb-2'>
+          {checkbox.map((item) => (
+            <Checkbox
+              checked={panelState[item]}
+              onClick={() => setPanelState({ ...panelState, [item]: !panelState[item] })}
+            >
+              {getStatusName(item)}
+            </Checkbox>
+          ))}
+        </Flex>
         <StudentInSeasonList
-          studentsInSeason={studentsInSeason}
+          studentsInSeason={showStudentsInSeason}
           openEditModal={() => {}}
           openRemoveModal={(studentId) =>
             setRemoveStudentModalState({ studentId, open: true })

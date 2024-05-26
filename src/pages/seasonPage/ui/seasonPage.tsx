@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CompanyInSeasonSection } from '~widgets/companyInSeason'
 import { StudentInSeasonSection } from '~widgets/studentInSeason'
-import { RemoveSeasonModal, SeasonModal } from '~features/season'
+import { CloseSeasonModal, RemoveSeasonModal, SeasonModal } from '~features/season'
 import { useGetCompaniesQuery } from '~entities/company'
 import { useGetProfessionsQuery } from '~entities/profession'
 import { useGetSeasonByYearQuery } from '~entities/season'
@@ -22,6 +22,7 @@ export const SeasonPage = () => {
   const professionsQuery = useGetProfessionsQuery()
 
   const [removeModalOpen, setRemoveModalOpen] = useState(false)
+  const [endModalOpen, setEndModalOpen] = useState(false)
   const [seasonModalOpen, setSeasonModalOpen] = useState(false)
 
   const isLoading =
@@ -48,6 +49,11 @@ export const SeasonPage = () => {
 
   return (
     <>
+      <CloseSeasonModal
+        year={year}
+        open={endModalOpen}
+        close={() => setEndModalOpen(false)}
+      />
       <SeasonModal
         season={seasonQuery.data!.season}
         open={seasonModalOpen}
@@ -59,7 +65,7 @@ export const SeasonPage = () => {
         close={() => setRemoveModalOpen(false)}
         onFinish={() => navigate(AppRoutes.SEASONS)}
       />
-      <Typography.Title level={4} className='flex items-center'>
+      <Typography.Title level={4} className='flex items-center mb-0'>
         Сезон-{seasonQuery.data?.season.year}{' '}
         <Button
           size='small'
@@ -84,7 +90,9 @@ export const SeasonPage = () => {
         {parseDate(seasonQuery.data?.season.seasonStart)}—
         {parseDate(seasonQuery.data?.season.seasonEnd)}
       </div>
-
+      <Button size='small' danger className='mt-1' onClick={() => setEndModalOpen(true)}>
+        Закрыть сезон
+      </Button>
       <Tabs
         className='w-full'
         defaultActiveKey='1'

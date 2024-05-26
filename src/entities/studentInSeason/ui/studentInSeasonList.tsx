@@ -13,7 +13,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
   const { studentsInSeason, openEditModal, openRemoveModal } = props
 
   if (!studentsInSeason.length) {
-    return <div className='text-center'>В данном сезоне нет студентов</div>
+    return <div className='text-center'>Студенты не найдены</div>
   }
 
   return (
@@ -26,7 +26,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
               hoverable
               title={
                 <Flex align='center'>
-                  <span>{student.name}</span>
+                  <span className='whitespace-break-spaces'>{student.name}</span>
                   <div className='ms-auto my-2 me-2'>
                     <Button
                       shape='circle'
@@ -41,7 +41,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                 </Flex>
               }
             >
-              <div className='flex ms-2'>
+              <div className='flex'>
                 <span className='text-stone-500'>Трудоустройство:</span>
                 <span className='ms-[0.25rem]'>
                   {getStatusName(student.employmentStatus)}
