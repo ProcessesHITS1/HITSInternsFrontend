@@ -7,5 +7,11 @@ export const thirdCourseApi = createApi({
   refetchOnMountOrArgChange: true,
   baseQuery: baseQueryWithAuth({ baseUrl: API_THIRD_COURSE_URL }),
   endpoints: () => ({}),
-  tagTypes: [],
+  tagTypes: [
+    'semestersList',
+    'semester',
+    'diary',
+    'studentsInSemesterList',
+    'studentInSemester',
+  ],
 })
