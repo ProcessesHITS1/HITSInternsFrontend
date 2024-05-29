@@ -28,7 +28,7 @@ export const Navbar = () => {
       </Link>
       {isManagerOrAdmin && <NavLink to={AppRoutes.ADMIN}>Админка</NavLink>}
       {isManagerOrAdmin && <NavLink to={AppRoutes.SEASONS}>Собесы</NavLink>}
-      {isManagerOrAdmin && <NavLink to={AppRoutes.PRACTICE}>Практика</NavLink>}
+      {isManagerOrAdmin && <NavLink to={AppRoutes.SEMESTERS}>Практика</NavLink>}
       <Link to={AppRoutes.PROFILE} className={styles['avatar-container']}>
         <img src={Avatar} className={styles['avatar']} />
       </Link>

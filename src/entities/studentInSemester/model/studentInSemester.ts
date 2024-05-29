@@ -1,3 +1,6 @@
+import { Company } from '~entities/company/@x/studentInSemester'
+import { UserInfo } from '~entities/user/@x'
+
 export type StudentInSemester = {
   id: string
   studentId: string
@@ -5,4 +8,9 @@ export type StudentInSemester = {
   semesterId: string
   diaryId: string
   internshipPassed: boolean
+}
+
+export type StudentInSemesterNormal = StudentInSemester & {
+  student: UserInfo | undefined
+  company: Company | undefined
 }

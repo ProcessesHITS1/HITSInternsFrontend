@@ -8,7 +8,7 @@ import {
 
 const endpoints = thirdCourseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllSemester: builder.query<GetAllSemestersResp, GetAllSemestersReq>({
+    getAllSemesters: builder.query<GetAllSemestersResp, GetAllSemestersReq>({
       query: (params) => ({
         url: '/semesters',
         params,
@@ -24,4 +24,4 @@ const endpoints = thirdCourseApi.injectEndpoints({
   }),
 })
 
-export const { useGetAllSemesterQuery, useGetSemesterByIdQuery } = endpoints
+export const { useGetAllSemestersQuery, useGetSemesterByIdQuery } = endpoints

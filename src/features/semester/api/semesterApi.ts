@@ -1,5 +1,10 @@
 import { thirdCourseApi } from '~shared/api'
-import { EditSemesterResp, EditSemesterReq } from './types'
+import {
+  EditSemesterResp,
+  EditSemesterReq,
+  CloseSemesterResp,
+  CloseSemesterReq,
+} from './types'
 
 const endpoints = thirdCourseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +16,14 @@ const endpoints = thirdCourseApi.injectEndpoints({
       }),
       invalidatesTags: ['semester', 'semestersList'],
     }),
+    closeSemesterById: builder.mutation<CloseSemesterResp, CloseSemesterReq>({
+      query: ({ id }) => ({
+        url: `/semesters/${id}/close`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['semester', 'semestersList'],
+    }),
   }),
 })
 
-export const { useEditSemesterByIdMutation } = endpoints
+export const { useEditSemesterByIdMutation, useCloseSemesterByIdMutation } = endpoints

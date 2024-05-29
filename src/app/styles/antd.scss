@@ -39,3 +39,20 @@ h4.ant-typography {
 .ant-checkbox-wrapper {
   user-select: none;
 }
+
+.ant-ribbon-text {
+  font-size: 11px;
+}
+
+.ant-ribbon {
+  padding: 0 3px;
+}
+
+@media screen and (max-width: 500px) {
+  .ant-ribbon {
+    padding: 0 2px;
+  }
+  .ant-ribbon-text {
+    font-size: 10px;
+  }
+}

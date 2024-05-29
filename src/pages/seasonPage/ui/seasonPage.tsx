@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Spin, Tabs, Typography } from 'antd'
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CompanyInSeasonSection } from '~widgets/companyInSeason'
 import { StudentInSeasonSection } from '~widgets/studentInSeason'
 import { CloseSeasonModal, RemoveSeasonModal, SeasonModal } from '~features/season'
@@ -42,9 +42,19 @@ export const SeasonPage = () => {
       'status' in seasonQuery.error &&
       seasonQuery.error.status === 404
     ) {
-      return 'Сезон не найден'
+      return (
+        <>
+          Сезон не найден
+          <Link to={AppRoutes.SEASONS}>Перейти к странице сезонов собеседований</Link>
+        </>
+      )
     }
-    return 'Произошла ошибка при загрузке сезона'
+    return (
+      <>
+        Произошла ошибка при загрузке сезона
+        <Link to={AppRoutes.SEASONS}>Перейти к странице сезонов собеседований</Link>
+      </>
+    )
   }
 
   return (

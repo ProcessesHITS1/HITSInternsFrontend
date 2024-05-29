@@ -1,8 +1,8 @@
 export type Diary = {
   id: string
-  documentId: string
-  attachedAt: string
-  diaryFeedback: DiaryFeedback
+  documentId: string | null | undefined
+  attachedAt: string | null | undefined
+  diaryFeedback: DiaryFeedback | null | undefined
 }
 
 export type DiaryFeedback = {

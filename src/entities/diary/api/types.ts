@@ -1,7 +1,7 @@
 import { Diary } from '../model'
 
-export type GetDiaryByIdReq = { studentId: string }
+export type GetDiaryByIdReq = { diaryId: string }
 export type GetDiaryByIdResp = Diary
 
 export type DownloadDiaryByIdReq = { documentId: string }
-export type DownloadDiaryByIdResp = File
+export type DownloadDiaryByIdResp = void

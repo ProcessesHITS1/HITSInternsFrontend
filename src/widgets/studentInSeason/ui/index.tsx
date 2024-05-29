@@ -71,8 +71,9 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
           Добавить студента
         </Button>
         <Flex className='mb-2'>
-          {checkbox.map((item) => (
+          {checkbox.map((item, i) => (
             <Checkbox
+              key={i}
               checked={panelState[item]}
               onClick={() => setPanelState({ ...panelState, [item]: !panelState[item] })}
             >

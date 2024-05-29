@@ -13,15 +13,24 @@ export const AdminPage = () => {
     },
     { title: 'Группы', descr: 'Страница управления группами', route: AppRoutes.GROUPS },
     {
+      title: 'Профессии',
+      descr: 'Страница управления профессиями',
+      route: AppRoutes.PROFESSIONS,
+    },
+    {
       title: 'Компании',
       descr: 'Страница управления компаниями',
       route: AppRoutes.COMPANITES,
     },
-    { title: 'Сезоны', descr: 'Страница управления сезонами', route: AppRoutes.SEASONS },
     {
-      title: 'Профессии',
-      descr: 'Страница управления профессиями',
-      route: AppRoutes.PROFESSIONS,
+      title: 'Сезоны собеседований',
+      descr: 'Страница управления сезонами собеседований',
+      route: AppRoutes.SEASONS,
+    },
+    {
+      title: 'Семестры практики',
+      descr: 'Страница управления семестрами практики',
+      route: AppRoutes.SEMESTERS,
     },
   ]
   return (

@@ -24,7 +24,7 @@ export const SeasonsPage = () => {
 
   return (
     <>
-      <Typography.Title level={3}>Сезоны</Typography.Title>
+      <Typography.Title level={3}>Сезоны собеседований</Typography.Title>
       <RemoveSeasonModal
         year={removeModalState.year}
         open={removeModalState.open}
