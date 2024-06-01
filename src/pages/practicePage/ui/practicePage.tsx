@@ -25,7 +25,7 @@ export const PracticePage = () => {
         open={modalState.open}
         close={() => setModalState({ ...modalState, open: false })}
       />
-      <Typography.Title level={3}>Семестры практики</Typography.Title>
+      <Typography.Title level={4}>Семестры практики</Typography.Title>
       <SemestersList
         semesters={semestersQuery.data?.data || []}
         openEditModal={(semester) => setModalState({ semester, open: true })}

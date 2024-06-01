@@ -6,7 +6,6 @@ import { CompanyInSeasonSection } from '~widgets/companyInSeason'
 import { StudentInSeasonSection } from '~widgets/studentInSeason'
 import { CloseSeasonModal, RemoveSeasonModal, SeasonModal } from '~features/season'
 import { useGetCompaniesQuery } from '~entities/company'
-import { useGetProfessionsQuery } from '~entities/profession'
 import { useGetSeasonByYearQuery } from '~entities/season'
 import { useStudentsQuery } from '~entities/user'
 import { AppRoutes } from '~shared/config'
@@ -19,18 +18,14 @@ export const SeasonPage = () => {
   const seasonQuery = useGetSeasonByYearQuery({ year })
   const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
   const studentsQuery = useStudentsQuery()
-  const professionsQuery = useGetProfessionsQuery()
 
   const [removeModalOpen, setRemoveModalOpen] = useState(false)
   const [endModalOpen, setEndModalOpen] = useState(false)
   const [seasonModalOpen, setSeasonModalOpen] = useState(false)
 
   const isLoading =
-    seasonQuery.isLoading ||
-    studentsQuery.isLoading ||
-    companiesQuery.isLoading ||
-    professionsQuery.isLoading
-  const isError = seasonQuery.isError || studentsQuery.isError || companiesQuery.isError //prof
+    seasonQuery.isLoading || studentsQuery.isLoading || companiesQuery.isLoading
+  const isError = seasonQuery.isError || studentsQuery.isError || companiesQuery.isError
 
   if (isLoading) {
     return <Spin size='large' className='mt-5' />
@@ -123,7 +118,6 @@ export const SeasonPage = () => {
             label: 'Компании',
             children: (
               <CompanyInSeasonSection
-                professions={professionsQuery.data || []}
                 companiesInSeason={seasonQuery.data?.companies || []}
                 companies={companiesQuery.data?.data || []}
                 year={year}

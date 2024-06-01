@@ -3,23 +3,18 @@ import { Modal, Form, Input, Flex, Button, Select } from 'antd'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useAddDiaryFeedbackMutation } from '~features/diary'
-import { AcceptanceStatus, downloadDiary, useGetDiaryByIdQuery } from '~entities/diary'
+import { AcceptanceStatus, Diary, downloadDiary } from '~entities/diary'
 import { parseDate } from '~shared/lib/functions'
 
 export interface DiaryModalProps {
   diaryId: string | null | undefined
+  diary: Diary | null | undefined
   isOpen: boolean
   close: () => void
 }
 
 export const DiaryModal = (props: DiaryModalProps) => {
-  const { isOpen, close, diaryId } = props
-  const diaryQuery = useGetDiaryByIdQuery(
-    { diaryId: diaryId || '' },
-    {
-      skip: !diaryId,
-    }
-  )
+  const { isOpen, close, diaryId, diary } = props
 
   const [trigger, result] = useAddDiaryFeedbackMutation()
 
@@ -50,9 +45,9 @@ export const DiaryModal = (props: DiaryModalProps) => {
 
   const downloadHandler = async () => {
     try {
-      if (diaryQuery.data?.documentId) {
+      if (diary?.documentId) {
         await downloadDiary({
-          documentId: diaryQuery.data.documentId,
+          documentId: diary.documentId,
         })
       }
     } catch {
@@ -63,33 +58,31 @@ export const DiaryModal = (props: DiaryModalProps) => {
   useEffect(() => {
     if (isOpen) {
       form.resetFields()
+      if (diary) {
+        form.setFieldsValue({
+          acceptanceStatus: diary.diaryFeedback?.acceptanceStatus,
+          comments: diary.diaryFeedback?.comments,
+        })
+      }
     }
-  }, [isOpen])
-
-  if (diaryQuery.isFetching) {
-    return null
-  }
+  }, [isOpen, diary])
 
   return (
     <Modal
       forceRender
       title={'Дневник практики'}
-      open={isOpen}
+      open={!!(isOpen && (!diaryId || diary))}
       onCancel={wrappedClose}
       maskClosable={false}
       footer={null}
       style={{ top: 20 }}
     >
-      {diaryQuery.isError ? (
-        'Произошла ошибка при загрузке дневника'
-      ) : !diaryId ? (
+      {!diaryId ? (
         'Дневник практики отсутствует'
       ) : (
         <>
           <div className='flex items-center'>
-            <span className='me-2'>
-              Загружен: {parseDate(diaryQuery.data?.attachedAt)}
-            </span>
+            <span className='me-2'>Загружен: {parseDate(diary?.attachedAt)}</span>
             <Button
               type='primary'
               icon={<DownloadOutlined />}
@@ -105,10 +98,10 @@ export const DiaryModal = (props: DiaryModalProps) => {
             form={form}
             onFinish={feedbackHandler}
             initialValues={
-              diaryQuery.data?.diaryFeedback
+              diary?.diaryFeedback
                 ? {
-                    acceptanceStatus: diaryQuery.data.diaryFeedback.acceptanceStatus,
-                    comments: diaryQuery.data.diaryFeedback.comments,
+                    acceptanceStatus: diary.diaryFeedback.acceptanceStatus,
+                    comments: diary.diaryFeedback.comments,
                   }
                 : {}
             }

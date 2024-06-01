@@ -44,6 +44,7 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
       style={{ top: 20 }}
     >
       <Form
+        autoComplete='off'
         onFinish={handleRegisterClick}
         layout='vertical'
         validateTrigger='onBlur'
@@ -125,11 +126,11 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
               name='phone'
               rules={[
                 {
-                  message: 'Введите телефон',
+                  message: 'Введите контакты',
                   required: true,
                 },
               ]}
-              label='Телефон'
+              label='Контакты'
             >
               <Input placeholder='Введите телефон' />
             </Form.Item>

@@ -1,3 +1,4 @@
+import { parse as parseContentDisposition } from 'content-disposition-attachment'
 import FileSaver from 'file-saver'
 import { thirdCourseApi } from '~shared/api'
 import { API_THIRD_COURSE_URL } from '~shared/config'
@@ -23,8 +24,22 @@ export const downloadDiary = async ({
   documentId,
 }: DownloadDiaryByIdReq): Promise<DownloadDiaryByIdResp> => {
   const resp = await fetch(`${API_THIRD_COURSE_URL}/files/download/${documentId}`)
-  console.log(resp.headers.get('Content-Disposition'))
-  FileSaver.saveAs(await resp.blob(), resp.headers.get('filename') || 'Дневник практики')
+  const header = resp.headers.get('content-disposition')
+  const blob = await resp.blob()
+  let fileName = 'Дневник практики.docx'
+
+  if (header) {
+    try {
+      const parseResult = parseContentDisposition(header)
+      if (parseResult.attachment && parseResult.filename) {
+        fileName = parseResult.filename
+      }
+    } catch {
+      //
+    }
+  }
+
+  FileSaver.saveAs(blob, fileName)
 }
 
-export const { useGetDiaryByIdQuery } = endpoints
+export const { useGetDiaryByIdQuery, useLazyGetDiaryByIdQuery } = endpoints

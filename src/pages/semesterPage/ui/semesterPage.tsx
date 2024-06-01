@@ -1,24 +1,30 @@
+import { SearchOutlined } from '@ant-design/icons'
 import { EditOutlined } from '@ant-design/icons'
-import { Button, Spin, Typography } from 'antd'
+import { Button, Flex, Input, Spin, Typography } from 'antd'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { DiaryModal } from '~features/diary'
 import { CloseSemesterModal, SemesterModal } from '~features/semester'
 import { useGetCompaniesQuery } from '~entities/company'
+import { useLazyGetDiaryByIdQuery } from '~entities/diary'
 import { useGetSemesterByIdQuery } from '~entities/semester'
 import {
   StudentInSemesterList,
   useGetNormalStudentsInSemester,
 } from '~entities/studentInSemester'
+import { getName } from '~entities/user'
 import { AppRoutes, getSeasonLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 
 export const SemesterPage = () => {
   const id = useParams()['id']!
 
+  const [input, setInput] = useState(undefined as string | undefined)
   const semesterQuery = useGetSemesterByIdQuery({ id })
   const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
   const studentsQuery = useGetNormalStudentsInSemester(id)
+
+  const [getDiary, getDiaryResult] = useLazyGetDiaryByIdQuery()
 
   const [endModalOpen, setEndModalOpen] = useState(false)
   const [semesterModalOpen, setSemesterModalOpen] = useState(false)
@@ -43,7 +49,7 @@ export const SemesterPage = () => {
     ) {
       return (
         <>
-          Сезон не найден
+          Семестр не найден
           <Link to={AppRoutes.SEASONS}>Перейти к странице сезонов собеседований</Link>
         </>
       )
@@ -69,6 +75,7 @@ export const SemesterPage = () => {
         close={() => setSemesterModalOpen(false)}
       />
       <DiaryModal
+        diary={getDiaryResult.currentData}
         isOpen={diaryModalState.open}
         diaryId={diaryModalState.diaryId}
         close={() => setDiaryModalState({ ...diaryModalState, open: false })}
@@ -93,19 +100,38 @@ export const SemesterPage = () => {
           }}
         />
       </div>
-      <Button
-        size='small'
-        danger
-        className='mt-1 mb-2'
-        onClick={() => setEndModalOpen(true)}
+      <Flex
+        gap={8}
+        className='mt-1 mb-2 flex-col md:flex-row'
+        align='center'
+        justify='center'
       >
-        Завершить прием дневников
-      </Button>
+        <Input
+          allowClear
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder='Поиск по ФИО'
+          size='small'
+          prefix={<SearchOutlined />}
+        />
+
+        <Button size='small' danger onClick={() => setEndModalOpen(true)}>
+          Завершить прием
+        </Button>
+      </Flex>
       <StudentInSemesterList
-        studentsInSemester={studentsQuery.data || []}
-        openStudentModal={(diaryId) =>
-          setDiaryModalState({ open: true, diaryId: diaryId })
+        diaryLoading={getDiaryResult.isFetching}
+        studentsInSemester={
+          studentsQuery.data?.filter(
+            ({ student }) => !input || getName(student).toLowerCase().includes(input)
+          ) || []
         }
+        openStudentModal={async (diaryId) => {
+          if (diaryId) {
+            await getDiary({ diaryId })
+          }
+          setDiaryModalState({ open: true, diaryId: diaryId })
+        }}
       />
     </>
   )

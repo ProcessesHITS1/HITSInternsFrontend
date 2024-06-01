@@ -39,6 +39,6 @@ export const useGetNormalStudentsInSemester = (semesterId: string) => {
     isFetching,
     isLoading,
     isError,
-    data: isFetching ? undefined : mappedData,
+    data: mappedData,
   }
 }

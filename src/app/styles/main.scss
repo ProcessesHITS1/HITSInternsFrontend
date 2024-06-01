@@ -6,6 +6,10 @@
   font-display: swap;
 }
 
+html {
+  scrollbar-width: thin;
+}
+
 #root,
 body {
   width: 100% !important;

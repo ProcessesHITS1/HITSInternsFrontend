@@ -1,4 +1,6 @@
-import { Button, Checkbox, Flex } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
+
+import { Button, Checkbox, Flex, Input, Space } from 'antd'
 import { useState } from 'react'
 import {
   StudentInSeasonModal,
@@ -20,6 +22,7 @@ export interface StudentInSeasonSectionProps {
 
 export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
   const { studentsInSeason, students, year } = props
+  const [input, setInput] = useState(undefined as string | undefined)
   const [addStudentModalOpen, setAddStudentModalOpen] = useState(false)
   const [removeStudentModalState, setRemoveStudentModalState] = useState({
     open: false,
@@ -42,7 +45,9 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
   ]
 
   const showStudentsInSeason = studentsInSeason.filter(
-    (student) => panelState[student.employmentStatus]
+    (student) =>
+      panelState[student.employmentStatus] &&
+      (!input || student.name.toLowerCase().includes(input.toLowerCase()))
   )
 
   return (
@@ -62,14 +67,24 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
         year={year}
       />
       <div className='flex flex-col items-center'>
-        <Button
-          className='mb-2'
-          size='small'
-          onClick={() => setAddStudentModalOpen(true)}
-          disabled={!availableStudents.length}
-        >
-          Добавить студента
-        </Button>
+        <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
+          <Input
+            size='small'
+            placeholder='Поиск по ФИО'
+            prefix={<SearchOutlined />}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            allowClear={true}
+          />
+          <Button
+            size='small'
+            onClick={() => setAddStudentModalOpen(true)}
+            disabled={!availableStudents.length}
+          >
+            Добавить
+          </Button>
+        </Space.Compact>
+
         <Flex className='mb-2'>
           {checkbox.map((item, i) => (
             <Checkbox

@@ -8,7 +8,7 @@ export interface GroupListInterface {
 export const GroupList = (props: GroupListInterface) => {
   return (
     <List
-      className='w-full md:w-1/2 mt-5'
+      className='w-full md:w-1/2 bg-white'
       dataSource={props.groups}
       bordered
       renderItem={(item) => <List.Item>{item.number}</List.Item>}

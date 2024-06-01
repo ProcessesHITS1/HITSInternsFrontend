@@ -17,9 +17,11 @@ export const GroupsPage = () => {
 
   return (
     <>
-      <Typography.Title level={3}>Группы</Typography.Title>
+      <Typography.Title level={4}>Группы</Typography.Title>
       <AddGroupModal open={isModalOpen} setOpen={setIsModalOpen} />
-      <Button onClick={() => setIsModalOpen(true)}>Добавить группу</Button>
+      <Button onClick={() => setIsModalOpen(true)} type='primary' className='mt-1 mb-2'>
+        Добавить группу
+      </Button>
       <GroupList groups={groupsQuery.data!} />
     </>
   )

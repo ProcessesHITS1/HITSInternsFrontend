@@ -23,12 +23,13 @@ export const CompanyModal = (props: CompanyModalProps) => {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    if (company) {
-      form.setFieldsValue(company)
-    } else {
+    if (open) {
       form.resetFields()
+      if (company) {
+        form.setFieldsValue(company)
+      }
     }
-  }, [company])
+  }, [company, open])
 
   const wrappedClose = () => {
     if (!isResultLoading) {

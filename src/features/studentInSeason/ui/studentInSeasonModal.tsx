@@ -42,6 +42,9 @@ export const StudentInSeasonModal = (props: StudentInSeasonModalProps) => {
     }
   }
 
+  const filterOption = (input: string, option?: { label: string; value: string }) =>
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+
   return (
     <Modal
       forceRender
@@ -65,6 +68,8 @@ export const StudentInSeasonModal = (props: StudentInSeasonModalProps) => {
           <Col xs={24}>
             <Form.Item name='student' label='Студент'>
               <Select
+                showSearch
+                filterOption={filterOption}
                 placeholder='Выберите студента'
                 allowClear={false}
                 options={students.map((student) => ({

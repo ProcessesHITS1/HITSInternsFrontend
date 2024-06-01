@@ -22,11 +22,11 @@ export const Navbar = () => {
 
   return (
     <header className={styles['navbar']}>
-      <Link to={AppRoutes.ADMIN} className={styles['logo-link']}>
+      <Link to={AppRoutes.MENU} className={styles['logo-link']}>
         <img src={Logo} className={styles['logo']} />
         <span className={styles['logo-text']}>Стажировки</span>
       </Link>
-      {isManagerOrAdmin && <NavLink to={AppRoutes.ADMIN}>Админка</NavLink>}
+      {isManagerOrAdmin && <NavLink to={AppRoutes.MENU}>Меню</NavLink>}
       {isManagerOrAdmin && <NavLink to={AppRoutes.SEASONS}>Собесы</NavLink>}
       {isManagerOrAdmin && <NavLink to={AppRoutes.SEMESTERS}>Практика</NavLink>}
       <Link to={AppRoutes.PROFILE} className={styles['avatar-container']}>

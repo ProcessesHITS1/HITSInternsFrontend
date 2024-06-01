@@ -1,7 +1,6 @@
-import { Profession } from '~entities/profession/@x/position'
-
 export type Position = {
-  description: string
-  amount: number
-  profession?: Profession | null | undefined
+  id: string
+  title: string | null | undefined
+  description: string | null | undefined
+  nPositions: number
 }

@@ -12,7 +12,7 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
   const { companies, openEditModal, openRemoveModal } = props
 
   if (!companies.length) {
-    return <div className='text-center'>В данном сезоне нет компаний</div>
+    return <div className='text-center'>Компании не найдены</div>
   }
 
   return (

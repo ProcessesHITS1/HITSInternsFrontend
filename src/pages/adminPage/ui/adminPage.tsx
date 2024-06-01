@@ -8,20 +8,18 @@ export const AdminPage = () => {
   const config = [
     {
       title: 'Пользователи',
-      descr: 'Страница управления пользователями',
+      descr: 'Просмотр таблицы, фильтрация, создание',
       route: AppRoutes.USERS,
     },
-    { title: 'Группы', descr: 'Страница управления группами', route: AppRoutes.GROUPS },
-    {
-      title: 'Профессии',
-      descr: 'Страница управления профессиями',
-      route: AppRoutes.PROFESSIONS,
-    },
+    { title: 'Группы', descr: 'Просмотр и создание групп', route: AppRoutes.GROUPS },
     {
       title: 'Компании',
-      descr: 'Страница управления компаниями',
+      descr: 'Компании, кураторы, контакты',
       route: AppRoutes.COMPANITES,
     },
+  ]
+
+  const configMain = [
     {
       title: 'Сезоны собеседований',
       descr: 'Страница управления сезонами собеседований',
@@ -38,6 +36,18 @@ export const AdminPage = () => {
       <Typography.Title level={3}>Администрирование</Typography.Title>
       <Row gutter={8} className='w-full px-4'>
         {config.map((item, index) => (
+          <Col xs={24} md={8} key={index} className='mt-2'>
+            <Card title={item.title} hoverable onClick={() => navigate(item.route)}>
+              {item.descr}
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      <Typography.Title level={3} className='mt-2'>
+        Основное
+      </Typography.Title>
+      <Row gutter={8} className='w-full px-4'>
+        {configMain.map((item, index) => (
           <Col xs={24} md={8} key={index} className='mt-2'>
             <Card title={item.title} hoverable onClick={() => navigate(item.route)}>
               {item.descr}

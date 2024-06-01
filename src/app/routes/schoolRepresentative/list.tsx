@@ -4,7 +4,6 @@ import {
   CompaniesPage,
   GroupsPage,
   PracticePage,
-  ProfessionsPage,
   SeasonPage,
   SeasonsPage,
   SemesterPage,
@@ -15,7 +14,7 @@ import { SchoolRepresentativeRoutesWrapper } from './schoolRepresentativeRoute'
 
 const _schoolRepresentativeRoutes: RouteObject[] = [
   {
-    path: AppRoutes.ADMIN,
+    path: AppRoutes.MENU,
     element: <AdminPage />,
   },
   {
@@ -37,10 +36,6 @@ const _schoolRepresentativeRoutes: RouteObject[] = [
   {
     path: AppRoutes.SEASON,
     element: <SeasonPage />,
-  },
-  {
-    path: AppRoutes.PROFESSIONS,
-    element: <ProfessionsPage />,
   },
   {
     path: AppRoutes.SEMESTERS,
