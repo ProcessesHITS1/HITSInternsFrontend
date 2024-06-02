@@ -113,7 +113,7 @@ export const SeasonModal = (props: SeasonModalProps) => {
                 placeholder='Введите год'
                 autoComplete='off'
                 controls={false}
-                onChange={() => form.resetFields(['interviews'])}
+                onChange={() => form.resetFields(['seasonDates'])}
               />
             </Form.Item>
             <Form.Item

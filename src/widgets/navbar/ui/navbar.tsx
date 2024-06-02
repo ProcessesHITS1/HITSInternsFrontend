@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Avatar from '~assets/avatar.jpg'
 import Logo from '~assets/logo.png'
 import { Role, useGetMyInfoQuery } from '~entities/user'
@@ -22,13 +22,13 @@ export const Navbar = () => {
 
   return (
     <header className={styles['navbar']}>
-      <Link to={AppRoutes.ADMIN} className={styles['logo-link']}>
+      <Link to={AppRoutes.MENU} className={styles['logo-link']}>
         <img src={Logo} className={styles['logo']} />
         <span className={styles['logo-text']}>Стажировки</span>
       </Link>
-      {isManagerOrAdmin && <Link to={AppRoutes.ADMIN}>Админка</Link>}
-      {isManagerOrAdmin && <Link to={AppRoutes.INTERVIEWS}>Собесы</Link>}
-      {isManagerOrAdmin && <Link to={AppRoutes.PRACTICE}>Практика</Link>}
+      {isManagerOrAdmin && <NavLink to={AppRoutes.MENU}>Меню</NavLink>}
+      {isManagerOrAdmin && <NavLink to={AppRoutes.SEASONS}>Собесы</NavLink>}
+      {isManagerOrAdmin && <NavLink to={AppRoutes.SEMESTERS}>Практика</NavLink>}
       <Link to={AppRoutes.PROFILE} className={styles['avatar-container']}>
         <img src={Avatar} className={styles['avatar']} />
       </Link>

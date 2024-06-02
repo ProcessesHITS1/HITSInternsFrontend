@@ -1,20 +1,20 @@
 import { RouteObject } from 'react-router-dom'
 import {
-  GroupsPage,
-  UsersListPage,
-  CompaniesPage,
-  SeasonsPage,
   AdminPage,
-  InterviewsPage,
+  CompaniesPage,
+  GroupsPage,
   PracticePage,
   SeasonPage,
+  SeasonsPage,
+  SemesterPage,
+  UsersListPage,
 } from '~pages'
 import { AppRoutes } from '~shared/config'
 import { SchoolRepresentativeRoutesWrapper } from './schoolRepresentativeRoute'
 
 const _schoolRepresentativeRoutes: RouteObject[] = [
   {
-    path: AppRoutes.ADMIN,
+    path: AppRoutes.MENU,
     element: <AdminPage />,
   },
   {
@@ -38,12 +38,12 @@ const _schoolRepresentativeRoutes: RouteObject[] = [
     element: <SeasonPage />,
   },
   {
-    path: AppRoutes.INTERVIEWS,
-    element: <InterviewsPage />,
+    path: AppRoutes.SEMESTERS,
+    element: <PracticePage />,
   },
   {
-    path: AppRoutes.PRACTICE,
-    element: <PracticePage />,
+    path: AppRoutes.SEMESTER,
+    element: <SemesterPage />,
   },
 ]
 

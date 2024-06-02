@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Input, Modal } from 'antd'
+import { Button, Flex, Form, InputNumber, Modal } from 'antd'
 import { toast } from 'react-toastify'
 import { useAddGroupMutation } from '../api'
 
@@ -41,13 +41,17 @@ export const AddGroupModal = (props: RegisterUserModal) => {
           name='number'
           rules={[
             {
-              pattern: /^[1-9]\d{5,5}/,
-              message: 'Введите номер группы (от 6 симв.)',
+              pattern: /\d{6,}/,
+              message: 'Номер не может быть короче 6 симв.',
             },
           ]}
           label='Номер'
         >
-          <Input placeholder='Введите номер группы' />
+          <InputNumber
+            controls={false}
+            placeholder='Введите номер группы'
+            className='w-full'
+          />
         </Form.Item>
 
         <Form.Item>

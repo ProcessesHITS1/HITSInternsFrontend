@@ -6,6 +6,8 @@ import {
   DeleteSeasonResp,
   EditSeasonReq,
   EditSeasonResp,
+  CloseSeasonResp,
+  CloseSeasonReq,
 } from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
@@ -25,6 +27,13 @@ const endpoints = interviewsApi.injectEndpoints({
       }),
       invalidatesTags: ['seasonsList', 'season'],
     }),
+    closeSeason: builder.mutation<CloseSeasonResp, CloseSeasonReq>({
+      query: ({ year }) => ({
+        url: `/season/${year}/close`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['seasonsList', 'season'],
+    }),
     editSeason: builder.mutation<EditSeasonResp, EditSeasonReq>({
       query: ({ data, year }) => ({
         url: `/season/${year}`,
@@ -36,5 +45,9 @@ const endpoints = interviewsApi.injectEndpoints({
   }),
 })
 
-export const { useCreateSeasonMutation, useDeleteSeasonMutation, useEditSeasonMutation } =
-  endpoints
+export const {
+  useCreateSeasonMutation,
+  useDeleteSeasonMutation,
+  useEditSeasonMutation,
+  useCloseSeasonMutation,
+} = endpoints

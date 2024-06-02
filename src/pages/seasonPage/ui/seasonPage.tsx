@@ -1,47 +1,79 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Button, Spin, Typography } from 'antd'
+import { Button, Spin, Tabs, Typography } from 'antd'
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { RemoveSeasonModal, SeasonModal } from '~features/season'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { CompanyInSeasonSection } from '~widgets/companyInSeason'
+import { StudentInSeasonSection } from '~widgets/studentInSeason'
+import { CloseSeasonModal, RemoveSeasonModal, SeasonModal } from '~features/season'
+import { useGetCompaniesQuery } from '~entities/company'
 import { useGetSeasonByYearQuery } from '~entities/season'
+import { useStudentsQuery } from '~entities/user'
 import { AppRoutes } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 
 export const SeasonPage = () => {
-  const year = useParams()['id']!
+  const year = +useParams()['id']!
   const navigate = useNavigate()
 
-  const seasonQuery = useGetSeasonByYearQuery({ year: +year })
+  const seasonQuery = useGetSeasonByYearQuery({ year })
+  const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
+  const studentsQuery = useStudentsQuery()
+
   const [removeModalOpen, setRemoveModalOpen] = useState(false)
+  const [endModalOpen, setEndModalOpen] = useState(false)
   const [seasonModalOpen, setSeasonModalOpen] = useState(false)
 
-  if (seasonQuery.isLoading) {
+  const isLoading =
+    seasonQuery.isLoading || studentsQuery.isLoading || companiesQuery.isLoading
+  const isError = seasonQuery.isError || studentsQuery.isError || companiesQuery.isError
+
+  if (isLoading) {
     return <Spin size='large' className='mt-5' />
   }
 
-  if (seasonQuery.error) {
-    if ('status' in seasonQuery.error && seasonQuery.error.status === 404) {
-      return 'Сезон не найден'
+  if (isError) {
+    if (
+      seasonQuery.error &&
+      'status' in seasonQuery.error &&
+      seasonQuery.error.status === 404
+    ) {
+      return (
+        <>
+          Сезон не найден
+          <Link to={AppRoutes.SEASONS}>Перейти к странице сезонов собеседований</Link>
+        </>
+      )
     }
-    return 'Произошла ошибка при загрузке сезона'
+    return (
+      <>
+        Произошла ошибка при загрузке сезона
+        <Link to={AppRoutes.SEASONS}>Перейти к странице сезонов собеседований</Link>
+      </>
+    )
   }
 
   return (
     <>
+      <CloseSeasonModal
+        year={year}
+        open={endModalOpen}
+        close={() => setEndModalOpen(false)}
+      />
       <SeasonModal
         season={seasonQuery.data!.season}
         open={seasonModalOpen}
         close={() => setSeasonModalOpen(false)}
       />
       <RemoveSeasonModal
-        year={+year}
+        year={year}
         open={removeModalOpen}
         close={() => setRemoveModalOpen(false)}
         onFinish={() => navigate(AppRoutes.SEASONS)}
       />
-      <Typography.Title level={3} className='flex items-center'>
+      <Typography.Title level={4} className='flex items-center mb-0'>
         Сезон-{seasonQuery.data?.season.year}{' '}
         <Button
+          size='small'
           shape='circle'
           icon={<EditOutlined />}
           className='mx-2'
@@ -52,17 +84,49 @@ export const SeasonPage = () => {
           }}
         />
         <Button
+          size='small'
           shape='circle'
           danger
           icon={<DeleteOutlined />}
           onClick={() => setRemoveModalOpen(true)}
         />
       </Typography.Title>
-
-      <div className='text-slate-500'>
+      <div className='text-slate-500 text-sm'>
         {parseDate(seasonQuery.data?.season.seasonStart)}—
         {parseDate(seasonQuery.data?.season.seasonEnd)}
       </div>
+      <Button size='small' danger className='mt-1' onClick={() => setEndModalOpen(true)}>
+        Закрыть сезон
+      </Button>
+      <Tabs
+        className='w-full'
+        defaultActiveKey='1'
+        items={[
+          {
+            key: '1',
+            label: 'Студенты',
+            children: (
+              <StudentInSeasonSection
+                students={studentsQuery.data || []}
+                studentsInSeason={seasonQuery.data?.students || []}
+                year={year}
+              />
+            ),
+          },
+          {
+            key: '2',
+            label: 'Компании',
+            children: (
+              <CompanyInSeasonSection
+                companiesInSeason={seasonQuery.data?.companies || []}
+                companies={companiesQuery.data?.data || []}
+                year={year}
+              />
+            ),
+          },
+        ]}
+        centered
+      />
     </>
   )
 }

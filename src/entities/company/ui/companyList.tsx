@@ -20,6 +20,8 @@ export const CompanyList = (props: CompanyListProps) => {
         return (
           <Col xs={24} md={12} lg={8} className='mb-4' key={company.id}>
             <Card
+              hoverable
+              onClick={() => openEditModal(company)}
               title={
                 <Flex align='center'>
                   <span>{company.name}</span>
@@ -38,7 +40,10 @@ export const CompanyList = (props: CompanyListProps) => {
                       shape='circle'
                       danger
                       icon={<DeleteOutlined />}
-                      onClick={() => openRemoveModal(company.id)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        openRemoveModal(company.id)
+                      }}
                     />
                   </div>
                 </Flex>

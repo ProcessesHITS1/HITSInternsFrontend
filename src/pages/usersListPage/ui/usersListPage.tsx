@@ -26,10 +26,10 @@ export const UsersListPage = () => {
     <>
       <RegisterUserModal open={open} setOpen={setOpen} groups={groupsQuery.data!} />
       <div className='w-full md:w-[85%] text-center'>
-        <Typography.Title level={3} className='text-center'>
+        <Typography.Title level={4} className='text-center'>
           Пользователи
         </Typography.Title>
-        <Button type='primary' className='mb-4' onClick={() => setOpen(true)}>
+        <Button type='primary' className='mb-2' onClick={() => setOpen(true)}>
           Новый пользователь
         </Button>
         <UserTable users={usersQuery.data?.data} />

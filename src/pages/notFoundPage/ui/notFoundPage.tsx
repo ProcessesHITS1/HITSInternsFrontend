@@ -7,7 +7,7 @@ export const NotFoundPage = () => {
   return (
     <div className='flex flex-col w-full items-center mt-5'>
       <Typography.Title level={3}>Страница не найдена</Typography.Title>
-      <Button onClick={() => navigate(AppRoutes.ADMIN)}>Вернуться на главную</Button>
+      <Button onClick={() => navigate(AppRoutes.MENU)}>Вернуться на главную</Button>
     </div>
   )
 }

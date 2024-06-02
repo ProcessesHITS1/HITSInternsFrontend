@@ -24,7 +24,7 @@ export const SeasonsPage = () => {
 
   return (
     <>
-      <Typography.Title level={3}>Сезоны</Typography.Title>
+      <Typography.Title level={4}>Сезоны собеседований</Typography.Title>
       <RemoveSeasonModal
         year={removeModalState.year}
         open={removeModalState.open}
@@ -37,7 +37,8 @@ export const SeasonsPage = () => {
       />
       <Button
         onClick={() => setModalState({ open: true, season: null })}
-        className='mb-4'
+        className='mt-1 my-2'
+        type='primary'
       >
         Добавить сезон
       </Button>

@@ -1,10 +1,12 @@
-import { Button, Spin, Typography } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
+import { Button, Input, Space, Spin, Typography } from 'antd'
 import { useState } from 'react'
 import { CompanyModal, CompanyRemoveModal } from '~features/company'
 import { Company, CompanyList, useGetCompaniesQuery } from '~entities/company'
 import { usePersonalQuery } from '~entities/user'
 
 export const CompaniesPage = () => {
+  const [input, setInput] = useState(undefined as string | undefined)
   const [modalState, setModalState] = useState({
     open: false,
     company: null as Company | null,
@@ -24,7 +26,11 @@ export const CompaniesPage = () => {
     return <Spin size='large' className='mt-5' />
   }
 
-  const hasNoCompanies = !companiesQuery.data?.data.length
+  const companiesToShow = companiesQuery.data?.data.filter(
+    (company) => !input || company.name.toLowerCase().includes(input)
+  )
+  const hasNoCompanies = !companiesToShow?.length
+
   return (
     <>
       <CompanyModal
@@ -38,18 +44,28 @@ export const CompaniesPage = () => {
         close={() => setRemoveModalState({ ...removeModalState, open: false })}
         companyId={removeModalState.companyId}
       />
-      <Button onClick={() => setModalState({ open: true, company: null })}>
-        Добавить компанию
-      </Button>
-      <Typography.Title level={3} className='my-1'>
-        Компании
-      </Typography.Title>
+      <Typography.Title level={4}>Компании</Typography.Title>
+      <Space.Compact className='my-2'>
+        <Input
+          allowClear={true}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          prefix={<SearchOutlined />}
+          placeholder='Поиск по названию'
+        />
+        <Button
+          type='primary'
+          onClick={() => setModalState({ open: true, company: null })}
+        >
+          Создать
+        </Button>
+      </Space.Compact>
       {hasNoCompanies ? (
-        'Нет компаний'
+        'Компании не найдены'
       ) : (
         <CompanyList
           personal={personalQuery.data || []}
-          companies={companiesQuery.data?.data || []}
+          companies={companiesToShow || []}
           openEditModal={(company) => setModalState({ company, open: true })}
           openRemoveModal={(companyId) => setRemoveModalState({ companyId, open: true })}
         />

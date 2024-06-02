@@ -29,7 +29,7 @@ export const userTableColumns: (groups: UserInfo['group'][]) => ColumnsType<User
     dataIndex: 'email',
   },
   {
-    title: 'Телефон',
+    title: 'Контакты',
     key: 'phone',
     dataIndex: 'phone',
     responsive: ['md'],

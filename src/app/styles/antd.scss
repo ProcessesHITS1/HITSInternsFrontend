@@ -1,5 +1,17 @@
+.ant-modal-wrap {
+  scrollbar-width: thin;
+}
+
+.ant-modal-content {
+  padding: 20px 24px 8px !important;
+}
+
 .ant-card-body {
-  padding: 8px 16px !important;
+  padding: 8px 12px !important;
+}
+
+.ant-card-head {
+  padding: 0 12px !important;
 }
 
 .ant-table-cell {
@@ -22,4 +34,33 @@
 .ant-form-item-explain-error {
   font-size: 12px;
   line-height: normal;
+}
+
+.ant-tabs-tab {
+  padding: 8px 0px 4px 0px !important;
+}
+
+h4.ant-typography {
+  margin-bottom: 0;
+}
+
+.ant-checkbox-wrapper {
+  user-select: none;
+}
+
+.ant-ribbon-text {
+  font-size: 11px;
+}
+
+.ant-ribbon {
+  padding: 0 3px;
+}
+
+@media screen and (max-width: 500px) {
+  .ant-ribbon {
+    padding: 0 2px;
+  }
+  .ant-ribbon-text {
+    font-size: 10px;
+  }
 }

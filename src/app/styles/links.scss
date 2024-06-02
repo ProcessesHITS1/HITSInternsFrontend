@@ -6,3 +6,7 @@ a {
 a:hover {
   color: rgb(var(--color-primary-hover));
 }
+
+a.active {
+  color: rgb(var(--color-primary-active));
+}

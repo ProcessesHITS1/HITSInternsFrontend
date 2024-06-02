@@ -1,4 +1,8 @@
+import { CompanyInSeason } from '~entities/companyInSeason/@x/season'
+import { StudentInSeason } from '~entities/studentInSeason/@x/season'
+
 export type Season = {
+  id: string
   year: number
   seasonStart: string
   seasonEnd: string
@@ -6,6 +10,6 @@ export type Season = {
 
 export type ExtendedSeason = {
   season: Season
-  companies: { id: string; name: string }[]
-  students: { id: string; name: string }[]
+  companies: CompanyInSeason[]
+  students: StudentInSeason[]
 }

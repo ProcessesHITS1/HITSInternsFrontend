@@ -18,7 +18,7 @@ const endpoints = interviewsApi.injectEndpoints({
       query: ({ year }) => ({
         url: `/season/${year}`,
       }),
-      providesTags: ['season'],
+      providesTags: ['season', 'companiesInSeasonList', 'studentsInSeasonList'],
     }),
   }),
 })

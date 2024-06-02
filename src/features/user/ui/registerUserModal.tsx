@@ -23,8 +23,8 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
         isSchoolRepresentative: data.role === Role.ROLE_SCHOOL_REPRESENTATIVE,
         isStudent: data.role === Role.ROLE_STUDENT,
       }).unwrap()
-      form.resetFields()
       props.setOpen(false)
+      setTimeout(form.resetFields, 300)
       toast.success('Успешно')
     } catch {
       toast.error('Произошла ошибка')
@@ -44,6 +44,7 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
       style={{ top: 20 }}
     >
       <Form
+        autoComplete='off'
         onFinish={handleRegisterClick}
         layout='vertical'
         validateTrigger='onBlur'
@@ -125,11 +126,11 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
               name='phone'
               rules={[
                 {
-                  message: 'Введите телефон',
+                  message: 'Введите контакты',
                   required: true,
                 },
               ]}
-              label='Телефон'
+              label='Контакты'
             >
               <Input placeholder='Введите телефон' />
             </Form.Item>
@@ -171,7 +172,16 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
           </Col>
           {role === Role.ROLE_STUDENT && (
             <Col xs={24}>
-              <Form.Item name='groupId' label='Группа'>
+              <Form.Item
+                name='groupId'
+                label='Группа'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Укажите группу',
+                  },
+                ]}
+              >
                 <Select
                   options={props.groups.map((group) => ({
                     value: group.id,
