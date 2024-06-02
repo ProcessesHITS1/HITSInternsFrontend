@@ -10,33 +10,35 @@
   gap: 0.55rem;
 }
 
-.logo-link {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  text-decoration: none !important;
-  margin-right: 0.7rem;
-}
-
 .logo {
+  width: 28px;
   height: 32px;
   user-select: none;
-}
 
-.logo-text {
-  padding-left: 0.5rem;
-}
+  &-link {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    text-decoration: none !important;
+    margin-right: 0.7rem;
+  }
 
-.avatar-container {
-  display: block;
-  margin-left: auto;
-  user-select: none;
+  &-text {
+    padding-left: 0.5rem;
+  }
 }
 
 .avatar {
   border-radius: 50%;
   width: 32px;
+  height: 32px;
   border: 1px solid rgb(var(--color-primary));
+
+  &-container {
+    display: block;
+    margin-left: auto;
+    user-select: none;
+  }
 }
 
 @media (max-width: 400px) {

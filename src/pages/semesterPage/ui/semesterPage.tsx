@@ -1,6 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons'
 import { EditOutlined } from '@ant-design/icons'
-import { Button, Flex, Input, Spin, Typography } from 'antd'
+import { Button, Checkbox, Flex, Input, Spin, Typography } from 'antd'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { DiaryModal } from '~features/diary'
@@ -19,6 +19,10 @@ import { parseDate } from '~shared/lib/functions'
 export const SemesterPage = () => {
   const id = useParams()['id']!
 
+  const [panelState, setPanelState] = useState({
+    hasDiary: true,
+    noDiary: true,
+  })
   const [input, setInput] = useState(undefined as string | undefined)
   const semesterQuery = useGetSemesterByIdQuery({ id })
   const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
@@ -61,6 +65,12 @@ export const SemesterPage = () => {
       </>
     )
   }
+
+  const filtered = studentsQuery.data?.filter(
+    ({ student, diaryId }) =>
+      (!input || getName(student).toLowerCase().includes(input)) &&
+      ((panelState.hasDiary && diaryId) || (panelState.noDiary && !diaryId))
+  )
 
   return (
     <>
@@ -119,13 +129,23 @@ export const SemesterPage = () => {
           Завершить прием
         </Button>
       </Flex>
+      <Flex className='mb-2'>
+        <Checkbox
+          checked={panelState.hasDiary}
+          onClick={() => setPanelState({ ...panelState, hasDiary: !panelState.hasDiary })}
+        >
+          Есть дневник
+        </Checkbox>
+        <Checkbox
+          checked={panelState.noDiary}
+          onClick={() => setPanelState({ ...panelState, noDiary: !panelState.noDiary })}
+        >
+          Нет дневника
+        </Checkbox>
+      </Flex>
       <StudentInSemesterList
         diaryLoading={getDiaryResult.isFetching}
-        studentsInSemester={
-          studentsQuery.data?.filter(
-            ({ student }) => !input || getName(student).toLowerCase().includes(input)
-          ) || []
-        }
+        studentsInSemester={filtered || []}
         openStudentModal={async (diaryId) => {
           if (diaryId) {
             await getDiary({ diaryId })
