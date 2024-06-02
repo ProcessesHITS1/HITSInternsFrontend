@@ -1,4 +1,4 @@
-import { companyApi, interviewsApi, thirdCourseApi } from '~shared/api'
+import { chatsApi, companyApi, interviewsApi, thirdCourseApi } from '~shared/api'
 import { authMiddleware } from '~shared/lib/store'
 
 export const middlewareList = [
@@ -6,4 +6,5 @@ export const middlewareList = [
   companyApi.middleware,
   interviewsApi.middleware,
   thirdCourseApi.middleware,
+  chatsApi.middleware,
 ]
