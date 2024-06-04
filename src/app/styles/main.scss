@@ -19,9 +19,29 @@ body {
 }
 
 main {
-  padding: 0.75rem;
+  padding: 12px;
 }
 
 * {
   font-family: Manrope, sans-serif;
+}
+
+.chat {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+
+    &:hover {
+      background: #aaa;
+    }
+  }
 }

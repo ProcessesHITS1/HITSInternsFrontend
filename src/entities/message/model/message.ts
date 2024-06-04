@@ -4,5 +4,7 @@ export type Message = {
   author: string
   message: string | null
   sentAt: string
-  attachments: { id: string; mimeType: string | null }[]
+  attachments: Attachment[]
 }
+
+export type Attachment = { id: string; name?: string; mimeType: string | null }

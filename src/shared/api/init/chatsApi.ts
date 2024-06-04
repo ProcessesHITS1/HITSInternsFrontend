@@ -7,5 +7,5 @@ export const chatsApi = createApi({
   refetchOnMountOrArgChange: true,
   baseQuery: baseQueryWithAuth({ baseUrl: API_CHATS_URL }),
   endpoints: () => ({}),
-  tagTypes: ['chatsList'],
+  tagTypes: ['chatsList', 'chat', 'attachments'],
 })

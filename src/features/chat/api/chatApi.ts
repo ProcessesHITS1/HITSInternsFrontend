@@ -8,6 +8,10 @@ import {
   CreateGroupChatReq,
   RemoveUserFromChatResp,
   RemoveUserFromChatReq,
+  LeaveChatResp,
+  LeaveChatReq,
+  UploadFileResp,
+  UploadFileReq,
 } from './types'
 
 const endpoints = chatsApi.injectEndpoints({
@@ -33,14 +37,29 @@ const endpoints = chatsApi.injectEndpoints({
         url: `/Chats/${chatId}/add/${userId}`,
         method: 'POST',
       }),
-      invalidatesTags: ['chatsList'],
+      invalidatesTags: ['chat'],
     }),
     removeUserFromChat: builder.mutation<RemoveUserFromChatResp, RemoveUserFromChatReq>({
       query: ({ chatId, userId }) => ({
         url: `/Chats/${chatId}/remove/${userId}`,
-        method: 'POST',
+        method: 'DELETE',
       }),
-      invalidatesTags: ['chatsList'],
+      invalidatesTags: ['chat'],
+    }),
+    leaveChat: builder.mutation<LeaveChatResp, LeaveChatReq>({
+      query: ({ chatId }) => ({
+        url: `/Chats/${chatId}/leave`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['chatsList', 'chat'],
+    }),
+    uploadFile: builder.mutation<UploadFileResp, UploadFileReq>({
+      query: ({ chatId, file }) => ({
+        url: `/Chats/${chatId}/attachments`,
+        method: 'POST',
+        body: file,
+        cache: 'no-cache',
+      }),
     }),
   }),
 })
@@ -50,4 +69,6 @@ export const {
   useCreateGroupChatMutation,
   useAddUserToChatMutation,
   useRemoveUserFromChatMutation,
+  useLeaveChatMutation,
+  useUploadFileMutation,
 } = endpoints

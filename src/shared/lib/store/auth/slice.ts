@@ -5,6 +5,7 @@ import type { AuthState } from './model'
 import { parseJwt } from './parseJwt'
 
 const emptyState: AuthState = {
+  userid: null,
   jwt: undefined,
   isAuth: false,
 }

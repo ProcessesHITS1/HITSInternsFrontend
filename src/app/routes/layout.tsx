@@ -5,7 +5,7 @@ export const Layout = () => {
   return (
     <>
       <Navbar />
-      <main className='flex flex-col items-center pb-10'>
+      <main className='flex flex-col items-center'>
         <Outlet />
       </main>
     </>

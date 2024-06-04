@@ -23,3 +23,12 @@ export type RemoveUserFromChatReq = {
   userId: string
 }
 export type RemoveUserFromChatResp = void
+
+export type LeaveChatReq = { chatId: string }
+export type LeaveChatResp = void
+
+export type UploadFileReq = {
+  chatId: string
+  file: FormData
+}
+export type UploadFileResp = string
