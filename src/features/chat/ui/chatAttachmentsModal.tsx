@@ -55,7 +55,7 @@ export const ChatAttachmentsModal = (props: ChatAttachmentsModalProps) => {
           pagination={{ pageSize: 5 }}
           bordered
           renderItem={(file, i) => (
-            <div className='flex items-center py-2 px-4'>
+            <List.Item className='py-2 px-4'>
               <span>{file.name}</span>
               <Button
                 shape='circle'
@@ -66,7 +66,7 @@ export const ChatAttachmentsModal = (props: ChatAttachmentsModalProps) => {
                   setAttachments(attachments.filter((_, index) => i !== index))
                 }
               />
-            </div>
+            </List.Item>
           )}
         />
       )}

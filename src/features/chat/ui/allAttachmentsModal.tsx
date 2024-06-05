@@ -65,7 +65,7 @@ export const AllAttachmentsModal = (props: AllAttachmentsModalProps) => {
             pagination={hasAttachments ? { pageSize: 5 } : false}
             dataSource={attachmentsToShow}
             renderItem={(a) => (
-              <div className='flex items-center p-2'>
+              <List.Item className='p-2'>
                 <div>{a.name || a.mimeType}</div>
                 <Button
                   shape='circle'
@@ -74,7 +74,7 @@ export const AllAttachmentsModal = (props: AllAttachmentsModalProps) => {
                   icon={<DownloadOutlined />}
                   onClick={() => downloadAttachment({ fileId: a.id, chatId })}
                 />
-              </div>
+              </List.Item>
             )}
           />
         </>

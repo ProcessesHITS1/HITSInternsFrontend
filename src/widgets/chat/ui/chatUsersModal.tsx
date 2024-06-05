@@ -106,7 +106,7 @@ export const ChatUsersModal = (props: ChatUsersModalProps) => {
         bordered
         dataSource={usersInChat}
         renderItem={(user) => (
-          <div className='flex items-center py-2 px-4'>
+          <List.Item className='py-2 px-4'>
             <span>{getName(user)}</span>
             {isOwner && user.id !== ownerId && (
               <Button
@@ -117,7 +117,7 @@ export const ChatUsersModal = (props: ChatUsersModalProps) => {
                 onClick={() => removeHandler(user.id)}
               />
             )}
-          </div>
+          </List.Item>
         )}
       />
     </Modal>
