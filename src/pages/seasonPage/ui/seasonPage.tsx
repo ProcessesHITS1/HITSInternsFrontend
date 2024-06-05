@@ -4,10 +4,11 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CompanyInSeasonSection } from '~widgets/companyInSeason'
 import { StudentInSeasonSection } from '~widgets/studentInSeason'
+import { RequestModal } from '~features/request'
 import { CloseSeasonModal, RemoveSeasonModal, SeasonModal } from '~features/season'
 import { useGetCompaniesQuery } from '~entities/company'
 import { useGetSeasonByYearQuery } from '~entities/season'
-import { useStudentsQuery } from '~entities/user'
+import { useStudentsQuery, UserInfo } from '~entities/user'
 import { AppRoutes } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 
@@ -22,6 +23,11 @@ export const SeasonPage = () => {
   const [removeModalOpen, setRemoveModalOpen] = useState(false)
   const [endModalOpen, setEndModalOpen] = useState(false)
   const [seasonModalOpen, setSeasonModalOpen] = useState(false)
+  const [requestModalState, setRequestModalState] = useState({
+    open: false,
+    userInfo: null as UserInfo | null,
+    request: null as Request | null,
+  })
 
   const isLoading =
     seasonQuery.isLoading || studentsQuery.isLoading || companiesQuery.isLoading
@@ -54,6 +60,12 @@ export const SeasonPage = () => {
 
   return (
     <>
+      <RequestModal
+        open={requestModalState.open}
+        request={requestModalState.request}
+        userInfo={requestModalState.userInfo}
+        close={() => setRequestModalState({ ...requestModalState, open: false })}
+      />
       <CloseSeasonModal
         year={year}
         open={endModalOpen}
@@ -91,11 +103,16 @@ export const SeasonPage = () => {
           onClick={() => setRemoveModalOpen(true)}
         />
       </Typography.Title>
-      <div className='text-slate-500 text-sm'>
+      <div className='text-slate-500 text-xs'>
         {parseDate(seasonQuery.data?.season.seasonStart)}—
         {parseDate(seasonQuery.data?.season.seasonEnd)}
       </div>
-      <Button size='small' danger className='mt-1' onClick={() => setEndModalOpen(true)}>
+      <Button
+        size='small'
+        danger
+        className='mt-1 text-xs'
+        onClick={() => setEndModalOpen(true)}
+      >
         Закрыть сезон
       </Button>
       <Tabs
