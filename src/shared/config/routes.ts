@@ -9,5 +9,7 @@ export enum AppRoutes {
   SEASON = '/seasons/:id',
   SEMESTER = '/semesters/:id',
   SEMESTERS = '/semesters',
+  CHATS = '/chats',
+  CHAT = '/chats/:id',
   MENU = '/',
 }

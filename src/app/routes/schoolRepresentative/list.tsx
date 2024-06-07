@@ -1,6 +1,8 @@
 import { RouteObject } from 'react-router-dom'
 import {
   AdminPage,
+  ChatPage,
+  ChatsPage,
   CompaniesPage,
   GroupsPage,
   PracticePage,
@@ -44,6 +46,14 @@ const _schoolRepresentativeRoutes: RouteObject[] = [
   {
     path: AppRoutes.SEMESTER,
     element: <SemesterPage />,
+  },
+  {
+    path: AppRoutes.CHATS,
+    element: <ChatsPage />,
+  },
+  {
+    path: AppRoutes.CHAT,
+    element: <ChatPage />,
   },
 ]
 

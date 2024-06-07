@@ -1,4 +1,5 @@
 export type AuthState = {
+  userid: string | null
   isAuth: boolean
   jwt: string | undefined
 }
