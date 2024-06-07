@@ -8,6 +8,7 @@ export const SeasonsPage = () => {
   const [modalState, setModalState] = useState({
     open: false,
     season: null as Season | null,
+    copy: false,
   })
   const [removeModalState, setRemoveModalState] = useState({
     open: false,
@@ -34,9 +35,10 @@ export const SeasonsPage = () => {
         open={modalState.open}
         season={modalState.season}
         close={() => setModalState({ ...modalState, open: false })}
+        copy={modalState.copy}
       />
       <Button
-        onClick={() => setModalState({ open: true, season: null })}
+        onClick={() => setModalState({ open: true, season: null, copy: false })}
         className='mt-1 my-2'
         type='primary'
       >
@@ -44,7 +46,7 @@ export const SeasonsPage = () => {
       </Button>
       <SeasonsList
         seasons={seasonsQuery.data || []}
-        openEditModal={(season) => setModalState({ season, open: true })}
+        openEditModal={(season, copy) => setModalState({ season, open: true, copy })}
         openRemoveModal={(year) => setRemoveModalState({ year, open: true })}
       />
     </>

@@ -75,6 +75,7 @@ export const SeasonPage = () => {
         season={seasonQuery.data!.season}
         open={seasonModalOpen}
         close={() => setSeasonModalOpen(false)}
+        copy={false}
       />
       <RemoveSeasonModal
         year={year}
