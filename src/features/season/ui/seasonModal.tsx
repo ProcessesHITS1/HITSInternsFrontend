@@ -3,7 +3,11 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { useCreateSeasonMutation, useEditSeasonMutation } from '~features/season'
+import {
+  useCopySeasonMutation,
+  useCreateSeasonMutation,
+  useEditSeasonMutation,
+} from '~features/season'
 import { Season } from '~entities/season'
 
 dayjs.extend(customParseFormat)
@@ -12,6 +16,7 @@ export interface SeasonModalProps {
   open: boolean
   close: () => void
   season: Season | null
+  copy: boolean
 }
 
 const dateFormat = 'YYYY-MM-DD'
@@ -19,11 +24,15 @@ const minYear = 2015
 const maxYear = 2030
 
 export const SeasonModal = (props: SeasonModalProps) => {
-  const { season, open, close } = props
+  const { season, open, close, copy } = props
 
   const [createSeason, createSeasonResult] = useCreateSeasonMutation()
   const [editSeason, editSeasonResult] = useEditSeasonMutation()
-  const isResultLoading = createSeasonResult.isLoading || editSeasonResult.isLoading
+  const [copySeason, copySeasonResult] = useCopySeasonMutation()
+  const isResultLoading =
+    createSeasonResult.isLoading ||
+    editSeasonResult.isLoading ||
+    copySeasonResult.isLoading
 
   const [form] = Form.useForm()
   const watch = Form.useWatch([], form)
@@ -61,7 +70,11 @@ export const SeasonModal = (props: SeasonModalProps) => {
       if (season) {
         await editSeason({ year: season.year, data }).unwrap()
       } else {
-        await createSeason(data).unwrap()
+        if (copy) {
+          await copySeason(data as any).unwrap()
+        } else {
+          await createSeason(data).unwrap()
+        }
       }
       close()
     } catch {
@@ -72,7 +85,9 @@ export const SeasonModal = (props: SeasonModalProps) => {
   return (
     <Modal
       forceRender
-      title={season ? 'Редактирование сезона' : 'Новый сезон'}
+      title={
+        copy ? 'Копирование сезона' : season ? 'Редактирование сезона' : 'Новый сезон'
+      }
       open={open}
       onCancel={wrappedClose}
       maskClosable={false}

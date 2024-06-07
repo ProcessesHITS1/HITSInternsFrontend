@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, CopyOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Flex, Row } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { getSeasonLink } from '~shared/config'
@@ -7,7 +7,7 @@ import { Season } from '../model'
 
 export interface SeasonsListProps {
   seasons: Season[]
-  openEditModal: (season: Season) => void
+  openEditModal: (season: Season, copy: boolean) => void
   openRemoveModal: (year: number) => void
 }
 
@@ -28,11 +28,23 @@ export const SeasonsList = (props: SeasonsListProps) => {
                   <div className='ms-auto my-2 me-2'>
                     <Button
                       shape='circle'
-                      icon={<EditOutlined />}
-                      className='mx-2'
+                      icon={<CopyOutlined />}
                       onClick={(e) => {
                         e.stopPropagation()
-                        openEditModal(season)
+                        openEditModal(season, true)
+                      }}
+                      style={{
+                        color: 'rgb(23, 124, 255)',
+                        borderColor: 'rgb(23, 124, 255)',
+                      }}
+                    />
+                    <Button
+                      className='mx-2'
+                      shape='circle'
+                      icon={<EditOutlined />}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        openEditModal(season, false)
                       }}
                       style={{
                         color: 'rgb(254, 193, 38)',

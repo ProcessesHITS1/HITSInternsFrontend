@@ -8,11 +8,21 @@ import {
   EditSeasonResp,
   CloseSeasonResp,
   CloseSeasonReq,
+  CopySeasonResp,
+  CopySeasonReq,
 } from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
   endpoints: (builder) => ({
     createSeason: builder.mutation<CreateSeasonResp, CreateSeasonReq>({
+      query: (body) => ({
+        url: '/season',
+        body,
+        method: 'POST',
+      }),
+      invalidatesTags: ['seasonsList', 'season'],
+    }),
+    copySeason: builder.mutation<CopySeasonResp, CopySeasonReq>({
       query: (body) => ({
         url: '/season',
         body,
@@ -50,4 +60,5 @@ export const {
   useDeleteSeasonMutation,
   useEditSeasonMutation,
   useCloseSeasonMutation,
+  useCopySeasonMutation,
 } = endpoints

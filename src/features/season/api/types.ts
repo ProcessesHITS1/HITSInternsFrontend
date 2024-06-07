@@ -3,6 +3,9 @@ import { Season } from '~entities/season'
 export type CreateSeasonReq = Omit<Season, 'id'>
 export type CreateSeasonResp = Season
 
+export type CopySeasonReq = Omit<Season, 'id'> & { seasonId: string }
+export type CopySeasonResp = Season
+
 export type EditSeasonReq = {
   year: number
   data: Omit<Season, 'id'>

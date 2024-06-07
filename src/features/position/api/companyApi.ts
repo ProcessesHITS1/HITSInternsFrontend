@@ -4,6 +4,8 @@ import {
   CreatePositionResp,
   RemovePositionReq,
   RemovePositionResp,
+  EditPositionResp,
+  EditPositionReq,
 } from './types'
 
 const endpoints = companyApi.injectEndpoints({
@@ -12,6 +14,14 @@ const endpoints = companyApi.injectEndpoints({
       query: ({ data, companyId }) => ({
         url: `/position/${companyId}`,
         method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['companiesList'],
+    }),
+    editPosition: builder.mutation<EditPositionResp, EditPositionReq>({
+      query: ({ data, positionId }) => ({
+        url: `/position/${positionId}`,
+        method: 'PUT',
         body: data,
       }),
       invalidatesTags: ['companiesList'],
@@ -26,4 +36,8 @@ const endpoints = companyApi.injectEndpoints({
   }),
 })
 
-export const { useCreatePositionMutation, useRemovePositionMutation } = endpoints
+export const {
+  useCreatePositionMutation,
+  useRemovePositionMutation,
+  useEditPositionMutation,
+} = endpoints

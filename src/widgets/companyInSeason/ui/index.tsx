@@ -5,8 +5,10 @@ import {
   CompanyInSeasonModal,
   CompanyInSeasonRemoveModal,
 } from '~features/companyInSeason'
+import { PositionModal, RemovePositionModal } from '~features/position'
 import { Company } from '~entities/company'
 import { CompanyInSeasonList, CompanyInSeasonShort } from '~entities/companyInSeason'
+import { Position } from '~entities/position'
 
 export interface CompanyInSeasonSectionProps {
   companiesInSeason: CompanyInSeasonShort[]
@@ -17,10 +19,19 @@ export interface CompanyInSeasonSectionProps {
 export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
   const { companiesInSeason, companies, year } = props
   const [input, setInput] = useState(undefined as string | undefined)
+  const [companyId, setCompanyId] = useState('')
   const [addCompanyModalState, setCompanyModalState] = useState(false)
   const [removeCompanyModalState, setRemoveCompanyModalState] = useState({
     open: false,
     companyId: null as string | null,
+  })
+  const [positionModalState, setPositionModalState] = useState({
+    open: false,
+    position: null as Position | null,
+  })
+  const [removePositionModalState, setRemovePositionModalState] = useState({
+    open: false,
+    positionId: null as string | null,
   })
   const availableCompanies = companies.filter(
     (company) => !companiesInSeason.some((cIs) => cIs.id === company.id)
@@ -28,6 +39,18 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
 
   return (
     <>
+      <RemovePositionModal
+        open={removePositionModalState.open}
+        close={() =>
+          setRemovePositionModalState({ ...removePositionModalState, open: false })
+        }
+        positionId={removePositionModalState.positionId}
+      />
+      <PositionModal
+        open={positionModalState.open}
+        position={positionModalState.position}
+        close={() => setPositionModalState({ ...positionModalState, open: false })}
+      />
       <CompanyInSeasonModal
         companies={availableCompanies}
         open={addCompanyModalState}
@@ -43,25 +66,30 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
         year={year}
       />
       <div className='flex flex-col items-center'>
-        <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
-          <Input
-            size='small'
-            placeholder='Поиск компании'
-            prefix={<SearchOutlined />}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            allowClear={true}
-          />
-          <Button
-            size='small'
-            onClick={() => setCompanyModalState(true)}
-            disabled={!availableCompanies.length}
-          >
-            Добавить
-          </Button>
-        </Space.Compact>
+        {!companyId && (
+          <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
+            <Input
+              disabled={!companiesInSeason.length}
+              size='small'
+              placeholder='Поиск компании'
+              prefix={<SearchOutlined />}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              allowClear={true}
+            />
+            <Button
+              size='small'
+              onClick={() => setCompanyModalState(true)}
+              disabled={!availableCompanies.length}
+            >
+              Добавить
+            </Button>
+          </Space.Compact>
+        )}
 
         <CompanyInSeasonList
+          companyId={companyId}
+          setCompanyId={setCompanyId}
           companies={companiesInSeason.filter(
             (company) =>
               !input || company.name.toLowerCase().includes(input.toLowerCase())
@@ -69,6 +97,12 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
           openEditModal={() => setCompanyModalState(true)}
           openRemoveModal={(companyId) =>
             setRemoveCompanyModalState({ companyId, open: true })
+          }
+          openPositionModal={(position) =>
+            setPositionModalState({ open: true, position })
+          }
+          openRemovePositionModal={(id) =>
+            setRemovePositionModalState({ open: true, positionId: id })
           }
         />
       </div>
