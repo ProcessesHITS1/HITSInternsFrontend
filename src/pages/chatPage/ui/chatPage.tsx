@@ -12,11 +12,13 @@ import {
   useUploadFileMutation,
 } from '~features/chat'
 import { useGetChatQuery } from '~entities/chat'
-import { useGetMessagesQuery } from '~entities/message'
+import { Message, chatEndpoints, useGetMessagesQuery } from '~entities/message'
 import { useGetAllUsersQuery } from '~entities/user'
-import { AppRoutes, JWT_LS_KEYNAME } from '~shared/config'
+import { API_CHATS_SIGNALR_URL, AppRoutes, JWT_LS_KEYNAME } from '~shared/config'
+import { useAppDispatch } from '~shared/lib/store'
 
 export const ChatPage = () => {
+  const dispatch = useAppDispatch()
   const id = useParams()['id']!
   const [usersModalOpen, setUsersModalOpen] = useState(false)
   const [leaveModalOpen, setLeaveModalOpen] = useState(false)
@@ -32,10 +34,11 @@ export const ChatPage = () => {
   const [uploadFile] = useUploadFileMutation()
 
   const [connection, setConnection] = useState<signalR.HubConnection | null>(null)
+  const [live, setLive] = useState(false as boolean | null)
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:8010/chatting', {
+      .withUrl(API_CHATS_SIGNALR_URL, {
         accessTokenFactory: () => {
           return localStorage.getItem(JWT_LS_KEYNAME) || ''
         },
@@ -52,14 +55,29 @@ export const ChatPage = () => {
     if (connection) {
       connection
         .start()
-        .then(() => {
-          connection.invoke('Join', id)
+        .then(async () => {
+          await connection.invoke('Join', id)
+          connection.on('send', (msg: Message) => {
+            if (msg.chatId !== id || !messagesQuery.originalArgs) return
+            dispatch(
+              chatEndpoints.util.updateQueryData(
+                'getMessages',
+                messagesQuery.originalArgs,
+                (draft) => {
+                  draft.push(msg)
+                }
+              )
+            )
+          })
+          setLive(true)
         })
-        .catch((err) => console.log('Error while starting connection: ' + err))
-
-      connection.on('ReceiveMessage', () => {
-        console.log('Message received:', 'message')
-      })
+        .catch((err) => {
+          console.log('Live Error: ' + err)
+          setLive(null)
+        })
+    }
+    return () => {
+      connection?.stop()
     }
   }, [connection])
 
@@ -88,7 +106,7 @@ export const ChatPage = () => {
     }
   }
 
-  if (chatQuery.isError || messagesQuery.isError || usersQuery.isError) {
+  if (chatQuery.isError || messagesQuery.isError || usersQuery.isError || live === null) {
     return (
       <>
         Произошла ошибка при загрузке чата
@@ -97,7 +115,7 @@ export const ChatPage = () => {
     )
   }
 
-  if (chatQuery.isLoading || messagesQuery.isLoading) {
+  if (chatQuery.isLoading || messagesQuery.isLoading || !live) {
     return <Spin className='mt-5' size='large' />
   }
 

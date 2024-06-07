@@ -1,4 +1,5 @@
 import { Card } from 'antd'
+import { useEffect, useRef } from 'react'
 import { Message, MessageView } from '~entities/message'
 import { UserInfo, getName } from '~entities/user'
 
@@ -8,8 +9,17 @@ export interface ChatViewProps {
 }
 
 export const ChatView = ({ messages, users }: ChatViewProps) => {
+  const ref = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    if (ref.current) {
+      setTimeout(() =>
+        ref.current?.scrollTo({ top: ref.current.scrollHeight, behavior: 'smooth' })
+      )
+    }
+  }, [messages])
   return (
     <div
+      ref={ref}
       style={{ background: 'url(/bckgr.png)', backgroundSize: 'cover' }}
       className='chat flex flex-col overflow-y-auto h-[calc(100%-124px)] sm:h-[calc(100%-48px)] p-4'
     >
