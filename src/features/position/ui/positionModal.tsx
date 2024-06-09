@@ -8,10 +8,12 @@ export interface PositionModalProps {
   open: boolean
   close: () => void
   position: Position | null
+  seasonYear: number
+  companyId: string
 }
 
 export const PositionModal = (props: PositionModalProps) => {
-  const { position, open, close } = props
+  const { position, open, close, seasonYear, companyId } = props
 
   const [createPosition, createPositionResult] = useCreatePositionMutation()
   const [editPosition, editPositionResult] = useEditPositionMutation()
@@ -39,7 +41,7 @@ export const PositionModal = (props: PositionModalProps) => {
       if (position) {
         await editPosition(rawData).unwrap()
       } else {
-        await createPosition(rawData).unwrap()
+        await createPosition({ ...rawData, seasonYear, companyId }).unwrap()
       }
       close()
     } catch {
@@ -71,11 +73,15 @@ export const PositionModal = (props: PositionModalProps) => {
         >
           <Input placeholder='Введите наименование' />
         </Form.Item>
-        <Form.Item label='Количество позиций' name='nPositions'>
+        <Form.Item
+          label='Количество мест'
+          name='nSeats'
+          rules={[{ required: true, message: 'Укажите количество мест' }]}
+        >
           <InputNumber
-            placeholder='Количество позиций'
+            placeholder='Количество мест'
             className='w-full'
-            min='0'
+            min='1'
             max='10000'
           />
         </Form.Item>

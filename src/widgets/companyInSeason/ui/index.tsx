@@ -28,6 +28,7 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
   const [positionModalState, setPositionModalState] = useState({
     open: false,
     position: null as Position | null,
+    companyId: '',
   })
   const [removePositionModalState, setRemovePositionModalState] = useState({
     open: false,
@@ -47,6 +48,8 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
         positionId={removePositionModalState.positionId}
       />
       <PositionModal
+        seasonYear={year}
+        companyId={positionModalState.companyId}
         open={positionModalState.open}
         position={positionModalState.position}
         close={() => setPositionModalState({ ...positionModalState, open: false })}
@@ -99,7 +102,7 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
             setRemoveCompanyModalState({ companyId, open: true })
           }
           openPositionModal={(position) =>
-            setPositionModalState({ open: true, position })
+            setPositionModalState({ open: true, position, companyId })
           }
           openRemovePositionModal={(id) =>
             setRemovePositionModalState({ open: true, positionId: id })

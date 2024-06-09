@@ -4,9 +4,10 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CompanyInSeasonSection } from '~widgets/companyInSeason'
 import { StudentInSeasonSection } from '~widgets/studentInSeason'
-import { RequestModal } from '~features/request'
+import { RequestModal, RequestStatusTemplatesList } from '~features/request'
 import { CloseSeasonModal, RemoveSeasonModal, SeasonModal } from '~features/season'
 import { useGetCompaniesQuery } from '~entities/company'
+import { RequestStatusTemplate } from '~entities/request'
 import { useGetSeasonByYearQuery } from '~entities/season'
 import { useStudentsQuery, UserInfo } from '~entities/user'
 import { AppRoutes } from '~shared/config'
@@ -21,6 +22,14 @@ export const SeasonPage = () => {
   const studentsQuery = useStudentsQuery()
 
   const [removeModalOpen, setRemoveModalOpen] = useState(false)
+  const [statusModalOpen, setStatusModalOpen] = useState({
+    open: false,
+    status: null as RequestStatusTemplate | null,
+  })
+  const [removeStatusModalOpen, setRemoveStatusModalOpen] = useState({
+    open: false,
+    status: null as RequestStatusTemplate | null,
+  })
   const [endModalOpen, setEndModalOpen] = useState(false)
   const [seasonModalOpen, setSeasonModalOpen] = useState(false)
   const [requestModalState, setRequestModalState] = useState({
@@ -117,6 +126,7 @@ export const SeasonPage = () => {
         Закрыть сезон
       </Button>
       <Tabs
+        destroyInactiveTabPane
         className='w-full'
         defaultActiveKey='1'
         items={[
@@ -140,6 +150,26 @@ export const SeasonPage = () => {
                 companies={companiesQuery.data?.data || []}
                 year={year}
               />
+            ),
+          },
+          {
+            key: '3',
+            label: 'Шаблон',
+            children: (
+              <div className='w-100 flex flex-col items-center'>
+                <Button type='primary' className='mb-2'>
+                  Добавить этап
+                </Button>
+                <RequestStatusTemplatesList
+                  statuses={[{ id: '1', name: 'выфвфы' }]}
+                  openStatusTemplateRemoveModal={(status) =>
+                    setRemoveStatusModalOpen({ open: true, status })
+                  }
+                  openStatusTemplateModal={(status) =>
+                    setStatusModalOpen({ open: true, status })
+                  }
+                />
+              </div>
             ),
           },
         ]}
