@@ -84,11 +84,7 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
                   <Button
                     shape='circle'
                     icon={<EditOutlined />}
-                    className='ms-2'
-                    style={{
-                      color: 'rgb(254, 193, 38)',
-                      borderColor: 'rgb(254, 193, 38)',
-                    }}
+                    className='ms-2 btn-edit'
                     onClick={() => openPositionModal(pos)}
                   />
                   <Button

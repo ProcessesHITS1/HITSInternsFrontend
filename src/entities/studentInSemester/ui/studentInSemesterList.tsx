@@ -1,4 +1,5 @@
-import { Row, Col, Card } from 'antd'
+import { FileOutlined, AuditOutlined } from '@ant-design/icons'
+import { Row, Col, Card, Flex, Button } from 'antd'
 import { StudentInSemesterNormal } from '../model'
 
 export interface StudentInSemesterListProps {
@@ -22,13 +23,39 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
         return (
           <Col xs={24} md={12} lg={8} className='mb-4' key={item.id}>
             <Card
-              onClick={() => {
-                if (!diaryLoading) {
-                  openStudentModal(item.diaryId)
-                }
-              }}
-              hoverable={!diaryLoading}
-              title={name}
+              title={
+                <Flex align='center'>
+                  <span>{name}</span>
+                  <div className='ms-auto my-2 me-2'>
+                    <Button
+                      shape='circle'
+                      icon={<FileOutlined />}
+                      onClick={() => {
+                        if (!diaryLoading) {
+                          openStudentModal(item.diaryId)
+                        }
+                      }}
+                      style={{
+                        color: 'rgb(23, 124, 255)',
+                        borderColor: 'rgb(23, 124, 255)',
+                      }}
+                    />
+                    <Button
+                      className='mx-2'
+                      shape='circle'
+                      icon={<AuditOutlined />}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        //openEditModal(season, false)
+                      }}
+                      style={{
+                        color: '#84cc16',
+                        borderColor: '#84cc16',
+                      }}
+                    />
+                  </div>
+                </Flex>
+              }
             >
               <div className='flex'>
                 <span className='text-stone-500'>Статус:</span>

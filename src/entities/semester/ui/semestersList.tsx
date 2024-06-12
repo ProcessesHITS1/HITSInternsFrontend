@@ -33,15 +33,12 @@ export const SemestersList = (props: SemestersListProps) => {
                     <Button
                       shape='circle'
                       icon={<EditOutlined />}
-                      className='mx-2'
+                      className='mx-2 btn-edit'
                       onClick={(e) => {
                         e.stopPropagation()
                         openEditModal(semester)
                       }}
-                      style={{
-                        color: 'rgb(254, 193, 38)',
-                        borderColor: 'rgb(254, 193, 38)',
-                      }}
+                      disabled={semester.isClosed}
                     />
                   </div>
                 </Flex>
@@ -64,6 +61,12 @@ export const SemestersList = (props: SemestersListProps) => {
                       {semester.year}
                     </Link>
                   }
+                </span>
+              </div>
+              <div className='flex'>
+                <span className='text-stone-500'>Статус:</span>
+                <span className='ms-[0.25rem]'>
+                  {semester.isClosed ? 'Закрыт' : 'Открыт'}
                 </span>
               </div>
             </Card>

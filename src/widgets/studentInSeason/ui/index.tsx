@@ -18,10 +18,11 @@ export interface StudentInSeasonSectionProps {
   studentsInSeason: StudentInSeason[]
   students: UserInfo[]
   year: number
+  isClosed: boolean
 }
 
 export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
-  const { studentsInSeason, students, year } = props
+  const { studentsInSeason, students, year, isClosed } = props
   const [input, setInput] = useState(undefined as string | undefined)
   const [addStudentModalOpen, setAddStudentModalOpen] = useState(false)
   const [removeStudentModalState, setRemoveStudentModalState] = useState({
@@ -69,6 +70,7 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
       <div className='flex flex-col items-center'>
         <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
           <Input
+            disabled={!studentsInSeason.length}
             size='small'
             placeholder='Поиск по ФИО'
             prefix={<SearchOutlined />}
@@ -79,7 +81,7 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
           <Button
             size='small'
             onClick={() => setAddStudentModalOpen(true)}
-            disabled={!availableStudents.length}
+            disabled={isClosed || !availableStudents.length}
           >
             Добавить
           </Button>
@@ -97,6 +99,7 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
           ))}
         </Flex>
         <StudentInSeasonList
+          isClosed={isClosed}
           studentsInSeason={showStudentsInSeason}
           openEditModal={() => {}}
           openRemoveModal={(studentId) =>

@@ -4,4 +4,5 @@ export type Semester = {
   semester: number
   seasonId: string
   documentsDeadline: string | null | undefined
+  isClosed: boolean
 }

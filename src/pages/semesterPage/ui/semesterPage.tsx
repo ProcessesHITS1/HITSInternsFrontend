@@ -1,36 +1,28 @@
-import { SearchOutlined } from '@ant-design/icons'
 import { EditOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Flex, Input, Spin, Typography } from 'antd'
+import { Button, Spin, Tabs, Typography } from 'antd'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { DiaryModal } from '~features/diary'
+import { MarkReqWidget } from '~widgets/mark'
+import { StudentsInSemesterWidget } from '~widgets/studentInSemester'
 import { CloseSemesterModal, SemesterModal } from '~features/semester'
 import { useGetCompaniesQuery } from '~entities/company'
-import { useLazyGetDiaryByIdQuery } from '~entities/diary'
+import { useGetRequirementsQuery } from '~entities/mark'
 import { useGetSemesterByIdQuery } from '~entities/semester'
-import {
-  StudentInSemesterList,
-  useGetNormalStudentsInSemester,
-} from '~entities/studentInSemester'
-import { getName } from '~entities/user'
+import { useGetNormalStudentsInSemester } from '~entities/studentInSemester'
 import { AppRoutes, getSeasonLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 
 export const SemesterPage = () => {
   const id = useParams()['id']!
 
-  const [panelState, setPanelState] = useState({
-    hasDiary: true,
-    noDiary: true,
-  })
   const [input, setInput] = useState(undefined as string | undefined)
   const semesterQuery = useGetSemesterByIdQuery({ id })
   const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
   const studentsQuery = useGetNormalStudentsInSemester(id)
-
-  const [getDiary, getDiaryResult] = useLazyGetDiaryByIdQuery()
+  const reqQuery = useGetRequirementsQuery({ semesterId: id })
 
   const [endModalOpen, setEndModalOpen] = useState(false)
+  const [reqModalOpen, setReqModalOpen] = useState(false)
   const [semesterModalOpen, setSemesterModalOpen] = useState(false)
   const [diaryModalState, setDiaryModalState] = useState({
     open: false,
@@ -38,8 +30,15 @@ export const SemesterPage = () => {
   })
 
   const isLoading =
-    semesterQuery.isLoading || studentsQuery.isLoading || companiesQuery.isLoading
-  const isError = semesterQuery.isError || studentsQuery.isError || companiesQuery.isError
+    semesterQuery.isLoading ||
+    studentsQuery.isLoading ||
+    companiesQuery.isLoading ||
+    reqQuery.isLoading
+  const isError =
+    semesterQuery.isError ||
+    studentsQuery.isError ||
+    companiesQuery.isError ||
+    reqQuery.isError
 
   if (isLoading) {
     return <Spin size='large' className='mt-5' />
@@ -66,16 +65,12 @@ export const SemesterPage = () => {
     )
   }
 
-  const filtered = studentsQuery.data?.filter(
-    ({ student, diaryId }) =>
-      (!input || getName(student).toLowerCase().includes(input)) &&
-      ((panelState.hasDiary && diaryId) || (panelState.noDiary && !diaryId))
-  )
+  const isClosed = !!semesterQuery.data?.isClosed
 
   return (
     <>
       <CloseSemesterModal
-        id={semesterQuery.data?.id}
+        id={id}
         open={endModalOpen}
         close={() => setEndModalOpen(false)}
       />
@@ -84,14 +79,17 @@ export const SemesterPage = () => {
         open={semesterModalOpen}
         close={() => setSemesterModalOpen(false)}
       />
-      <DiaryModal
-        diary={getDiaryResult.currentData}
-        isOpen={diaryModalState.open}
-        diaryId={diaryModalState.diaryId}
-        close={() => setDiaryModalState({ ...diaryModalState, open: false })}
-      />
       <Typography.Title level={4} className='flex items-center mb-0'>
         {`Семестр №${semesterQuery.data?.semester}`}
+        <Button
+          disabled={isClosed}
+          size='small'
+          danger
+          onClick={() => setEndModalOpen(true)}
+          className='ms-2'
+        >
+          {isClosed ? 'Закрыт' : 'Закрыть'}
+        </Button>
       </Typography.Title>
       <div className='text-slate-500 text-sm text-center'>
         <Link to={getSeasonLink(semesterQuery.data?.year || 0)} className='block'>
@@ -99,59 +97,48 @@ export const SemesterPage = () => {
         </Link>
         Дедлайн: {parseDate(semesterQuery.data?.documentsDeadline)}
         <Button
+          disabled={isClosed}
           size='small'
           shape='circle'
           icon={<EditOutlined />}
           className='mx-2'
           onClick={() => setSemesterModalOpen(true)}
-          style={{
-            color: 'rgb(254, 193, 38)',
-            borderColor: 'rgb(254, 193, 38)',
-          }}
         />
       </div>
-      <Flex
-        gap={8}
-        className='mt-1 mb-2 flex-col md:flex-row'
-        align='center'
-        justify='center'
-      >
-        <Input
-          allowClear
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder='Поиск по ФИО'
-          size='small'
-          prefix={<SearchOutlined />}
-        />
-
-        <Button size='small' danger onClick={() => setEndModalOpen(true)}>
-          Завершить прием
-        </Button>
-      </Flex>
-      <Flex className='mb-2'>
-        <Checkbox
-          checked={panelState.hasDiary}
-          onClick={() => setPanelState({ ...panelState, hasDiary: !panelState.hasDiary })}
-        >
-          Есть дневник
-        </Checkbox>
-        <Checkbox
-          checked={panelState.noDiary}
-          onClick={() => setPanelState({ ...panelState, noDiary: !panelState.noDiary })}
-        >
-          Нет дневника
-        </Checkbox>
-      </Flex>
-      <StudentInSemesterList
-        diaryLoading={getDiaryResult.isFetching}
-        studentsInSemester={filtered || []}
-        openStudentModal={async (diaryId) => {
-          if (diaryId) {
-            await getDiary({ diaryId })
-          }
-          setDiaryModalState({ open: true, diaryId: diaryId })
-        }}
+      <Tabs
+        destroyInactiveTabPane
+        className='w-full'
+        defaultActiveKey='1'
+        items={[
+          {
+            key: '1',
+            label: 'Студенты',
+            children: (
+              <StudentsInSemesterWidget
+                isClosed={isClosed}
+                input={input}
+                setInput={setInput}
+                diaryModalState={diaryModalState}
+                setDiaryModalState={setDiaryModalState}
+                data={studentsQuery.data}
+              />
+            ),
+          },
+          {
+            key: '2',
+            label: 'Требования',
+            children: (
+              <MarkReqWidget
+                semesterId={id}
+                reqModalOpen={reqModalOpen}
+                setReqModal={setReqModalOpen}
+                isClosed={isClosed}
+                requirements={reqQuery.data || []}
+              />
+            ),
+          },
+        ]}
+        centered
       />
     </>
   )

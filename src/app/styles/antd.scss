@@ -68,3 +68,17 @@ h4.ant-typography {
     font-size: 10px;
   }
 }
+
+.ant-btn:disabled {
+  border-color: #d9d9d9 !important;
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.ant-btn.btn-edit {
+  color: rgb(254, 193, 38);
+  border-color: rgb(254, 193, 38);
+}
+
+.ant-select-selection-item {
+  color: black;
+}

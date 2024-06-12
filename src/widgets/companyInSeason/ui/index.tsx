@@ -14,10 +14,11 @@ export interface CompanyInSeasonSectionProps {
   companiesInSeason: CompanyInSeasonShort[]
   companies: Company[]
   year: number
+  isClosed: boolean
 }
 
 export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
-  const { companiesInSeason, companies, year } = props
+  const { companiesInSeason, companies, year, isClosed } = props
   const [input, setInput] = useState(undefined as string | undefined)
   const [companyId, setCompanyId] = useState('')
   const [addCompanyModalState, setCompanyModalState] = useState(false)
@@ -83,7 +84,7 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
             <Button
               size='small'
               onClick={() => setCompanyModalState(true)}
-              disabled={!availableCompanies.length}
+              disabled={isClosed || !availableCompanies.length}
             >
               Добавить
             </Button>

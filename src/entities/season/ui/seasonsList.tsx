@@ -39,16 +39,12 @@ export const SeasonsList = (props: SeasonsListProps) => {
                       }}
                     />
                     <Button
-                      className='mx-2'
+                      className='mx-2 btn-edit'
                       shape='circle'
                       icon={<EditOutlined />}
                       onClick={(e) => {
                         e.stopPropagation()
                         openEditModal(season, false)
-                      }}
-                      style={{
-                        color: 'rgb(254, 193, 38)',
-                        borderColor: 'rgb(254, 193, 38)',
                       }}
                     />
                     <Button

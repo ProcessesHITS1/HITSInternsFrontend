@@ -6,6 +6,7 @@ export type Season = {
   year: number
   seasonStart: string
   seasonEnd: string
+  isClosed: boolean
 }
 
 export type ExtendedSeason = {

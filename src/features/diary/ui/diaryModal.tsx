@@ -11,10 +11,11 @@ export interface DiaryModalProps {
   diary: Diary | null | undefined
   isOpen: boolean
   close: () => void
+  semesterClosed: boolean
 }
 
 export const DiaryModal = (props: DiaryModalProps) => {
-  const { isOpen, close, diaryId, diary } = props
+  const { isOpen, close, diaryId, diary, semesterClosed } = props
 
   const [trigger, result] = useAddDiaryFeedbackMutation()
 
@@ -105,6 +106,7 @@ export const DiaryModal = (props: DiaryModalProps) => {
                   }
                 : {}
             }
+            disabled={semesterClosed}
           >
             <Form.Item
               name='acceptanceStatus'
@@ -127,12 +129,20 @@ export const DiaryModal = (props: DiaryModalProps) => {
             </Form.Item>
 
             <Form.Item name='comments' label='Комментарий'>
-              <Input.TextArea placeholder='Введите комментарий' />
+              <Input.TextArea
+                placeholder='Введите комментарий'
+                style={{ color: 'black' }}
+              />
             </Form.Item>
 
             <Form.Item>
               <Flex>
-                <Button type='primary' htmlType='submit' className='ms-auto'>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  className='ms-auto'
+                  disabled={semesterClosed}
+                >
                   Сохранить
                 </Button>
               </Flex>
