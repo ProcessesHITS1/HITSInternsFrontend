@@ -1,5 +1,6 @@
 import { EditOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Flex, Row } from 'antd'
+import cs from 'classnames'
 import { Link, useNavigate } from 'react-router-dom'
 import { getSeasonLink, getSemesterLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
@@ -65,7 +66,10 @@ export const SemestersList = (props: SemestersListProps) => {
               </div>
               <div className='flex'>
                 <span className='text-stone-500'>Статус:</span>
-                <span className='ms-[0.25rem]'>
+                <span className={cs('ms-[0.25rem]', {
+                  'text-green-500': !semester.isClosed,
+                  'text-red-500': semester.isClosed
+                })}>
                   {semester.isClosed ? 'Закрыт' : 'Открыт'}
                 </span>
               </div>

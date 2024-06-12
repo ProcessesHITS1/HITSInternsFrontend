@@ -1,5 +1,6 @@
 import { DeleteOutlined, EditOutlined, CopyOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Flex, Row } from 'antd'
+import cs from 'classnames'
 import { useNavigate } from 'react-router-dom'
 import { getSeasonLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
@@ -39,6 +40,7 @@ export const SeasonsList = (props: SeasonsListProps) => {
                       }}
                     />
                     <Button
+                      style={{ display: 'none' }}
                       className='mx-2 btn-edit'
                       shape='circle'
                       icon={<EditOutlined />}
@@ -48,6 +50,7 @@ export const SeasonsList = (props: SeasonsListProps) => {
                       }}
                     />
                     <Button
+                      style={{ display: 'none' }}
                       shape='circle'
                       danger
                       icon={<DeleteOutlined />}
@@ -67,6 +70,15 @@ export const SeasonsList = (props: SeasonsListProps) => {
               <div className='flex'>
                 <span className='text-stone-500'>Конец собеседований:</span>
                 <span className='ms-[0.25rem]'>{parseDate(season.seasonEnd)}</span>
+              </div>
+              <div className='flex'>
+                <span className='text-stone-500'>Статус:</span>
+                <span className={cs('ms-[0.25rem]', {
+                  'text-green-500': !season.isClosed,
+                  'text-red-500': season.isClosed
+                })}>
+                  {season.isClosed ? 'Закрыт' : 'Открыт'}
+                </span>
               </div>
             </Card>
           </Col>

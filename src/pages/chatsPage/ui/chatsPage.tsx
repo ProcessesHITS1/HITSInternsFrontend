@@ -1,16 +1,12 @@
 import { SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Space, Spin } from 'antd'
 import { useState } from 'react'
-import { ChatLeaveModal, ChatCreateModal } from '~features/chat'
+import { ChatCreateModal } from '~features/chat'
 import { ChatList, useGetChatsQuery } from '~entities/chat'
 
 export const ChatsPage = () => {
   const [text, setText] = useState('')
   const [newChatModalOpen, setNewChatModalOpen] = useState(false)
-  const [removeModalState, setRemoveModalState] = useState({
-    open: false,
-    id: null as string | null,
-  })
   const chats = useGetChatsQuery()
 
   if (chats.isError) {
@@ -23,12 +19,6 @@ export const ChatsPage = () => {
 
   return (
     <>
-      <ChatLeaveModal
-        forceNavigate={false}
-        chatId={removeModalState.id}
-        open={removeModalState.open}
-        close={() => setRemoveModalState({ ...removeModalState, open: false })}
-      />
       <ChatCreateModal open={newChatModalOpen} close={() => setNewChatModalOpen(false)} />
       <div className='w-full flex flex-col items-start'>
         <Space.Compact className='self-center md:w-1/4'>
@@ -50,7 +40,6 @@ export const ChatsPage = () => {
             ) || []
           }
           className='w-full md:w-1/2 mx-auto'
-          openRemoveModal={(id) => setRemoveModalState({ id, open: true })}
         />
       </div>
     </>

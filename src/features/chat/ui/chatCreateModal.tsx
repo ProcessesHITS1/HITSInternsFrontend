@@ -91,7 +91,7 @@ export const ChatCreateModal = (props: ChatCreateModal) => {
             >
               <Select
                 onChange={() => {
-                  if (form.getFieldValue('users').length === 1) {
+                  if (form.getFieldValue('users').length === 1 && !form.getFieldValue('chat_name')) {
                     form.setFieldValue(
                       'chat_name',
                       getName(
