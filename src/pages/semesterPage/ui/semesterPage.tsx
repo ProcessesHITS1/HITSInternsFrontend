@@ -101,7 +101,7 @@ export const SemesterPage = () => {
           size='small'
           shape='circle'
           icon={<EditOutlined />}
-          className='mx-2'
+          className='mx-2 btn-edit'
           onClick={() => setSemesterModalOpen(true)}
         />
       </div>

@@ -28,6 +28,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
                   <span>{name}</span>
                   <div className='ms-auto my-2 me-2'>
                     <Button
+                      disabled={diaryLoading}
                       shape='circle'
                       icon={<FileOutlined />}
                       onClick={() => {
@@ -41,6 +42,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
                       }}
                     />
                     <Button
+                      disabled={diaryLoading}
                       className='mx-2'
                       shape='circle'
                       icon={<AuditOutlined />}
