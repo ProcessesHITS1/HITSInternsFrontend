@@ -11,6 +11,7 @@ export const thirdCourseApi = createApi({
     'semestersList',
     'semester',
     'diary',
+    'marks',
     'studentsInSemesterList',
     'studentInSemester',
     'requirementsList',

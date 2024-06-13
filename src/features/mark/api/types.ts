@@ -9,3 +9,9 @@ export type CreateMarkReq = {
   }
 }
 export type CreateMarkResp = void
+
+export type EditMarkReq = {
+  id: string
+  value: number
+}
+export type EditMarkResp = void

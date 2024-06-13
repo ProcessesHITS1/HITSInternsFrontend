@@ -11,7 +11,7 @@ const endpoints = thirdCourseApi.injectEndpoints({
     getMarks: builder.query<GetMarksResp, GetMarksReq>({
       query: ({ studentInSemesterId }) =>
         `marks/student-in-semester/${studentInSemesterId}`,
-      providesTags: [],
+      providesTags: ['marks'],
     }),
     getRequirements: builder.query<GetRequirementsResp, GetRequirementsReq>({
       query: () => '/mark-requirements',

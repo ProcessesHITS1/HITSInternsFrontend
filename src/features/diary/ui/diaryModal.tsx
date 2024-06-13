@@ -79,7 +79,7 @@ export const DiaryModal = (props: DiaryModalProps) => {
       style={{ top: 20 }}
     >
       {!diaryId ? (
-        'Дневник практики отсутствует'
+        <Form form={form}>Дневник практики отсутствует</Form>
       ) : (
         <>
           <div className='flex items-center'>

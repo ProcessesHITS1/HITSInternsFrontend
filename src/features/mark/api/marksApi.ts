@@ -4,6 +4,8 @@ import {
   CreateMarkReq,
   CreateRequirementResp,
   CreateRequirementReq,
+  EditMarkResp,
+  EditMarkReq,
 } from './types'
 
 const endpoints = thirdCourseApi.injectEndpoints({
@@ -14,7 +16,15 @@ const endpoints = thirdCourseApi.injectEndpoints({
         body,
         method: 'POST',
       }),
-      invalidatesTags: [],
+      invalidatesTags: ['marks'],
+    }),
+    editMark: builder.mutation<EditMarkResp, EditMarkReq>({
+      query: ({ id, value }) => ({
+        url: `marks/${id}`,
+        body: { value },
+        method: 'PUT',
+      }),
+      invalidatesTags: ['marks'],
     }),
     createRequirement: builder.mutation<CreateRequirementResp, CreateRequirementReq>({
       query: (body) => ({
@@ -27,4 +37,8 @@ const endpoints = thirdCourseApi.injectEndpoints({
   }),
 })
 
-export const { useCreateMarkMutation, useCreateRequirementMutation } = endpoints
+export const {
+  useCreateMarkMutation,
+  useCreateRequirementMutation,
+  useEditMarkMutation,
+} = endpoints

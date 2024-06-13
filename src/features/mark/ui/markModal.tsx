@@ -3,7 +3,7 @@ import { Form, InputNumber, Modal, Button } from 'antd'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { GetMarksResp, MarkRequirement } from '~entities/mark'
-import { useCreateMarkMutation } from '../api'
+import { useCreateMarkMutation, useEditMarkMutation } from '../api'
 
 export interface MarkModalProps {
   isOpen: boolean
@@ -12,26 +12,35 @@ export interface MarkModalProps {
   semesterIsClosed: boolean
   requirements: MarkRequirement[]
   marks: GetMarksResp
+  wait: boolean
 }
 
 export const MarkModal = (props: MarkModalProps) => {
-  const { isOpen, close, sisId, requirements, marks, semesterIsClosed } = props
+  const { isOpen, close, sisId, requirements, marks, semesterIsClosed, wait } = props
   const [createMark, createMarkResult] = useCreateMarkMutation()
+  const [editMark, editMarkResult] = useEditMarkMutation()
+  const isLoading = createMarkResult.isLoading || editMarkResult.isLoading
+
   const [form] = Form.useForm()
   const watch = Form.useWatch([], form)
 
   const wrappedClose = () => {
-    if (!createMarkResult.isLoading) {
+    if (!isLoading) {
       close()
     }
   }
 
-  const saveHandler = async (value: number, markId: string) => {
+  const saveHandler = async (value: number, reqId: string) => {
     try {
-      await createMark({
-        body: { markRequirementId: markId, value },
-        studentInSemesterId: sisId,
-      }).unwrap()
+      const mark = marks.find((v) => v.markRequirement.id === reqId)
+      if (mark) {
+        await editMark({ value, id: mark.id })
+      } else {
+        await createMark({
+          body: { markRequirementId: reqId, value },
+          studentInSemesterId: sisId,
+        }).unwrap()
+      }
       toast.success('Успешно')
     } catch {
       toast.error('Произошла ошибка')
@@ -46,7 +55,7 @@ export const MarkModal = (props: MarkModalProps) => {
       }
       form.setFieldsValue(obj)
     }
-  }, [isOpen, requirements, marks])
+  }, [isOpen, requirements])
 
   const hasReq = requirements.length > 0
 
@@ -69,7 +78,7 @@ export const MarkModal = (props: MarkModalProps) => {
                   <InputNumber
                     placeholder='Укажите оценку'
                     className='w-full'
-                    disabled={createMarkResult.isLoading || semesterIsClosed}
+                    disabled={isLoading || wait || semesterIsClosed}
                   />
                 </Form.Item>
                 <Button
@@ -77,9 +86,7 @@ export const MarkModal = (props: MarkModalProps) => {
                   onClick={() => saveHandler(form.getFieldValue(req.id), req.id)}
                   icon={<SaveOutlined />}
                   disabled={
-                    watch?.[req.id] == undefined ||
-                    createMarkResult.isLoading ||
-                    semesterIsClosed
+                    watch?.[req.id] == undefined || isLoading || wait || semesterIsClosed
                   }
                 ></Button>
               </div>

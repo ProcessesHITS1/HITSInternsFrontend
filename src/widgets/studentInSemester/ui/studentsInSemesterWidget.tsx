@@ -62,6 +62,7 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
         semesterClosed={isClosed}
       />
       <MarkModal
+        wait={getMarksResult.isFetching}
         semesterIsClosed={isClosed}
         requirements={requirements}
         marks={getMarksResult.currentData || []}

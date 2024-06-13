@@ -33,7 +33,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
             <Card
               title={
                 <Flex align='center'>
-                  <span>{name}</span>
+                  <span className='me-1'>{name}</span>
                   <div className='ms-auto my-2 me-2'>
                     <Button
                       disabled={diaryLoading || marksLoading}
