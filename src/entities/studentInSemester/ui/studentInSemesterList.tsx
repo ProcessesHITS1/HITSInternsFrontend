@@ -5,11 +5,19 @@ import { StudentInSemesterNormal } from '../model'
 export interface StudentInSemesterListProps {
   studentsInSemester: StudentInSemesterNormal[]
   openStudentModal: (id: string | null | undefined) => void
+  openMarkModal: (sisId: string) => void
   diaryLoading: boolean
+  marksLoading: boolean
 }
 
 export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
-  const { studentsInSemester, openStudentModal, diaryLoading } = props
+  const {
+    studentsInSemester,
+    openStudentModal,
+    diaryLoading,
+    openMarkModal,
+    marksLoading,
+  } = props
   if (!studentsInSemester.length) {
     return <div className='text-center'>Студенты не найдены</div>
   }
@@ -28,32 +36,21 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
                   <span>{name}</span>
                   <div className='ms-auto my-2 me-2'>
                     <Button
-                      disabled={diaryLoading}
+                      disabled={diaryLoading || marksLoading}
                       shape='circle'
                       icon={<FileOutlined />}
-                      onClick={() => {
-                        if (!diaryLoading) {
-                          openStudentModal(item.diaryId)
-                        }
-                      }}
+                      onClick={() => openStudentModal(item.diaryId)}
                       style={{
                         color: 'rgb(23, 124, 255)',
                         borderColor: 'rgb(23, 124, 255)',
                       }}
                     />
                     <Button
-                      disabled={diaryLoading}
-                      className='mx-2'
+                      disabled={diaryLoading || marksLoading}
+                      className='mx-2 btn-success'
                       shape='circle'
                       icon={<AuditOutlined />}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        //openEditModal(season, false)
-                      }}
-                      style={{
-                        color: '#84cc16',
-                        borderColor: '#84cc16',
-                      }}
+                      onClick={() => openMarkModal(item.id)}
                     />
                   </div>
                 </Flex>

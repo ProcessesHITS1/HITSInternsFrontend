@@ -23,7 +23,7 @@ export const SemestersList = (props: SemestersListProps) => {
     <Row gutter={16} className='w-full'>
       {semesters.map((semester) => {
         return (
-          <Col xs={24} md={12} lg={8} className='mb-4' key={semester.year}>
+          <Col xs={24} md={12} lg={8} className='mb-4' key={semester.id}>
             <Card
               onClick={() => navigate(getSemesterLink(semester.id))}
               hoverable
@@ -66,10 +66,12 @@ export const SemestersList = (props: SemestersListProps) => {
               </div>
               <div className='flex'>
                 <span className='text-stone-500'>Статус:</span>
-                <span className={cs('ms-[0.25rem]', {
-                  'text-green-500': !semester.isClosed,
-                  'text-red-500': semester.isClosed
-                })}>
+                <span
+                  className={cs('ms-[0.25rem]', {
+                    'text-green-500': !semester.isClosed,
+                    'text-red-500': semester.isClosed,
+                  })}
+                >
                   {semester.isClosed ? 'Закрыт' : 'Открыт'}
                 </span>
               </div>

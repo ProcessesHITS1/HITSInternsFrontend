@@ -9,7 +9,7 @@ export type GetRequirementsResp = MarkRequirement[]
 export type GetMarksReq = {
   studentInSemesterId: string
 }
-export type GetMarksResp = Mark & {
+export type GetMarksResp = (Mark & {
   student: StudentInSemester
   markRequirement: MarkRequirement
-}
+})[]

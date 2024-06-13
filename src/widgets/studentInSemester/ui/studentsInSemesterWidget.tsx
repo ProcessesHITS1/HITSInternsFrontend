@@ -2,29 +2,51 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Input, Flex, Checkbox } from 'antd'
 import { useState } from 'react'
 import { DiaryModal } from '~features/diary'
+import { MarkModal } from '~features/mark'
 import { useLazyGetDiaryByIdQuery } from '~entities/diary'
+import { MarkRequirement, useLazyGetMarksQuery } from '~entities/mark'
 import {
   StudentInSemesterList,
   StudentInSemesterNormal,
 } from '~entities/studentInSemester'
 import { getName } from '~entities/user'
 
+type DiaryModalState = { open: boolean; diaryId: string | null | undefined }
+type MarkModalState = { open: boolean; sisId: string }
+
 export interface StudentsInSemesterWidgetProps {
   input: string | undefined
   setInput: (input: string) => void
-  diaryModalState: { open: boolean; diaryId: string | null | undefined }
-  setDiaryModalState: (arg: { open: boolean; diaryId: string | null | undefined }) => void
   data: StudentInSemesterNormal[]
+  requirements: MarkRequirement[]
   isClosed: boolean
+
+  diaryModalState: DiaryModalState
+  setDiaryModalState: (arg: DiaryModalState) => void
+
+  markModalState: MarkModalState
+  setMarkModalState: (arg: MarkModalState) => void
 }
 
 export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) => {
-  const { input, setInput, diaryModalState, setDiaryModalState, data, isClosed } = props
+  const {
+    input,
+    setInput,
+    diaryModalState,
+    setDiaryModalState,
+    data,
+    isClosed,
+    requirements,
+    markModalState,
+    setMarkModalState,
+  } = props
   const [panelState, setPanelState] = useState({
     hasDiary: true,
     noDiary: true,
   })
   const [getDiary, getDiaryResult] = useLazyGetDiaryByIdQuery()
+  const [getMarks, getMarksResult] = useLazyGetMarksQuery()
+
   const filtered = data.filter(
     ({ student, diaryId }) =>
       (!input || getName(student).toLowerCase().includes(input)) &&
@@ -38,6 +60,14 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
         diaryId={diaryModalState.diaryId}
         close={() => setDiaryModalState({ ...diaryModalState, open: false })}
         semesterClosed={isClosed}
+      />
+      <MarkModal
+        semesterIsClosed={isClosed}
+        requirements={requirements}
+        marks={getMarksResult.currentData || []}
+        isOpen={markModalState.open}
+        close={() => setMarkModalState({ ...markModalState, open: false })}
+        sisId={markModalState.sisId}
       />
       <div className='w-full flex flex-col items-center'>
         <Input
@@ -67,6 +97,7 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
           </Checkbox>
         </Flex>
         <StudentInSemesterList
+          marksLoading={getMarksResult.isFetching}
           diaryLoading={getDiaryResult.isFetching}
           studentsInSemester={filtered || []}
           openStudentModal={async (diaryId) => {
@@ -74,6 +105,12 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
               await getDiary({ diaryId })
             }
             setDiaryModalState({ open: true, diaryId: diaryId })
+          }}
+          openMarkModal={async (sisId) => {
+            if (sisId) {
+              await getMarks({ studentInSemesterId: sisId })
+              setMarkModalState({ open: true, sisId })
+            }
           }}
         />
       </div>

@@ -10,7 +10,7 @@ const endpoints = thirdCourseApi.injectEndpoints({
   endpoints: (builder) => ({
     createMark: builder.mutation<CreateMarkResp, CreateMarkReq>({
       query: ({ body, studentInSemesterId }) => ({
-        url: `/students-in-semesters/${studentInSemesterId}`,
+        url: `marks/student-in-semester/${studentInSemesterId}`,
         body,
         method: 'POST',
       }),

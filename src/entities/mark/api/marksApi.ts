@@ -9,7 +9,8 @@ import {
 const endpoints = thirdCourseApi.injectEndpoints({
   endpoints: (builder) => ({
     getMarks: builder.query<GetMarksResp, GetMarksReq>({
-      query: ({ studentInSemesterId }) => `/students-in-semesters/${studentInSemesterId}`,
+      query: ({ studentInSemesterId }) =>
+        `marks/student-in-semester/${studentInSemesterId}`,
       providesTags: [],
     }),
     getRequirements: builder.query<GetRequirementsResp, GetRequirementsReq>({
@@ -24,4 +25,4 @@ const endpoints = thirdCourseApi.injectEndpoints({
   }),
 })
 
-export const { useGetMarksQuery, useGetRequirementsQuery } = endpoints
+export const { useLazyGetMarksQuery, useGetRequirementsQuery } = endpoints

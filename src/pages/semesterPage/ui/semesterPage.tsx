@@ -28,6 +28,10 @@ export const SemesterPage = () => {
     open: false,
     diaryId: null as string | null | undefined,
   })
+  const [markModalState, setMarkModalState] = useState({
+    open: false,
+    sisId: '',
+  })
 
   const isLoading =
     semesterQuery.isLoading ||
@@ -115,6 +119,9 @@ export const SemesterPage = () => {
             label: 'Студенты',
             children: (
               <StudentsInSemesterWidget
+                requirements={reqQuery.data || []}
+                markModalState={markModalState}
+                setMarkModalState={setMarkModalState}
                 isClosed={isClosed}
                 input={input}
                 setInput={setInput}
