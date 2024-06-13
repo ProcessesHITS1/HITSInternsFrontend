@@ -7,10 +7,11 @@ export interface StudentInSeasonListProps {
   studentsInSeason: StudentInSeason[]
   openEditModal: (id: string) => void
   openRemoveModal: (id: string) => void
+  isClosed: boolean
 }
 
 export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
-  const { studentsInSeason, openEditModal, openRemoveModal } = props
+  const { studentsInSeason, openEditModal, openRemoveModal, isClosed } = props
 
   if (!studentsInSeason.length) {
     return <div className='text-center'>Студенты не найдены</div>
@@ -29,6 +30,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                   <span className='whitespace-break-spaces'>{student.name}</span>
                   <div className='ms-auto my-2 me-2'>
                     <Button
+                      disabled={isClosed}
                       shape='circle'
                       danger
                       icon={<DeleteOutlined />}

@@ -1,6 +1,9 @@
 import { Position } from '~entities/position'
 
-export type CreatePositionReq = { data: Omit<Position, 'id'>; companyId: string }
+export type CreatePositionReq = Pick<
+  Position,
+  'title' | 'description' | 'nSeats' | 'companyId' | 'seasonYear'
+>
 export type CreatePositionResp = void
 
 export type EditPositionReq = { data: Omit<Position, 'id'>; positionId: string }

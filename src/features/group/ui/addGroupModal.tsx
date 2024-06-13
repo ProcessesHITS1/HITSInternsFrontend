@@ -51,6 +51,7 @@ export const AddGroupModal = (props: RegisterUserModal) => {
             controls={false}
             placeholder='Введите номер группы'
             className='w-full'
+            maxLength={8}
           />
         </Form.Item>
 

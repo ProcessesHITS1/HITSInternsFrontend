@@ -1,14 +1,23 @@
-import { Row, Col, Card } from 'antd'
+import { FileOutlined, AuditOutlined } from '@ant-design/icons'
+import { Row, Col, Card, Flex, Button } from 'antd'
 import { StudentInSemesterNormal } from '../model'
 
 export interface StudentInSemesterListProps {
   studentsInSemester: StudentInSemesterNormal[]
   openStudentModal: (id: string | null | undefined) => void
+  openMarkModal: (sisId: string) => void
   diaryLoading: boolean
+  marksLoading: boolean
 }
 
 export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
-  const { studentsInSemester, openStudentModal, diaryLoading } = props
+  const {
+    studentsInSemester,
+    openStudentModal,
+    diaryLoading,
+    openMarkModal,
+    marksLoading,
+  } = props
   if (!studentsInSemester.length) {
     return <div className='text-center'>Студенты не найдены</div>
   }
@@ -22,13 +31,30 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
         return (
           <Col xs={24} md={12} lg={8} className='mb-4' key={item.id}>
             <Card
-              onClick={() => {
-                if (!diaryLoading) {
-                  openStudentModal(item.diaryId)
-                }
-              }}
-              hoverable={!diaryLoading}
-              title={name}
+              title={
+                <Flex align='center'>
+                  <span className='me-1'>{name}</span>
+                  <div className='ms-auto my-2 me-2'>
+                    <Button
+                      disabled={diaryLoading || marksLoading}
+                      shape='circle'
+                      icon={<FileOutlined />}
+                      onClick={() => openStudentModal(item.diaryId)}
+                      style={{
+                        color: 'rgb(23, 124, 255)',
+                        borderColor: 'rgb(23, 124, 255)',
+                      }}
+                    />
+                    <Button
+                      disabled={diaryLoading || marksLoading}
+                      className='mx-2 btn-success'
+                      shape='circle'
+                      icon={<AuditOutlined />}
+                      onClick={() => openMarkModal(item.id)}
+                    />
+                  </div>
+                </Flex>
+              }
             >
               <div className='flex'>
                 <span className='text-stone-500'>Статус:</span>

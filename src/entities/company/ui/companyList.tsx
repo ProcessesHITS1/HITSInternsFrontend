@@ -29,12 +29,8 @@ export const CompanyList = (props: CompanyListProps) => {
                     <Button
                       shape='circle'
                       icon={<EditOutlined />}
-                      className='mx-2'
+                      className='mx-2 btn-edit'
                       onClick={() => openEditModal(company)}
-                      style={{
-                        color: 'rgb(254, 193, 38)',
-                        borderColor: 'rgb(254, 193, 38)',
-                      }}
                     />
                     <Button
                       shape='circle'

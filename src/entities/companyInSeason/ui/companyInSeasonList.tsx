@@ -1,5 +1,7 @@
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Flex, List, Row } from 'antd'
+import { Button, Card, Col, Flex, List, Row, Spin } from 'antd'
+import { useEffect, useState } from 'react'
+import { useGetPositionsQuery } from '~entities/position/@x/companyInSeason'
 import { Position } from '~entities/position/@x/companyInSeason'
 import { CompanyInSeasonShort } from '../model'
 
@@ -22,6 +24,25 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
     openRemovePositionModal,
     openPositionModal,
   } = props
+  const [currentPage, setCurrentPage] = useState(1)
+  const positions = useGetPositionsQuery(
+    {
+      companies: [companyId],
+      page: currentPage,
+      year: 2024,
+    },
+    {
+      skip: !companyId,
+    }
+  )
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [companyId])
+
+  if (positions.isFetching) {
+    return <Spin size='large' className='mt-2' />
+  }
 
   if (!companies.length) {
     return <div className='text-center'>Компании не найдены</div>
@@ -52,35 +73,18 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
         </div>
         <List
           bordered
-          className='mt-2 w-full md:w-2/3 lg:w-[45%] bg-white'
+          className={'mt-2 w-full md:w-2/3 lg:w-[45%] bg-white'}
           locale={{ emptyText: 'Нет позиций' }}
-          dataSource={[
-            {
-              title: 'Бэкенд',
-              id: '2',
-              nPositions: 7,
-              description: 'Описание для бэка',
-            },
-            {
-              title: 'Фронтенд',
-              id: '2',
-              nPositions: 5,
-              description: 'Описание для фронта',
-            },
-          ]}
+          dataSource={positions.data?.items || []}
           renderItem={(pos) => (
             <List.Item>
               <div>
                 <div className='flex items-center'>
-                  <span className='font-bold'>{`${pos.title} (${pos.nPositions} поз.)`}</span>
+                  <span className='font-bold'>{`${pos.title} (${pos.nRequests} студ. / ${pos.nSeats} мест)`}</span>
                   <Button
                     shape='circle'
                     icon={<EditOutlined />}
-                    className='ms-2'
-                    style={{
-                      color: 'rgb(254, 193, 38)',
-                      borderColor: 'rgb(254, 193, 38)',
-                    }}
+                    className='ms-2 btn-edit'
                     onClick={() => openPositionModal(pos)}
                   />
                   <Button
@@ -89,6 +93,7 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
                     icon={<DeleteOutlined />}
                     className='ms-2'
                     onClick={() => openRemovePositionModal(pos.id)}
+                    disabled={pos.nRequests > 0}
                   />
                 </div>
                 <div className='text-slate-600 text-xs'>
@@ -97,7 +102,17 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
               </div>
             </List.Item>
           )}
-          pagination={{ pageSize: 10 }}
+          pagination={{
+            current: currentPage,
+            total: positions.data?.paginationInfo.totalPages || 1,
+            pageSize: positions.data?.paginationInfo.pageSize || 10,
+            onChange: (page) => {
+              if (!positions.isFetching) {
+                setCurrentPage(page)
+              }
+            },
+            showSizeChanger: false,
+          }}
         />
       </Row>
     )
@@ -123,6 +138,7 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
                         e.stopPropagation()
                         openRemoveModal(company.id)
                       }}
+                      disabled={company.nPositions > 0}
                     />
                   </div>
                 </Flex>

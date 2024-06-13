@@ -28,3 +28,8 @@ export enum RequestStatus {
   Interviewed,
   Done,
 }
+
+export type RequestStatusTemplate = {
+  id: string
+  name: string
+}

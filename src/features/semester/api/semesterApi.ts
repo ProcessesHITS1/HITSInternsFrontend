@@ -19,7 +19,7 @@ const endpoints = thirdCourseApi.injectEndpoints({
     closeSemesterById: builder.mutation<CloseSemesterResp, CloseSemesterReq>({
       query: ({ id }) => ({
         url: `/semesters/${id}/close`,
-        method: 'DELETE',
+        method: 'PUT',
       }),
       invalidatesTags: ['semester', 'semestersList'],
     }),

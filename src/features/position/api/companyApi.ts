@@ -1,4 +1,4 @@
-import { companyApi } from '~shared/api'
+import { interviewsApi } from '~shared/api'
 import {
   CreatePositionReq,
   CreatePositionResp,
@@ -8,15 +8,15 @@ import {
   EditPositionReq,
 } from './types'
 
-const endpoints = companyApi.injectEndpoints({
+const endpoints = interviewsApi.injectEndpoints({
   endpoints: (builder) => ({
     createPosition: builder.mutation<CreatePositionResp, CreatePositionReq>({
-      query: ({ data, companyId }) => ({
-        url: `/position/${companyId}`,
+      query: (body) => ({
+        url: `/position`,
         method: 'POST',
-        body: data,
+        body,
       }),
-      invalidatesTags: ['companiesList'],
+      invalidatesTags: ['companiesInSeasonList', 'positionsList'],
     }),
     editPosition: builder.mutation<EditPositionResp, EditPositionReq>({
       query: ({ data, positionId }) => ({
@@ -24,14 +24,14 @@ const endpoints = companyApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['companiesList'],
+      invalidatesTags: ['companiesInSeasonList', 'positionsList'],
     }),
     removePosition: builder.mutation<RemovePositionResp, RemovePositionReq>({
       query: ({ positionId }) => ({
         url: `/position/${positionId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['companiesList'],
+      invalidatesTags: ['companiesInSeasonList', 'positionsList'],
     }),
   }),
 })
