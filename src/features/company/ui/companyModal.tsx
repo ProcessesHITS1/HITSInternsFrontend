@@ -82,6 +82,7 @@ export const CompanyModal = (props: CompanyModalProps) => {
                 {
                   required: true,
                   message: 'Введите название',
+                  whitespace: true,
                 },
               ]}
               label='Название'
