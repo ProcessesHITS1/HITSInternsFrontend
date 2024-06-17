@@ -15,7 +15,7 @@ export const UserTable = (props: UserTableProps) => {
   return (
     <Table
       className={cs('w-full border-[1px] border-[lightgray] rounded', props.className)}
-      pagination={{ pageSize: 20, showSizeChanger: false }}
+      pagination={{ pageSize: 10, showSizeChanger: false }}
       dataSource={props.users}
       columns={userTableColumns(groups)}
       rowKey={'id'}

@@ -24,6 +24,7 @@ export const MarkReqModal = (props: MarkReqModalProps) => {
       await createReq({ ...data, semesterId }).unwrap()
       close()
       toast.success('Успешно')
+      form.resetFields()
     } catch {
       toast.error('Произошла ошибка')
     }

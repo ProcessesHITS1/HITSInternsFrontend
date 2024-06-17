@@ -13,6 +13,8 @@ export interface CompanyInSeasonListProps {
   setCompanyId: (id: string) => void
   openRemovePositionModal: (id: string) => void
   openPositionModal: (position: Position | null) => void
+  year: number
+  isClosed: boolean
 }
 
 export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
@@ -23,13 +25,15 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
     setCompanyId,
     openRemovePositionModal,
     openPositionModal,
+    year,
+    isClosed,
   } = props
   const [currentPage, setCurrentPage] = useState(1)
   const positions = useGetPositionsQuery(
     {
       companies: [companyId],
       page: currentPage,
-      year: 2024,
+      year,
     },
     {
       skip: !companyId,
@@ -67,6 +71,7 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
             className='mx-2 inline-block font-bold'
             shape='circle'
             onClick={() => openPositionModal(null)}
+            disabled={isClosed}
           >
             +
           </Button>
@@ -86,6 +91,7 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
                     icon={<EditOutlined />}
                     className='ms-2 btn-edit'
                     onClick={() => openPositionModal(pos)}
+                    disabled={isClosed}
                   />
                   <Button
                     shape='circle'
@@ -93,10 +99,10 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
                     icon={<DeleteOutlined />}
                     className='ms-2'
                     onClick={() => openRemovePositionModal(pos.id)}
-                    disabled={pos.nRequests > 0}
+                    disabled={pos.nRequests > 0 || isClosed}
                   />
                 </div>
-                <div className='text-slate-600 text-xs'>
+                <div className='text-slate-600 text-xs break-all'>
                   {pos.description || 'Нет описания'}
                 </div>
               </div>

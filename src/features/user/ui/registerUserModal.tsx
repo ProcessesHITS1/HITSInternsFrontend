@@ -8,6 +8,7 @@ export interface RegisterUserModal {
   open: boolean
   setOpen: (open: boolean) => void
   groups: Group[]
+  isAdmin: boolean
 }
 
 export const RegisterUserModal = (props: RegisterUserModal) => {
@@ -162,11 +163,17 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
                     label: 'Студент',
                     disabled: !hasGroups,
                   },
-                  {
-                    value: Role.ROLE_SCHOOL_REPRESENTATIVE,
-                    label: 'Школа',
-                  },
-                ]}
+                ].concat(
+                  props.isAdmin
+                    ? [
+                        {
+                          value: Role.ROLE_SCHOOL_REPRESENTATIVE,
+                          label: 'Школа',
+                          disabled: false,
+                        },
+                      ]
+                    : []
+                )}
               />
             </Form.Item>
           </Col>
