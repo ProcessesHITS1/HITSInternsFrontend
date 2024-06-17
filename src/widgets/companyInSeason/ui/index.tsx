@@ -92,6 +92,8 @@ export const CompanyInSeasonSection = (props: CompanyInSeasonSectionProps) => {
         )}
 
         <CompanyInSeasonList
+          isClosed={isClosed}
+          year={year}
           companyId={companyId}
           setCompanyId={setCompanyId}
           companies={companiesInSeason.filter(
