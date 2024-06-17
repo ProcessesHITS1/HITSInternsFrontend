@@ -88,15 +88,18 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
         </Space.Compact>
 
         <Flex className='mb-2'>
-          {checkbox.map((item, i) => (
-            <Checkbox
-              key={i}
-              checked={panelState[item]}
-              onClick={() => setPanelState({ ...panelState, [item]: !panelState[item] })}
-            >
-              {getStatusName(item)}
-            </Checkbox>
-          ))}
+          {studentsInSeason.length > 0 &&
+            checkbox.map((item, i) => (
+              <Checkbox
+                key={i}
+                checked={panelState[item]}
+                onClick={() =>
+                  setPanelState({ ...panelState, [item]: !panelState[item] })
+                }
+              >
+                {getStatusName(item)}
+              </Checkbox>
+            ))}
         </Flex>
         <StudentInSeasonList
           isClosed={isClosed}
