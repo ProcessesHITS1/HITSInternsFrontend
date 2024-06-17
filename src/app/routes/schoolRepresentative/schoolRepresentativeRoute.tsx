@@ -14,7 +14,7 @@ export const SchoolRepresentativeRoute = ({ elem }: { elem: ReactNode }) => {
     return <Navigate to={AppRoutes.LOGIN} />
   }
 
-  if (infoQuery.isFetching) {
+  if (infoQuery.isLoading) {
     return null
   }
 

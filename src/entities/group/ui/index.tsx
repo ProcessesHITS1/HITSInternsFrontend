@@ -8,6 +8,7 @@ export interface GroupListInterface {
 export const GroupList = (props: GroupListInterface) => {
   return (
     <List
+      pagination={{ pageSize: 8 }}
       className='w-full md:w-1/2 bg-white'
       dataSource={props.groups}
       bordered
