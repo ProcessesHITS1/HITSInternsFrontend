@@ -50,7 +50,7 @@ const endpoints = interviewsApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['seasonsList', 'season'],
+      invalidatesTags: ['seasonsList', 'season', 'seasonInfo'],
     }),
   }),
 })

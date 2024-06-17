@@ -29,7 +29,11 @@ export const ChatPage = () => {
   const [sending, setSending] = useState(false)
 
   const chatQuery = useGetChatQuery({ groupId: id })
-  const messagesQuery = useGetMessagesQuery({ chatId: id })
+  const messagesQuery = useGetMessagesQuery({
+    chatId: id,
+    from: '2000.01.01T00:00:00.000Z',
+    until: '2030.01.01T00:00:00.000Z',
+  })
   const usersQuery = useGetAllUsersQuery({ page: 1, size: 100000 })
   const [uploadFile] = useUploadFileMutation()
 
