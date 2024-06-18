@@ -34,7 +34,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
               title={
                 <Flex align='center'>
                   <span className='me-1'>{name}</span>
-                  <div className='ms-auto my-2 me-2'>
+                  <div className='flex gap-x-2 ms-auto my-2 me-2'>
                     <Button
                       disabled={diaryLoading || marksLoading}
                       shape='circle'
@@ -47,7 +47,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
                     />
                     <Button
                       disabled={diaryLoading || marksLoading}
-                      className='mx-2 btn-success'
+                      className='btn-success'
                       shape='circle'
                       icon={<AuditOutlined />}
                       onClick={() => openMarkModal(item.id)}

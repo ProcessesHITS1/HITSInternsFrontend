@@ -25,11 +25,11 @@ export const CompanyList = (props: CompanyListProps) => {
               title={
                 <Flex align='center'>
                   <span>{company.name}</span>
-                  <div className='ms-auto my-2 me-2'>
+                  <div className='flex gap-x-2 ms-auto my-2 me-2'>
                     <Button
                       shape='circle'
                       icon={<EditOutlined />}
-                      className='mx-2 btn-edit'
+                      className='btn-edit'
                       onClick={() => openEditModal(company)}
                     />
                     <Button
