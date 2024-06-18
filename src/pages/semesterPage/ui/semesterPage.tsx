@@ -9,6 +9,7 @@ import { useGetCompaniesQuery } from '~entities/company'
 import { useGetRequirementsQuery } from '~entities/mark'
 import { useGetSemesterByIdQuery } from '~entities/semester'
 import { useGetNormalStudentsInSemester } from '~entities/studentInSemester'
+import { useStudentsQuery } from '~entities/user'
 import { AppRoutes, getSeasonLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 
@@ -18,6 +19,7 @@ export const SemesterPage = () => {
   const [input, setInput] = useState(undefined as string | undefined)
   const semesterQuery = useGetSemesterByIdQuery({ id })
   const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
+  const allStudentsQuery = useStudentsQuery()
   const studentsQuery = useGetNormalStudentsInSemester(id)
   const reqQuery = useGetRequirementsQuery({ semesterId: id })
 
@@ -37,12 +39,14 @@ export const SemesterPage = () => {
     semesterQuery.isLoading ||
     studentsQuery.isLoading ||
     companiesQuery.isLoading ||
-    reqQuery.isLoading
+    reqQuery.isLoading ||
+    allStudentsQuery.isLoading
   const isError =
     semesterQuery.isError ||
     studentsQuery.isError ||
     companiesQuery.isError ||
-    reqQuery.isError
+    reqQuery.isError ||
+    allStudentsQuery.isError
 
   if (isLoading) {
     return <Spin size='large' className='mt-5' />
@@ -119,6 +123,8 @@ export const SemesterPage = () => {
             label: 'Студенты',
             children: (
               <StudentsInSemesterWidget
+                semesterId={id}
+                companies={companiesQuery.data?.data || []}
                 requirements={reqQuery.data || []}
                 markModalState={markModalState}
                 setMarkModalState={setMarkModalState}
@@ -128,6 +134,7 @@ export const SemesterPage = () => {
                 diaryModalState={diaryModalState}
                 setDiaryModalState={setDiaryModalState}
                 data={studentsQuery.data}
+                students={allStudentsQuery.data || []}
               />
             ),
           },

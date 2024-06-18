@@ -20,7 +20,7 @@ export const SemestersList = (props: SemestersListProps) => {
   }
 
   return (
-    <Row gutter={16} className='w-full'>
+    <Row gutter={16} className='w-full mt-2'>
       {semesters.map((semester) => {
         return (
           <Col xs={24} md={12} lg={8} className='mb-4' key={semester.id}>

@@ -1,15 +1,17 @@
 import { SearchOutlined } from '@ant-design/icons'
-import { Input, Flex, Checkbox } from 'antd'
+import { Input, Flex, Checkbox, Space, Button } from 'antd'
 import { useState } from 'react'
 import { DiaryModal } from '~features/diary'
 import { MarkModal } from '~features/mark'
+import { StudentInSemesterModal } from '~features/studentInSemester'
+import { Company } from '~entities/company'
 import { useLazyGetDiaryByIdQuery } from '~entities/diary'
 import { MarkRequirement, useLazyGetMarksQuery } from '~entities/mark'
 import {
   StudentInSemesterList,
   StudentInSemesterNormal,
 } from '~entities/studentInSemester'
-import { getName } from '~entities/user'
+import { UserInfo, getName } from '~entities/user'
 
 type DiaryModalState = { open: boolean; diaryId: string | null | undefined }
 type MarkModalState = { open: boolean; sisId: string }
@@ -18,8 +20,11 @@ export interface StudentsInSemesterWidgetProps {
   input: string | undefined
   setInput: (input: string) => void
   data: StudentInSemesterNormal[]
+  students: UserInfo[]
+  companies: Company[]
   requirements: MarkRequirement[]
   isClosed: boolean
+  semesterId: string
 
   diaryModalState: DiaryModalState
   setDiaryModalState: (arg: DiaryModalState) => void
@@ -35,10 +40,13 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
     diaryModalState,
     setDiaryModalState,
     data,
+    students,
+    companies,
     isClosed,
     requirements,
     markModalState,
     setMarkModalState,
+    semesterId,
   } = props
   const [panelState, setPanelState] = useState({
     hasDiary: true,
@@ -46,12 +54,18 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
   })
   const [getDiary, getDiaryResult] = useLazyGetDiaryByIdQuery()
   const [getMarks, getMarksResult] = useLazyGetMarksQuery()
+  const [addStudentModalOpen, setAddStudentModalOpen] = useState(false)
 
   const filtered = data.filter(
     ({ student, diaryId }) =>
       (!input || getName(student).toLowerCase().includes(input)) &&
       ((panelState.hasDiary && diaryId) || (panelState.noDiary && !diaryId))
   )
+
+  const availableStudents = students.filter(
+    (student) => !data.some((sIs) => sIs.studentId === student.id)
+  )
+
   return (
     <>
       <DiaryModal
@@ -70,16 +84,31 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
         close={() => setMarkModalState({ ...markModalState, open: false })}
         sisId={markModalState.sisId}
       />
+      <StudentInSemesterModal
+        open={addStudentModalOpen}
+        close={() => setAddStudentModalOpen(false)}
+        companies={companies}
+        students={availableStudents}
+        semesterId={semesterId}
+      />
       <div className='w-full flex flex-col items-center'>
-        <Input
-          className='mt-1 mb-2 w-[90%] sm:w-[80%] md:w-[40%] lg:w-[25%]'
-          allowClear
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder='Поиск по ФИО'
-          size='small'
-          prefix={<SearchOutlined />}
-        />
+        <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
+          <Input
+            allowClear
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder='Поиск по ФИО'
+            size='small'
+            prefix={<SearchOutlined />}
+          />
+          <Button
+            size='small'
+            onClick={() => setAddStudentModalOpen(true)}
+            disabled={isClosed || !availableStudents.length || !companies.length}
+          >
+            Добавить
+          </Button>
+        </Space.Compact>
 
         <Flex className='mb-2'>
           <Checkbox

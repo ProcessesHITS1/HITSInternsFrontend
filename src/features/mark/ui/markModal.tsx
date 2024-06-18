@@ -76,7 +76,7 @@ export const MarkModal = (props: MarkModalProps) => {
               <div key={req.id} className='flex w-full items-center'>
                 <Form.Item name={req.id} label={req.description} className='w-full'>
                   <InputNumber
-                    placeholder='Укажите оценку'
+                    placeholder={semesterIsClosed ? 'Нет оценки' : 'Укажите оценку'}
                     className='w-full'
                     disabled={isLoading || wait || semesterIsClosed}
                   />
