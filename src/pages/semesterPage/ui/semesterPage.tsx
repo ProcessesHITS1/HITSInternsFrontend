@@ -7,8 +7,10 @@ import { StudentsInSemesterWidget } from '~widgets/studentInSemester'
 import { CloseSemesterModal, SemesterModal } from '~features/semester'
 import { useGetCompaniesQuery } from '~entities/company'
 import { useGetRequirementsQuery } from '~entities/mark'
+import { useGetAllSeasonsQuery } from '~entities/season'
 import { useGetSemesterByIdQuery } from '~entities/semester'
 import { useGetNormalStudentsInSemester } from '~entities/studentInSemester'
+import { useStudentsQuery } from '~entities/user'
 import { AppRoutes, getSeasonLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 
@@ -16,8 +18,10 @@ export const SemesterPage = () => {
   const id = useParams()['id']!
 
   const [input, setInput] = useState(undefined as string | undefined)
+  const seasonsQuery = useGetAllSeasonsQuery()
   const semesterQuery = useGetSemesterByIdQuery({ id })
   const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
+  const allStudentsQuery = useStudentsQuery()
   const studentsQuery = useGetNormalStudentsInSemester(id)
   const reqQuery = useGetRequirementsQuery({ semesterId: id })
 
@@ -37,12 +41,16 @@ export const SemesterPage = () => {
     semesterQuery.isLoading ||
     studentsQuery.isLoading ||
     companiesQuery.isLoading ||
-    reqQuery.isLoading
+    reqQuery.isLoading ||
+    allStudentsQuery.isLoading ||
+    seasonsQuery.isLoading
   const isError =
     semesterQuery.isError ||
     studentsQuery.isError ||
     companiesQuery.isError ||
-    reqQuery.isError
+    reqQuery.isError ||
+    allStudentsQuery.isError ||
+    seasonsQuery.isError
 
   if (isLoading) {
     return <Spin size='large' className='mt-5' />
@@ -71,6 +79,7 @@ export const SemesterPage = () => {
 
   const isClosed = !!semesterQuery.data?.isClosed
 
+  const season = seasonsQuery.data?.find((s) => s.id === semesterQuery.data?.seasonId)
   return (
     <>
       <CloseSemesterModal
@@ -96,8 +105,8 @@ export const SemesterPage = () => {
         </Button>
       </Typography.Title>
       <div className='text-slate-500 text-sm text-center'>
-        <Link to={getSeasonLink(semesterQuery.data?.year || 0)} className='block'>
-          Сезон-{semesterQuery.data?.year}
+        <Link to={getSeasonLink(season?.year || 0)} className='block'>
+          Сезон-{season?.year}
         </Link>
         Дедлайн: {parseDate(semesterQuery.data?.documentsDeadline)}
         <Button
@@ -119,6 +128,8 @@ export const SemesterPage = () => {
             label: 'Студенты',
             children: (
               <StudentsInSemesterWidget
+                semesterId={id}
+                companies={companiesQuery.data?.data || []}
                 requirements={reqQuery.data || []}
                 markModalState={markModalState}
                 setMarkModalState={setMarkModalState}
@@ -128,6 +139,7 @@ export const SemesterPage = () => {
                 diaryModalState={diaryModalState}
                 setDiaryModalState={setDiaryModalState}
                 data={studentsQuery.data}
+                students={allStudentsQuery.data || []}
               />
             ),
           },

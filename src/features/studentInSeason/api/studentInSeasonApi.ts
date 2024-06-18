@@ -1,14 +1,14 @@
 import { interviewsApi } from '~shared/api'
 import {
-  AddSeasonInSeasonReq,
-  AddSeasonInSeasonResp,
+  AddStudentInSeasonReq,
+  AddStudentInSeasonResp,
   DeleteStudentInSeasonReq,
   DeleteStudentInSeasonResp,
 } from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
   endpoints: (builder) => ({
-    addStudentInSeason: builder.mutation<AddSeasonInSeasonResp, AddSeasonInSeasonReq>({
+    addStudentInSeason: builder.mutation<AddStudentInSeasonResp, AddStudentInSeasonReq>({
       query: ({ student, year }) => ({
         url: `/season/${year}/student/${student}`,
         method: 'POST',

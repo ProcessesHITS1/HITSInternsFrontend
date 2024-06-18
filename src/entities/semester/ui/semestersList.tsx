@@ -2,17 +2,19 @@ import { EditOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Flex, Row } from 'antd'
 import cs from 'classnames'
 import { Link, useNavigate } from 'react-router-dom'
+import { Season } from '~entities/season/@x/semester'
 import { getSeasonLink, getSemesterLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 import { Semester } from '../model'
 
 export interface SemestersListProps {
   semesters: Semester[]
+  seasons: Season[]
   openEditModal: (semester: Semester) => void
 }
 
 export const SemestersList = (props: SemestersListProps) => {
-  const { semesters, openEditModal } = props
+  const { semesters, seasons, openEditModal } = props
   const navigate = useNavigate()
 
   if (!semesters.length) {
@@ -20,8 +22,9 @@ export const SemestersList = (props: SemestersListProps) => {
   }
 
   return (
-    <Row gutter={16} className='w-full'>
+    <Row gutter={16} className='w-full mt-2'>
       {semesters.map((semester) => {
+        const season = seasons.find((s) => s.id === semester.seasonId)
         return (
           <Col xs={24} md={12} lg={8} className='mb-4' key={semester.id}>
             <Card
@@ -56,10 +59,10 @@ export const SemestersList = (props: SemestersListProps) => {
                 <span className='ms-[0.25rem]'>
                   {
                     <Link
-                      to={getSeasonLink(semester.year)}
+                      to={getSeasonLink(season?.year || 0)}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      {semester.year}
+                      {season?.year}
                     </Link>
                   }
                 </span>

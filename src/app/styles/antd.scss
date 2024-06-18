@@ -18,6 +18,11 @@
   padding: 0 12px !important;
 }
 
+.ant-card-head-title * {
+  word-break: break-all;
+  white-space: break-spaces;
+}
+
 .ant-table-cell {
   padding: 6px !important;
   word-break: break-all;
