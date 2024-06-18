@@ -40,7 +40,8 @@ export const CloseSemesterModal = (props: CloseSemesterModalProps) => {
       onOk={closeSemesterHandler}
       maskClosable={false}
     >
-      Вы уверены, что хотите закрыть семестр практики и окончить прием дневников?
+      Вы уверены, что хотите закрыть семестр практики и окончить прием дневников? После
+      этого можно будет создать новый семестр практики на основе данного.
     </Modal>
   )
 }

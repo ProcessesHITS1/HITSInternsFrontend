@@ -128,22 +128,16 @@ export const SeasonModal = (props: SeasonModalProps) => {
                 placeholder='Введите год'
                 autoComplete='off'
                 controls={false}
-                onChange={() => form.resetFields(['seasonDates'])}
               />
             </Form.Item>
             <Form.Item
               name='seasonDates'
               label='Даты собеседований'
-              dependencies={['year']}
               rules={[{ required: true, message: 'Введите даты' }]}
             >
               <DatePicker.RangePicker
                 className='w-full'
-                maxDate={dayjs(
-                  `${watch?.year ? watch.year + 1 : undefined}-03-01`,
-                  dateFormat
-                )}
-                minDate={dayjs(`${watch?.year}-01-01`, dateFormat)}
+                defaultPickerValue={dayjs(`${watch?.year}-01-01`, dateFormat)}
                 disabled={!yearIsValid}
                 allowEmpty
                 allowClear={false}

@@ -104,11 +104,19 @@ export const SemesterPage = () => {
           {isClosed ? 'Закрыт' : 'Закрыть'}
         </Button>
       </Typography.Title>
+      <Button
+        disabled={!isClosed}
+        size='small'
+        onClick={() => setEndModalOpen(true)}
+        className='my-1'
+      >
+        Новый семестр
+      </Button>
       <div className='text-slate-500 text-sm text-center'>
         <Link to={getSeasonLink(season?.year || 0)} className='block'>
           Сезон-{season?.year}
         </Link>
-        Дедлайн: {parseDate(semesterQuery.data?.documentsDeadline)}
+        Дедлайн по дневникам: {parseDate(semesterQuery.data?.documentsDeadline)}
         <Button
           disabled={isClosed}
           size='small'
