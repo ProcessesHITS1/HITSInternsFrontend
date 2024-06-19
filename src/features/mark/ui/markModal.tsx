@@ -79,6 +79,8 @@ export const MarkModal = (props: MarkModalProps) => {
                     placeholder={semesterIsClosed ? 'Нет оценки' : 'Укажите оценку'}
                     className='w-full'
                     disabled={isLoading || wait || semesterIsClosed}
+                    min='2'
+                    max='5'
                   />
                 </Form.Item>
                 <Button

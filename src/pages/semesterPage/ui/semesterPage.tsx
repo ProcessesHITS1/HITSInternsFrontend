@@ -9,7 +9,10 @@ import { useGetCompaniesQuery } from '~entities/company'
 import { useGetRequirementsQuery } from '~entities/mark'
 import { useGetAllSeasonsQuery } from '~entities/season'
 import { useGetSemesterByIdQuery } from '~entities/semester'
-import { useGetNormalStudentsInSemester } from '~entities/studentInSemester'
+import {
+  StudentInSemester,
+  useGetNormalStudentsInSemester,
+} from '~entities/studentInSemester'
 import { useStudentsQuery } from '~entities/user'
 import { AppRoutes, getSeasonLink } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
@@ -35,6 +38,10 @@ export const SemesterPage = () => {
   const [markModalState, setMarkModalState] = useState({
     open: false,
     sisId: '',
+  })
+  const [companyModalState, setCompanyModalState] = useState({
+    open: false,
+    student: null as StudentInSemester | null,
   })
 
   const isLoading =
@@ -138,6 +145,8 @@ export const SemesterPage = () => {
                 setInput={setInput}
                 diaryModalState={diaryModalState}
                 setDiaryModalState={setDiaryModalState}
+                companyModalState={companyModalState}
+                setCompanyModalState={setCompanyModalState}
                 data={studentsQuery.data}
                 students={allStudentsQuery.data || []}
               />

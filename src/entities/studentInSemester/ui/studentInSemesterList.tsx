@@ -1,11 +1,12 @@
-import { FileOutlined, AuditOutlined } from '@ant-design/icons'
+import { FileOutlined, AuditOutlined, EditOutlined } from '@ant-design/icons'
 import { Row, Col, Card, Flex, Button } from 'antd'
-import { StudentInSemesterNormal } from '../model'
+import { StudentInSemester, StudentInSemesterNormal } from '../model'
 
 export interface StudentInSemesterListProps {
   studentsInSemester: StudentInSemesterNormal[]
   openStudentModal: (id: string | null | undefined) => void
   openMarkModal: (sisId: string) => void
+  openCompanyModal: (student: StudentInSemester) => void
   diaryLoading: boolean
   marksLoading: boolean
 }
@@ -16,6 +17,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
     openStudentModal,
     diaryLoading,
     openMarkModal,
+    openCompanyModal,
     marksLoading,
   } = props
   if (!studentsInSemester.length) {
@@ -75,9 +77,17 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
                 <span className='text-stone-500'>Контакты студента:</span>
                 <span className='ms-[0.25rem]'>{student?.phone || 'нет'}</span>
               </div>
-              <div className='flex'>
+              <div className='flex items-center'>
                 <span className='text-stone-500'>Компания:</span>
                 <span className='ms-[0.25rem]'>{company?.name || 'не найдена'}</span>
+                <Button
+                  size='small'
+                  shape='circle'
+                  className='ms-1 btn-edit'
+                  disabled={diaryLoading || marksLoading}
+                  icon={<EditOutlined />}
+                  onClick={() => openCompanyModal(item)}
+                />
               </div>
               <div className='flex'>
                 <span className='text-stone-500'>Контакты компании:</span>

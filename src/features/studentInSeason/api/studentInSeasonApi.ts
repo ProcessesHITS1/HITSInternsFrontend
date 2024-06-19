@@ -4,8 +4,6 @@ import {
   AddStudentInSeasonResp,
   DeleteStudentInSeasonReq,
   DeleteStudentInSeasonResp,
-  EditStudentInSeasonResp,
-  EditStudentInSeasonReq,
 } from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
@@ -27,22 +25,8 @@ const endpoints = interviewsApi.injectEndpoints({
       }),
       invalidatesTags: ['studentsInSeasonList'],
     }),
-    editStudentInSeason: builder.mutation<
-      EditStudentInSeasonResp,
-      EditStudentInSeasonReq
-    >({
-      query: ({ companyId, id }) => ({
-        url: `/students-in-semesters/${id}`,
-        method: 'PUT',
-        body: { companyId },
-      }),
-      invalidatesTags: ['studentsInSeasonList'],
-    }),
   }),
 })
 
-export const {
-  useAddStudentInSeasonMutation,
-  useDeleteStudentInSeasonMutation,
-  useEditStudentInSeasonMutation,
-} = endpoints
+export const { useAddStudentInSeasonMutation, useDeleteStudentInSeasonMutation } =
+  endpoints
