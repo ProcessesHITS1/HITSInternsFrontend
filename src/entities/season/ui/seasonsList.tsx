@@ -28,15 +28,12 @@ export const SeasonsList = (props: SeasonsListProps) => {
                   <span>{`Сезон-${season.year}`}</span>
                   <div className='ms-auto my-2 me-2'>
                     <Button
+                      type='primary'
                       shape='circle'
                       icon={<CopyOutlined />}
                       onClick={(e) => {
                         e.stopPropagation()
                         openEditModal(season, true)
-                      }}
-                      style={{
-                        color: 'rgb(23, 124, 255)',
-                        borderColor: 'rgb(23, 124, 255)',
                       }}
                     />
                     <Button
@@ -73,10 +70,12 @@ export const SeasonsList = (props: SeasonsListProps) => {
               </div>
               <div className='flex'>
                 <span className='text-stone-500'>Статус:</span>
-                <span className={cs('ms-[0.25rem]', {
-                  'text-green-500': !season.isClosed,
-                  'text-red-500': season.isClosed
-                })}>
+                <span
+                  className={cs('ms-[0.25rem]', {
+                    'text-green-500': !season.isClosed,
+                    'text-red-500': season.isClosed,
+                  })}
+                >
                   {season.isClosed ? 'Закрыт' : 'Открыт'}
                 </span>
               </div>

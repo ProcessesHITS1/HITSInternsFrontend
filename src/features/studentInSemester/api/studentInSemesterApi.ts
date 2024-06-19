@@ -1,5 +1,10 @@
 import { thirdCourseApi } from '~shared/api'
-import { AddStudentInSemResp, AddStudentInSemReq } from './types'
+import {
+  AddStudentInSemResp,
+  AddStudentInSemReq,
+  EditStudentInSemResp,
+  EditStudentInSemReq,
+} from './types'
 
 const endpoints = thirdCourseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,7 +18,16 @@ const endpoints = thirdCourseApi.injectEndpoints({
       }),
       invalidatesTags: ['studentsInSemesterList'],
     }),
+    editStudentInSemester: builder.mutation<EditStudentInSemResp, EditStudentInSemReq>({
+      query: ({ companyId, id }) => ({
+        url: `/students-in-semesters/${id}`,
+        method: 'PUT',
+        body: { companyId },
+      }),
+      invalidatesTags: ['studentsInSemesterList'],
+    }),
   }),
 })
 
-export const { useAddStudentInSemesterMutation } = endpoints
+export const { useAddStudentInSemesterMutation, useEditStudentInSemesterMutation } =
+  endpoints

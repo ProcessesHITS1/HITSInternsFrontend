@@ -4,6 +4,8 @@ import {
   EditSemesterReq,
   CloseSemesterResp,
   CloseSemesterReq,
+  CloneSemesterResp,
+  CloneSemesterReq,
 } from './types'
 
 const endpoints = thirdCourseApi.injectEndpoints({
@@ -23,7 +25,19 @@ const endpoints = thirdCourseApi.injectEndpoints({
       }),
       invalidatesTags: ['semester', 'semestersList'],
     }),
+    cloneSemesterById: builder.mutation<CloneSemesterResp, CloneSemesterReq>({
+      query: (body) => ({
+        url: '/semesters/clone',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['semestersList'],
+    }),
   }),
 })
 
-export const { useEditSemesterByIdMutation, useCloseSemesterByIdMutation } = endpoints
+export const {
+  useEditSemesterByIdMutation,
+  useCloseSemesterByIdMutation,
+  useCloneSemesterByIdMutation,
+} = endpoints

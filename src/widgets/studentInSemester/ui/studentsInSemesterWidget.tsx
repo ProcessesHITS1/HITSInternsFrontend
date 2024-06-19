@@ -3,11 +3,12 @@ import { Input, Flex, Checkbox, Space, Button } from 'antd'
 import { useState } from 'react'
 import { DiaryModal } from '~features/diary'
 import { MarkModal } from '~features/mark'
-import { StudentInSemesterModal } from '~features/studentInSemester'
+import { ChangeCompanyModal, StudentInSemesterModal } from '~features/studentInSemester'
 import { Company } from '~entities/company'
 import { useLazyGetDiaryByIdQuery } from '~entities/diary'
 import { MarkRequirement, useLazyGetMarksQuery } from '~entities/mark'
 import {
+  StudentInSemester,
   StudentInSemesterList,
   StudentInSemesterNormal,
 } from '~entities/studentInSemester'
@@ -15,6 +16,7 @@ import { UserInfo, getName } from '~entities/user'
 
 type DiaryModalState = { open: boolean; diaryId: string | null | undefined }
 type MarkModalState = { open: boolean; sisId: string }
+type CompanyModalState = { open: boolean; student: StudentInSemester | null }
 
 export interface StudentsInSemesterWidgetProps {
   input: string | undefined
@@ -25,12 +27,12 @@ export interface StudentsInSemesterWidgetProps {
   requirements: MarkRequirement[]
   isClosed: boolean
   semesterId: string
-
   diaryModalState: DiaryModalState
   setDiaryModalState: (arg: DiaryModalState) => void
-
   markModalState: MarkModalState
   setMarkModalState: (arg: MarkModalState) => void
+  companyModalState: CompanyModalState
+  setCompanyModalState: (arg: CompanyModalState) => void
 }
 
 export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) => {
@@ -46,6 +48,8 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
     requirements,
     markModalState,
     setMarkModalState,
+    companyModalState,
+    setCompanyModalState,
     semesterId,
   } = props
   const [panelState, setPanelState] = useState({
@@ -56,11 +60,17 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
   const [getMarks, getMarksResult] = useLazyGetMarksQuery()
   const [addStudentModalOpen, setAddStudentModalOpen] = useState(false)
 
-  const filtered = data.filter(
-    ({ student, diaryId }) =>
-      (!input || getName(student).toLowerCase().includes(input)) &&
-      ((panelState.hasDiary && diaryId) || (panelState.noDiary && !diaryId))
-  )
+  const filtered = data
+    .filter(
+      ({ student, diaryId }) =>
+        (!input || getName(student).toLowerCase().includes(input)) &&
+        ((panelState.hasDiary && diaryId) || (panelState.noDiary && !diaryId))
+    )
+    .sort(
+      (a, b) =>
+        +(a.diaryId === null) - +(b.diaryId === null) ||
+        getName(a.student).localeCompare(getName(b.student))
+    )
 
   const availableStudents = students.filter(
     (student) => !data.some((sIs) => sIs.studentId === student.id)
@@ -90,6 +100,12 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
         companies={companies}
         students={availableStudents}
         semesterId={semesterId}
+      />
+      <ChangeCompanyModal
+        open={companyModalState.open}
+        student={companyModalState.student}
+        close={() => setCompanyModalState({ ...companyModalState, open: false })}
+        companies={companies}
       />
       <div className='w-full flex flex-col items-center'>
         <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
@@ -142,6 +158,7 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
               setMarkModalState({ open: true, sisId })
             }
           }}
+          openCompanyModal={(student) => setCompanyModalState({ open: true, student })}
         />
       </div>
     </>
