@@ -1,4 +1,4 @@
-import { EditOutlined } from '@ant-design/icons'
+import { EditOutlined, CopyOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Flex, Row } from 'antd'
 import cs from 'classnames'
 import { Link, useNavigate } from 'react-router-dom'
@@ -11,10 +11,11 @@ export interface SemestersListProps {
   semesters: Semester[]
   seasons: Season[]
   openEditModal: (semester: Semester) => void
+  openCloneModal: (semester: Semester, year: number) => void
 }
 
 export const SemestersList = (props: SemestersListProps) => {
-  const { semesters, seasons, openEditModal } = props
+  const { semesters, seasons, openEditModal, openCloneModal } = props
   const navigate = useNavigate()
 
   if (!semesters.length) {
@@ -25,6 +26,12 @@ export const SemestersList = (props: SemestersListProps) => {
     <Row gutter={16} className='w-full mt-2'>
       {semesters.map((semester) => {
         const season = seasons.find((s) => s.id === semester.seasonId)
+        const lastInSeason =
+          Math.max(
+            ...semesters
+              .filter((s) => s.seasonId === semester.seasonId)
+              .map((s) => s.semester)
+          ) === semester.semester
         return (
           <Col xs={24} md={12} lg={8} className='mb-4' key={semester.id}>
             <Card
@@ -34,6 +41,16 @@ export const SemestersList = (props: SemestersListProps) => {
                 <Flex align='center'>
                   <span>{`Семестр №${semester.semester}`}</span>
                   <div className='ms-auto my-2 me-2'>
+                    <Button
+                      shape='circle'
+                      icon={<CopyOutlined />}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        openCloneModal(semester, season?.year || 0)
+                      }}
+                      disabled={!semester.isClosed || !lastInSeason}
+                      type='primary'
+                    />
                     <Button
                       shape='circle'
                       icon={<EditOutlined />}
@@ -49,12 +66,6 @@ export const SemestersList = (props: SemestersListProps) => {
               }
             >
               <div className='flex'>
-                <span className='text-stone-500'>Дедлайн по дневникам:</span>
-                <span className='ms-[0.25rem]'>
-                  {parseDate(semester.documentsDeadline)}
-                </span>
-              </div>
-              <div className='flex'>
                 <span className='text-stone-500'>Сезон:</span>
                 <span className='ms-[0.25rem]'>
                   {
@@ -65,6 +76,12 @@ export const SemestersList = (props: SemestersListProps) => {
                       {season?.year}
                     </Link>
                   }
+                </span>
+              </div>
+              <div className='flex'>
+                <span className='text-stone-500'>Дедлайн по дневникам:</span>
+                <span className='ms-[0.25rem]'>
+                  {parseDate(semester.documentsDeadline)}
                 </span>
               </div>
               <div className='flex'>
