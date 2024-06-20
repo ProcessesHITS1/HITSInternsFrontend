@@ -19,7 +19,7 @@ export const SeasonsList = (props: SeasonsListProps) => {
     <Row gutter={16} className='w-full'>
       {seasons.map((season) => {
         return (
-          <Col xs={24} md={12} lg={8} className='mb-4' key={season.year}>
+          <Col xs={24} sm={12} md={8} lg={6} className='mb-4' key={season.year}>
             <Card
               onClick={() => navigate(getSeasonLink(season.year))}
               hoverable
@@ -61,11 +61,11 @@ export const SeasonsList = (props: SeasonsListProps) => {
               }
             >
               <div className='flex'>
-                <span className='text-stone-500'>Начало собеседований:</span>
+                <span className='text-stone-500'>Начало:</span>
                 <span className='ms-[0.25rem]'>{parseDate(season.seasonStart)}</span>
               </div>
               <div className='flex'>
-                <span className='text-stone-500'>Конец собеседований:</span>
+                <span className='text-stone-500'>Конец:</span>
                 <span className='ms-[0.25rem]'>{parseDate(season.seasonEnd)}</span>
               </div>
               <div className='flex'>

@@ -47,6 +47,7 @@ export const CompaniesPage = () => {
       <Typography.Title level={4}>Компании</Typography.Title>
       <Space.Compact className='my-2'>
         <Input
+          size='small'
           allowClear={true}
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -54,6 +55,7 @@ export const CompaniesPage = () => {
           placeholder='Поиск по названию'
         />
         <Button
+          size='small'
           type='primary'
           onClick={() => setModalState({ open: true, company: null })}
         >
@@ -65,7 +67,9 @@ export const CompaniesPage = () => {
       ) : (
         <CompanyList
           personal={personalQuery.data || []}
-          companies={companiesToShow || []}
+          companies={
+            companiesToShow.toSorted((a, b) => a.name.localeCompare(b.name)) || []
+          }
           openEditModal={(company) => setModalState({ company, open: true })}
           openRemoveModal={(companyId) => setRemoveModalState({ companyId, open: true })}
         />

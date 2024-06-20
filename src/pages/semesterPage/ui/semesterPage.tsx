@@ -115,7 +115,7 @@ export const SemesterPage = () => {
         <Link to={getSeasonLink(season?.year || 0)} className='block'>
           Сезон-{season?.year}
         </Link>
-        Дедлайн по дневникам: {parseDate(semesterQuery.data?.documentsDeadline)}
+        Срок по дневникам: {parseDate(semesterQuery.data?.documentsDeadline)}
         <Button
           disabled={isClosed}
           size='small'

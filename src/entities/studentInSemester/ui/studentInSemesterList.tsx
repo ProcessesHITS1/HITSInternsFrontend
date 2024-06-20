@@ -59,18 +59,14 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
               }
             >
               <div className='flex'>
-                <span className='text-stone-500'>Статус:</span>
+                <span className='text-stone-500'>Дневник:</span>
                 <span
                   className='ms-[0.25rem]'
                   style={{
-                    color: item.internshipPassed ? 'green' : hasDiary ? 'orange' : 'red',
+                    color: hasDiary ? 'orange' : 'red',
                   }}
                 >
-                  {item.internshipPassed
-                    ? 'Сдал'
-                    : hasDiary
-                      ? 'Есть дневник'
-                      : 'Нет дневника'}
+                  {hasDiary ? 'Есть дневник' : 'Нет дневника'}
                 </span>
               </div>
               <div className='flex'>

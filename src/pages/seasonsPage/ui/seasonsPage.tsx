@@ -45,7 +45,7 @@ export const SeasonsPage = () => {
         Добавить сезон
       </Button>
       <SeasonsList
-        seasons={seasonsQuery.data || []}
+        seasons={seasonsQuery.data?.toSorted((a, b) => b.year - a.year) || []}
         openEditModal={(season, copy) => setModalState({ season, open: true, copy })}
         openRemoveModal={(year) => setRemoveModalState({ year, open: true })}
       />

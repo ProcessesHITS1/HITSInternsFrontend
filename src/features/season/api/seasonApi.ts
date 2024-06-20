@@ -42,7 +42,7 @@ const endpoints = interviewsApi.injectEndpoints({
         url: `/season/${year}/close`,
         method: 'POST',
       }),
-      invalidatesTags: ['seasonsList', 'season'],
+      invalidatesTags: ['seasonsList', 'season', 'seasonInfo'],
     }),
     editSeason: builder.mutation<EditSeasonResp, EditSeasonReq>({
       query: ({ data, year }) => ({

@@ -33,7 +33,7 @@ export const SemestersList = (props: SemestersListProps) => {
               .map((s) => s.semester)
           ) === semester.semester
         return (
-          <Col xs={24} md={12} lg={8} className='mb-4' key={semester.id}>
+          <Col xs={24} sm={12} md={8} lg={6} className='mb-4' key={semester.id}>
             <Card
               onClick={() => navigate(getSemesterLink(semester.id))}
               hoverable
