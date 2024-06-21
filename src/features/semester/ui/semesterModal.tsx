@@ -28,7 +28,9 @@ export const SemesterModal = (props: SemesterModalProps) => {
     if (semester) {
       if (open) {
         form.setFieldsValue({
-          documentsDeadline: dayjs(semester.documentsDeadline?.slice(0, 10), dateFormat),
+          documentsDeadline: semester.documentsDeadline
+            ? dayjs(semester.documentsDeadline.slice(0, 10), dateFormat)
+            : null,
         })
       }
     } else {

@@ -79,9 +79,11 @@ export const SemestersList = (props: SemestersListProps) => {
                 </span>
               </div>
               <div className='flex'>
-                <span className='text-stone-500'>Дедлайн по дневникам:</span>
+                <span className='text-stone-500'>Срок по дневникам:</span>
                 <span className='ms-[0.25rem]'>
-                  {parseDate(semester.documentsDeadline)}
+                  {semester.documentsDeadline
+                    ? parseDate(semester.documentsDeadline)
+                    : 'не указан'}
                 </span>
               </div>
               <div className='flex'>

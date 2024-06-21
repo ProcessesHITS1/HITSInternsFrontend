@@ -39,14 +39,15 @@ export const SemesterCloneModal = (props: SemesterCloneModalProps) => {
   const onFinish = async (rawData: any) => {
     try {
       if (semester) {
-        const documentsDeadline =
-          rawData.documentsDeadline?.format(dateFormat) + 'T00:00:00Z'
+        const documentsDeadline = rawData.documentsDeadline
+          ? rawData.documentsDeadline.format(dateFormat) + 'T00:00:00Z'
+          : null
 
         await cloneSemester({
           semesterIdToClone: semester.id,
           newSemesterData: {
             documentsDeadline,
-            year: +documentsDeadline.slice(0, 4),
+            year: documentsDeadline ? +documentsDeadline.slice(0, 4) : semester.year + 1,
             seasonId: semester.seasonId,
             semester: semester.semester + 1,
           },
