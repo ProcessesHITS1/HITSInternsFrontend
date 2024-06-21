@@ -15,5 +15,6 @@ export const interviewsApi = createApi({
     'studentsInSeasonList',
     'positionsList',
     'reqStatusesList',
+    'studentRequests',
   ],
 })
