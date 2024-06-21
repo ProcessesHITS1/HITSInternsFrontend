@@ -4,10 +4,8 @@ export type Request = {
   studentName: string
   positionId: string
   positionTitle: string | null
-  date: string
-  result: RequestResult | null
   requestStatusSnapshots: RequestStatusSnapshot[] | null
-  requestResult: RequestResult
+  requestResult: RequestResult | null
 }
 
 export type RequestResult = {

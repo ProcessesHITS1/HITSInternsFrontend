@@ -10,7 +10,7 @@ import {
   EmploymentStatus,
   StudentInSeason,
   StudentInSeasonList,
-  getStatusName,
+  getEmplStatusName,
 } from '~entities/studentInSeason'
 import { UserInfo } from '~entities/user'
 
@@ -24,6 +24,7 @@ export interface StudentInSeasonSectionProps {
 export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
   const { studentsInSeason, students, year, isClosed } = props
   const [input, setInput] = useState(undefined as string | undefined)
+  const [studentId, setStudentId] = useState('')
   const [addStudentModalOpen, setAddStudentModalOpen] = useState(false)
   const [removeStudentModalState, setRemoveStudentModalState] = useState({
     open: false,
@@ -63,43 +64,48 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
         year={year}
       />
       <div className='flex flex-col items-center'>
-        <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
-          <Input
-            disabled={!studentsInSeason.length}
-            size='small'
-            placeholder='Поиск по ФИО'
-            prefix={<SearchOutlined />}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            allowClear={true}
-          />
-          <Button
-            size='small'
-            onClick={() => setAddStudentModalOpen(true)}
-            disabled={isClosed || !availableStudents.length}
-          >
-            Добавить
-          </Button>
-        </Space.Compact>
-
-        <Flex className='mb-2'>
-          {studentsInSeason.length > 0 &&
-            checkbox.map((item, i) => (
-              <Checkbox
-                key={i}
-                checked={panelState[item]}
-                onClick={() =>
-                  setPanelState({ ...panelState, [item]: !panelState[item] })
-                }
+        {!studentId && (
+          <>
+            <Space.Compact className='mb-2 w-1/2 md:w-1/4'>
+              <Input
+                disabled={!studentsInSeason.length}
+                size='small'
+                placeholder='Поиск по ФИО'
+                prefix={<SearchOutlined />}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                allowClear={true}
+              />
+              <Button
+                size='small'
+                onClick={() => setAddStudentModalOpen(true)}
+                disabled={isClosed || !availableStudents.length}
               >
-                {getStatusName(item)}
-              </Checkbox>
-            ))}
-        </Flex>
+                Добавить
+              </Button>
+            </Space.Compact>
+
+            <Flex className='mb-2'>
+              {studentsInSeason.length > 0 &&
+                checkbox.map((item, i) => (
+                  <Checkbox
+                    key={i}
+                    checked={panelState[item]}
+                    onClick={() =>
+                      setPanelState({ ...panelState, [item]: !panelState[item] })
+                    }
+                  >
+                    {getEmplStatusName(item)}
+                  </Checkbox>
+                ))}
+            </Flex>
+          </>
+        )}
         <StudentInSeasonList
+          studentId={studentId}
+          setStudentId={setStudentId}
           isClosed={isClosed}
           studentsInSeason={showStudentsInSeason}
-          openEditModal={() => {}}
           openRemoveModal={(studentId) =>
             setRemoveStudentModalState({ studentId, open: true })
           }
