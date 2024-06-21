@@ -17,5 +17,5 @@ export enum ResultStatus {
 
 export type RequestStatusTemplate = {
   id: string
-  name: string
+  name: string | null
 }

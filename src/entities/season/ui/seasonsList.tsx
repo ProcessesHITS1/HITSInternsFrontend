@@ -15,6 +15,9 @@ export interface SeasonsListProps {
 export const SeasonsList = (props: SeasonsListProps) => {
   const { seasons, openEditModal, openRemoveModal } = props
   const navigate = useNavigate()
+  if (!seasons.length) {
+    return 'Сезоны собеседований отсутствуют'
+  }
   return (
     <Row gutter={16} className='w-full'>
       {seasons.map((season) => {

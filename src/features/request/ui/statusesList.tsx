@@ -1,17 +1,13 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Button, List } from 'antd'
+import { List } from 'antd'
 import { RequestStatusTemplate } from '~entities/request'
 
 export interface RequestStatusesListProps {
   statuses: RequestStatusTemplate[]
-  openStatusTemplateModal: (status: RequestStatusTemplate) => void
-  openStatusTemplateRemoveModal: (status: RequestStatusTemplate) => void
   isClosed: boolean
 }
 
 export const RequestStatusTemplatesList = (props: RequestStatusesListProps) => {
-  const { statuses, openStatusTemplateModal, openStatusTemplateRemoveModal, isClosed } =
-    props
+  const { statuses } = props
   if (!statuses.length) {
     return 'Шаблон прохождения собеседований не задан'
   }
@@ -23,26 +19,7 @@ export const RequestStatusTemplatesList = (props: RequestStatusesListProps) => {
       renderItem={(status) => (
         <List.Item>
           <div className='w-full flex items-center'>
-            {status.name}
-            {!isClosed && (
-              <Button
-                disabled={isClosed}
-                size='small'
-                shape='circle'
-                icon={<EditOutlined />}
-                className='mx-2 btn-edit'
-                onClick={() => openStatusTemplateModal(status)}
-              />
-            )}
-            {!isClosed && (
-              <Button
-                size='small'
-                shape='circle'
-                danger
-                icon={<DeleteOutlined />}
-                onClick={() => openStatusTemplateRemoveModal(status)}
-              />
-            )}
+            {status.name || 'Название не указано'}
           </div>
         </List.Item>
       )}

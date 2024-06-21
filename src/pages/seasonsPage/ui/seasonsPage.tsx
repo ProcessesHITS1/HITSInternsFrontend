@@ -25,7 +25,17 @@ export const SeasonsPage = () => {
 
   return (
     <>
-      <Typography.Title level={4}>Сезоны собеседований</Typography.Title>
+      <div className='flex items-center mb-3'>
+        <Typography.Title level={4}>Сезоны собеседований</Typography.Title>
+        <Button
+          className='ms-2'
+          size='small'
+          onClick={() => setModalState({ open: true, season: null, copy: false })}
+          type='primary'
+        >
+          Создать
+        </Button>
+      </div>
       <RemoveSeasonModal
         year={removeModalState.year}
         open={removeModalState.open}
@@ -37,13 +47,6 @@ export const SeasonsPage = () => {
         close={() => setModalState({ ...modalState, open: false })}
         copy={modalState.copy}
       />
-      <Button
-        onClick={() => setModalState({ open: true, season: null, copy: false })}
-        className='mt-1 my-2'
-        type='primary'
-      >
-        Добавить сезон
-      </Button>
       <SeasonsList
         seasons={seasonsQuery.data?.toSorted((a, b) => b.year - a.year) || []}
         openEditModal={(season, copy) => setModalState({ season, open: true, copy })}

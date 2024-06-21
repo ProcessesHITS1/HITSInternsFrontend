@@ -1,11 +1,12 @@
 import { interviewsApi } from '~shared/api'
+import { API_INTERVIEWS2_URL } from '~shared/config'
 import { CreateStatusResp, CreateStatusReq, SetStatusResp, SetStatusReq } from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
   endpoints: (builder) => ({
     createReqStatus: builder.mutation<CreateStatusResp, CreateStatusReq>({
       query: ({ year, statusName }) => ({
-        url: `/request/season/${year}/request_status/${statusName}`,
+        url: `${API_INTERVIEWS2_URL}/season/${year}/request_status/${statusName}`,
         method: 'POST',
       }),
       invalidatesTags: ['reqStatusesList'],

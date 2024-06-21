@@ -1,4 +1,5 @@
 import { interviewsApi } from '~shared/api'
+import { API_INTERVIEWS2_URL } from '~shared/config'
 import { GetReqStatusesTemplatesResp, GetReqStatusesTemplatesReq } from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
@@ -8,7 +9,7 @@ const endpoints = interviewsApi.injectEndpoints({
       GetReqStatusesTemplatesReq
     >({
       query: ({ year }) => ({
-        url: `/request/season/${year}/request_statuses`,
+        url: `${API_INTERVIEWS2_URL}/season/${year}/request_statuses`,
       }),
       providesTags: ['reqStatusesList'],
     }),

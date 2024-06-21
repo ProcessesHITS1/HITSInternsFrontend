@@ -4,16 +4,16 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CompanyInSeasonSection } from '~widgets/companyInSeason'
 import { StudentInSeasonSection } from '~widgets/studentInSeason'
-import { RequestModal, RequestStatusTemplatesList } from '~features/request'
+import { RequestTemplateModal, RequestStatusTemplatesList } from '~features/request'
 import { CloseSeasonModal, RemoveSeasonModal, SeasonModal } from '~features/season'
 import { useGetCompaniesQuery } from '~entities/company'
-import { RequestStatusTemplate } from '~entities/request'
+import { useGetReqStatusesQuery } from '~entities/request'
 import {
   useGetSeasonCompaniesByYearQuery,
   useGetSeasonInfoByYearQuery,
   useGetSeasonStudentsByYearQuery,
 } from '~entities/season'
-import { useStudentsQuery, UserInfo } from '~entities/user'
+import { useStudentsQuery } from '~entities/user'
 import { AppRoutes } from '~shared/config'
 import { parseDate } from '~shared/lib/functions'
 
@@ -26,36 +26,27 @@ export const SeasonPage = () => {
   const seasonStudQuery = useGetSeasonStudentsByYearQuery({ year })
   const companiesQuery = useGetCompaniesQuery({ page: 1, size: 10000 })
   const studentsQuery = useStudentsQuery()
+  const templatesQuery = useGetReqStatusesQuery({ year })
 
   const [removeModalOpen, setRemoveModalOpen] = useState(false)
-  const [statusModalOpen, setStatusModalOpen] = useState({
-    open: false,
-    status: null as RequestStatusTemplate | null,
-  })
-  const [removeStatusModalOpen, setRemoveStatusModalOpen] = useState({
-    open: false,
-    status: null as RequestStatusTemplate | null,
-  })
   const [endModalOpen, setEndModalOpen] = useState(false)
   const [seasonModalOpen, setSeasonModalOpen] = useState(false)
-  const [requestModalState, setRequestModalState] = useState({
-    open: false,
-    userInfo: null as UserInfo | null,
-    request: null as Request | null,
-  })
+  const [requestTModalState, setRequestTModalState] = useState(false)
 
   const isLoading =
     seasonInfoQuery.isLoading ||
     seasonCompQuery.isLoading ||
     seasonStudQuery.isLoading ||
     studentsQuery.isLoading ||
-    companiesQuery.isLoading
+    companiesQuery.isLoading ||
+    templatesQuery.isLoading
   const isError =
     seasonInfoQuery.isError ||
     seasonCompQuery.isError ||
     seasonStudQuery.isError ||
     studentsQuery.isError ||
-    companiesQuery.isError
+    companiesQuery.isError ||
+    templatesQuery.isError
 
   if (isLoading) {
     return <Spin size='large' className='mt-5' />
@@ -74,11 +65,10 @@ export const SeasonPage = () => {
 
   return (
     <>
-      <RequestModal
-        open={requestModalState.open}
-        request={requestModalState.request}
-        userInfo={requestModalState.userInfo}
-        close={() => setRequestModalState({ ...requestModalState, open: false })}
+      <RequestTemplateModal
+        year={year}
+        open={requestTModalState}
+        close={() => setRequestTModalState(false)}
       />
       <CloseSeasonModal
         year={year}
@@ -90,6 +80,7 @@ export const SeasonPage = () => {
         open={seasonModalOpen}
         close={() => setSeasonModalOpen(false)}
         copy={false}
+        showYear={false}
       />
       <RemoveSeasonModal
         year={year}
@@ -165,18 +156,17 @@ export const SeasonPage = () => {
             label: 'Шаблон',
             children: (
               <div className='w-100 flex flex-col items-center'>
-                <Button type='primary' className='mb-2' disabled={isClosed}>
+                <Button
+                  type='primary'
+                  className='mb-2'
+                  disabled={isClosed}
+                  onClick={() => setRequestTModalState(true)}
+                >
                   Добавить этап
                 </Button>
                 <RequestStatusTemplatesList
                   isClosed={isClosed}
-                  statuses={[{ id: '1', name: 'выфвфы' }]}
-                  openStatusTemplateRemoveModal={(status) =>
-                    setRemoveStatusModalOpen({ open: true, status })
-                  }
-                  openStatusTemplateModal={(status) =>
-                    setStatusModalOpen({ open: true, status })
-                  }
+                  statuses={templatesQuery.data || []}
                 />
               </div>
             ),
