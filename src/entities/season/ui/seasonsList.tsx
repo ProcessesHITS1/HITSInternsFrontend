@@ -40,7 +40,6 @@ export const SeasonsList = (props: SeasonsListProps) => {
                       }}
                     />
                     <Button
-                      style={{ display: 'none' }}
                       className='mx-2 btn-edit'
                       shape='circle'
                       icon={<EditOutlined />}

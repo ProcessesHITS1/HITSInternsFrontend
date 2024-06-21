@@ -6,7 +6,5 @@ export const getStatusName = (status: EmploymentStatus) => {
       return 'Устроен'
     case EmploymentStatus.Unemployed:
       return 'Не устроен'
-    case EmploymentStatus.Pending:
-      return 'В процессе'
   }
 }

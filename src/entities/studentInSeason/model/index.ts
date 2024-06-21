@@ -9,5 +9,4 @@ export type StudentInSeason = Pick<UserInfo, 'id'> & {
 export enum EmploymentStatus {
   Employed = 'Employed',
   Unemployed = 'Unemployed',
-  Pending = 'Pending',
 }

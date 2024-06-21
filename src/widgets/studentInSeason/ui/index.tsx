@@ -30,7 +30,6 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
     studentId: null as string | null,
   })
   const [panelState, setPanelState] = useState({
-    [EmploymentStatus.Pending]: true,
     [EmploymentStatus.Employed]: true,
     [EmploymentStatus.Unemployed]: true,
   })
@@ -39,11 +38,7 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
     (student) => !studentsInSeason.some((sIs) => sIs.id === student.id)
   )
 
-  const checkbox = [
-    EmploymentStatus.Pending,
-    EmploymentStatus.Unemployed,
-    EmploymentStatus.Employed,
-  ]
+  const checkbox = [EmploymentStatus.Unemployed, EmploymentStatus.Employed]
 
   const showStudentsInSeason = studentsInSeason.filter(
     (student) =>
