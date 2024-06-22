@@ -2,17 +2,19 @@ import { Modal, Form, Button, Flex, Timeline, Select } from 'antd'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useCreateReqResultMutation } from '~features/request'
+import { Company } from '~entities/company'
 import { Request, ResultStatus } from '~entities/request'
 
 export interface RequestModalProps {
   closed: boolean
+  company: Company | null
   request: Request | null
   open: boolean
   close: () => void
 }
 
 export const RequestModal = (props: RequestModalProps) => {
-  const { open, close, request, closed } = props
+  const { open, close, request, company, closed } = props
   const [trigger, triggerResult] = useCreateReqResultMutation()
   const [form] = Form.useForm()
 
@@ -50,6 +52,7 @@ export const RequestModal = (props: RequestModalProps) => {
   const hasSnapshots = request?.requestStatusSnapshots?.length || 0 > 0
 
   const watch = Form.useWatch([], form)
+
   return (
     <Modal
       forceRender
@@ -62,7 +65,8 @@ export const RequestModal = (props: RequestModalProps) => {
     >
       <div className='font-bold'>Основная информация</div>
       <div>Позиция: {`${request?.positionTitle}`}</div>
-      <div>Компания: {`${request?.positionTitle}`}</div>
+      <div>Компания: {company?.name}</div>
+      <div>Контакты компании: {company?.contacts?.join(' • ') || 'отсутствуют'}</div>
       <div className='font-bold'>История</div>
       {!hasSnapshots && 'История отсутствует'}
       {hasSnapshots && (

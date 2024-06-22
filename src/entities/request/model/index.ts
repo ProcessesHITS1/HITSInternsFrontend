@@ -1,5 +1,6 @@
 export type Request = {
   id: string
+  companyId: string
   studentId: string
   studentName: string
   positionId: string

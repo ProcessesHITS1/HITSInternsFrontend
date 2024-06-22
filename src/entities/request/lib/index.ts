@@ -4,10 +4,10 @@ export const getResultStatusName = (status: ResultStatus | null | undefined) => 
   if (!status) return '–'
   switch (status) {
     case ResultStatus.Accepted:
-      return 'Принят'
+      return 'Подтвержден'
     case ResultStatus.Rejected:
-      return 'Не принят'
+      return 'Не подтвержден'
     case ResultStatus.Pending:
-      return 'В процессе'
+      return 'Ожидает подтверждения'
   }
 }

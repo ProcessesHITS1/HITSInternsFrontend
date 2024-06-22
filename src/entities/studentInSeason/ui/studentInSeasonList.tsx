@@ -1,11 +1,14 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Row, Col, Card, Flex, Spin } from 'antd'
+import { Company } from '~entities/company/@x/studentInSeason'
 import { useGetRequestsQuery, getResultStatusName, Request } from '~entities/request/@x'
 import { parseDate } from '~shared/lib/functions'
 import { getEmplStatusName } from '../lib'
 import { StudentInSeason } from '../model'
 
 export interface StudentInSeasonListProps {
+  companies: Company[]
+  seasonYear: number
   studentId: string
   setStudentId: (id: string) => void
   studentsInSeason: StudentInSeason[]
@@ -22,6 +25,8 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
     isClosed,
     studentId,
     setStudentId,
+    seasonYear,
+    companies,
   } = props
   const requests = useGetRequestsQuery(
     {
@@ -29,6 +34,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
       pageSize: 100000,
       includeHistory: true,
       studentIds: [studentId],
+      seasons: [seasonYear],
     },
     { skip: !studentId }
   )
@@ -70,6 +76,12 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                 <Col xs={24} md={12} lg={8} className='mb-4' key={r.id}>
                   <Card title={r.positionTitle} hoverable onClick={() => openReqModal(r)}>
                     <div className='flex'>
+                      <span className='text-stone-500'>Компания:</span>
+                      <span className='ms-[0.25rem]'>
+                        {companies.find((c) => c.id === r.companyId)?.name || '–'}
+                      </span>
+                    </div>
+                    <div className='flex'>
                       <span className='text-stone-500'>Обновлено:</span>
                       <span className='ms-[0.25rem]'>
                         {hasSnapshots ? parseDate(currentSnapshot?.dateTime) : '–'}
@@ -88,7 +100,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                       </span>
                     </div>
                     <div className='flex'>
-                      <span className='text-stone-500'>Статус:</span>
+                      <span className='text-stone-500'>Подтвержден:</span>
                       <span className='ms-[0.25rem]'>
                         {getResultStatusName(result?.resultStatus)}
                       </span>

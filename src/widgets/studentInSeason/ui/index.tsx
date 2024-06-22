@@ -7,6 +7,7 @@ import {
   StudentInSeasonModal,
   StudentInSeasonRemoveModal,
 } from '~features/studentInSeason'
+import { Company } from '~entities/company'
 import { Request } from '~entities/request'
 import {
   EmploymentStatus,
@@ -17,6 +18,7 @@ import {
 import { UserInfo } from '~entities/user'
 
 export interface StudentInSeasonSectionProps {
+  companies: Company[]
   studentsInSeason: StudentInSeason[]
   students: UserInfo[]
   year: number
@@ -24,7 +26,7 @@ export interface StudentInSeasonSectionProps {
 }
 
 export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
-  const { studentsInSeason, students, year, isClosed } = props
+  const { studentsInSeason, students, year, isClosed, companies } = props
   const [input, setInput] = useState(undefined as string | undefined)
   const [studentId, setStudentId] = useState('')
   const [addStudentModalOpen, setAddStudentModalOpen] = useState(false)
@@ -56,6 +58,7 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
   return (
     <>
       <RequestModal
+        company={companies.find((c) => c.id === reqModalState.request?.companyId) || null}
         closed={isClosed}
         open={reqModalState.open}
         request={reqModalState.request}
@@ -114,6 +117,8 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
           </>
         )}
         <StudentInSeasonList
+          companies={companies}
+          seasonYear={year}
           studentId={studentId}
           setStudentId={setStudentId}
           isClosed={isClosed}

@@ -5,6 +5,7 @@ export type GetReqStatusesTemplatesReq = { year: number }
 export type GetReqStatusesTemplatesResp = RequestStatusTemplate[]
 
 export type GetRequestsReq = {
+  seasons?: number[]
   companyIds?: string[]
   studentIds?: string[]
   requestIds?: string[]

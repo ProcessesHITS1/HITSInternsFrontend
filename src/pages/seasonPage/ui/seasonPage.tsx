@@ -132,6 +132,7 @@ export const SeasonPage = () => {
             label: 'Студенты',
             children: (
               <StudentInSeasonSection
+                companies={companiesQuery.data?.data || []}
                 isClosed={isClosed}
                 students={studentsQuery.data || []}
                 studentsInSeason={seasonStudQuery.data || []}
