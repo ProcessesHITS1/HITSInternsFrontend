@@ -22,4 +22,4 @@ const endpoints = interviewsApi.injectEndpoints({
   }),
 })
 
-export const { useCreateReqStatusMutation } = endpoints
+export const { useCreateReqStatusMutation, useCreateReqResultMutation } = endpoints

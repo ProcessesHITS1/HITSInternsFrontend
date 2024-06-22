@@ -1,6 +1,6 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Row, Col, Card, Flex, Spin } from 'antd'
-import { useGetRequestsQuery, getResultStatusName } from '~entities/request/@x'
+import { useGetRequestsQuery, getResultStatusName, Request } from '~entities/request/@x'
 import { parseDate } from '~shared/lib/functions'
 import { getEmplStatusName } from '../lib'
 import { StudentInSeason } from '../model'
@@ -10,11 +10,19 @@ export interface StudentInSeasonListProps {
   setStudentId: (id: string) => void
   studentsInSeason: StudentInSeason[]
   openRemoveModal: (id: string) => void
+  openReqModal: (req: Request) => void
   isClosed: boolean
 }
 
 export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
-  const { studentsInSeason, openRemoveModal, isClosed, studentId, setStudentId } = props
+  const {
+    studentsInSeason,
+    openRemoveModal,
+    openReqModal,
+    isClosed,
+    studentId,
+    setStudentId,
+  } = props
   const requests = useGetRequestsQuery(
     {
       page: 1,
@@ -60,7 +68,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
               const result = r.requestResult
               return (
                 <Col xs={24} md={12} lg={8} className='mb-4' key={r.id}>
-                  <Card title={r.positionTitle} hoverable>
+                  <Card title={r.positionTitle} hoverable onClick={() => openReqModal(r)}>
                     <div className='flex'>
                       <span className='text-stone-500'>Обновлено:</span>
                       <span className='ms-[0.25rem]'>
@@ -76,7 +84,7 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                     <div className='flex'>
                       <span className='text-stone-500'>Оффер:</span>
                       <span className='ms-[0.25rem]'>
-                        {hasResult ? (result?.offerGiven ? 'Есть' : 'Нет') : '–'}
+                        {hasResult ? (result?.offerGiven ? 'Есть' : 'Нет') : 'Неизвестно'}
                       </span>
                     </div>
                     <div className='flex'>

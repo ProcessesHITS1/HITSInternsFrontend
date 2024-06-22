@@ -2,10 +2,12 @@ import { SearchOutlined } from '@ant-design/icons'
 
 import { Button, Checkbox, Flex, Input, Space } from 'antd'
 import { useState } from 'react'
+import { RequestModal } from '~features/request'
 import {
   StudentInSeasonModal,
   StudentInSeasonRemoveModal,
 } from '~features/studentInSeason'
+import { Request } from '~entities/request'
 import {
   EmploymentStatus,
   StudentInSeason,
@@ -26,6 +28,10 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
   const [input, setInput] = useState(undefined as string | undefined)
   const [studentId, setStudentId] = useState('')
   const [addStudentModalOpen, setAddStudentModalOpen] = useState(false)
+  const [reqModalState, setReqModalState] = useState({
+    open: false,
+    request: null as Request | null,
+  })
   const [removeStudentModalState, setRemoveStudentModalState] = useState({
     open: false,
     studentId: null as string | null,
@@ -49,6 +55,11 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
 
   return (
     <>
+      <RequestModal
+        open={reqModalState.open}
+        request={reqModalState.request}
+        close={() => setReqModalState({ ...reqModalState, open: false })}
+      />
       <StudentInSeasonModal
         students={availableStudents}
         year={year}
@@ -109,6 +120,7 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
           openRemoveModal={(studentId) =>
             setRemoveStudentModalState({ studentId, open: true })
           }
+          openReqModal={(request) => setReqModalState({ open: true, request })}
         />
       </div>
     </>

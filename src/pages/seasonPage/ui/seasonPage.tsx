@@ -153,7 +153,7 @@ export const SeasonPage = () => {
           },
           {
             key: '3',
-            label: 'Шаблон',
+            label: 'Этапы собесов',
             children: (
               <div className='w-100 flex flex-col items-center'>
                 <Button

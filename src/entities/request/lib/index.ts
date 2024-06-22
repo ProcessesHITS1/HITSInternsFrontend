@@ -1,7 +1,7 @@
 import { ResultStatus } from '../model'
 
 export const getResultStatusName = (status: ResultStatus | null | undefined) => {
-  if (!status) return ''
+  if (!status) return '–'
   switch (status) {
     case ResultStatus.Accepted:
       return 'Принят'
