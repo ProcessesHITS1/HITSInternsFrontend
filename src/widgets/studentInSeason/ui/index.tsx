@@ -56,6 +56,7 @@ export const StudentInSeasonSection = (props: StudentInSeasonSectionProps) => {
   return (
     <>
       <RequestModal
+        closed={isClosed}
         open={reqModalState.open}
         request={reqModalState.request}
         close={() => setReqModalState({ ...reqModalState, open: false })}

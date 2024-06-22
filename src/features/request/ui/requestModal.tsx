@@ -5,13 +5,14 @@ import { useCreateReqResultMutation } from '~features/request'
 import { Request, ResultStatus } from '~entities/request'
 
 export interface RequestModalProps {
+  closed: boolean
   request: Request | null
   open: boolean
   close: () => void
 }
 
 export const RequestModal = (props: RequestModalProps) => {
-  const { open, close, request } = props
+  const { open, close, request, closed } = props
   const [trigger, triggerResult] = useCreateReqResultMutation()
   const [form] = Form.useForm()
 
@@ -25,7 +26,7 @@ export const RequestModal = (props: RequestModalProps) => {
     if (open && request) {
       const result = request.requestResult
       form.setFieldsValue({
-        offerGiven: result?.offerGiven || null,
+        offerGiven: result?.offerGiven || '',
         resultStatus: result?.resultStatus || null,
       })
     }
@@ -36,10 +37,10 @@ export const RequestModal = (props: RequestModalProps) => {
       if (request) {
         await trigger({
           requestId: request.id,
-          offerGiven: data.offerGiven,
+          offerGiven: data.offerGiven || null,
           resultStatus: data.resultStatus,
         }).unwrap()
-        toast.success('Этап создан')
+        toast.success('Сохранено')
         wrappedClose()
       }
     } catch {
@@ -52,7 +53,7 @@ export const RequestModal = (props: RequestModalProps) => {
   return (
     <Modal
       forceRender
-      title={'Прогресс студента'}
+      title={`Прогресс: ${request?.studentName}`}
       open={open}
       onCancel={wrappedClose}
       maskClosable={false}
@@ -60,8 +61,8 @@ export const RequestModal = (props: RequestModalProps) => {
       style={{ top: 20 }}
     >
       <div className='font-bold'>Основная информация</div>
-      <div>Студент: {request?.studentName}</div>
       <div>Позиция: {`${request?.positionTitle}`}</div>
+      <div>Компания: {`${request?.positionTitle}`}</div>
       <div className='font-bold'>История</div>
       {!hasSnapshots && 'История отсутствует'}
       {hasSnapshots && (
@@ -87,9 +88,10 @@ export const RequestModal = (props: RequestModalProps) => {
       <Form form={form} onFinish={onFinish} layout='vertical'>
         <Form.Item name={'offerGiven'} label='Оффер'>
           <Select
+            disabled={closed}
             placeholder='Статус оффера'
             options={[
-              { value: null, label: 'Неивзестно' },
+              { value: '', label: 'Неивзестно' },
               { value: true, label: 'Получен' },
               { value: false, label: 'Не получен' },
             ]}
@@ -98,6 +100,7 @@ export const RequestModal = (props: RequestModalProps) => {
         {watch?.offerGiven && (
           <Form.Item name={'resultStatus'} label='Подтверждение школы'>
             <Select
+              disabled={closed}
               placeholder='Статус подтверждения школы'
               options={[
                 { value: ResultStatus.Pending, label: 'В ожидании' },
@@ -107,18 +110,20 @@ export const RequestModal = (props: RequestModalProps) => {
             />
           </Form.Item>
         )}
-        <Form.Item>
-          <Flex>
-            <Button
-              type='primary'
-              htmlType='submit'
-              className='ms-auto'
-              disabled={triggerResult.isLoading}
-            >
-              Сохранить
-            </Button>
-          </Flex>
-        </Form.Item>
+        {!closed && (
+          <Form.Item>
+            <Flex>
+              <Button
+                type='primary'
+                htmlType='submit'
+                className='ms-auto'
+                disabled={triggerResult.isLoading}
+              >
+                Сохранить
+              </Button>
+            </Flex>
+          </Form.Item>
+        )}
       </Form>
     </Modal>
   )
