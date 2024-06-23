@@ -2,7 +2,6 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Row, Col, Card, Flex, Spin } from 'antd'
 import { Company } from '~entities/company/@x/studentInSeason'
 import { useGetRequestsQuery, getResultStatusName, Request } from '~entities/request/@x'
-import { parseDate } from '~shared/lib/functions'
 import { getEmplStatusName } from '../lib'
 import { StudentInSeason } from '../model'
 
@@ -82,12 +81,6 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                       </span>
                     </div>
                     <div className='flex'>
-                      <span className='text-stone-500'>Обновлено:</span>
-                      <span className='ms-[0.25rem]'>
-                        {hasSnapshots ? parseDate(currentSnapshot?.dateTime) : '–'}
-                      </span>
-                    </div>
-                    <div className='flex'>
                       <span className='text-stone-500'>Этап:</span>
                       <span className='ms-[0.25rem]'>
                         {hasSnapshots ? currentSnapshot?.status : '–'}
@@ -100,9 +93,15 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                       </span>
                     </div>
                     <div className='flex'>
-                      <span className='text-stone-500'>Подтвержден:</span>
+                      <span className='text-stone-500'>Подтверждение студента:</span>
                       <span className='ms-[0.25rem]'>
-                        {getResultStatusName(result?.resultStatus)}
+                        {getResultStatusName(result?.studentResultStatus)}
+                      </span>
+                    </div>
+                    <div className='flex'>
+                      <span className='text-stone-500'>Подтверждение школы:</span>
+                      <span className='ms-[0.25rem]'>
+                        {getResultStatusName(result?.schoolResultStatus)}
                       </span>
                     </div>
                   </Card>

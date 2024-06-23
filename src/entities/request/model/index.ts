@@ -12,7 +12,8 @@ export type Request = {
 export type RequestResult = {
   description: string | null
   offerGiven: boolean
-  resultStatus: ResultStatus
+  studentResultStatus: ResultStatus
+  schoolResultStatus: ResultStatus
 }
 
 export enum ResultStatus {
