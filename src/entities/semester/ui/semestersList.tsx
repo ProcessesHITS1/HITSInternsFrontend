@@ -33,7 +33,7 @@ export const SemestersList = (props: SemestersListProps) => {
               .map((s) => s.semester)
           ) === semester.semester
         return (
-          <Col xs={24} md={12} lg={8} className='mb-4' key={semester.id}>
+          <Col xs={24} sm={12} md={8} lg={6} className='mb-4' key={semester.id}>
             <Card
               onClick={() => navigate(getSemesterLink(semester.id))}
               hoverable
@@ -79,9 +79,11 @@ export const SemestersList = (props: SemestersListProps) => {
                 </span>
               </div>
               <div className='flex'>
-                <span className='text-stone-500'>Дедлайн по дневникам:</span>
+                <span className='text-stone-500'>Срок по дневникам:</span>
                 <span className='ms-[0.25rem]'>
-                  {parseDate(semester.documentsDeadline)}
+                  {semester.documentsDeadline
+                    ? parseDate(semester.documentsDeadline)
+                    : 'не указан'}
                 </span>
               </div>
               <div className='flex'>

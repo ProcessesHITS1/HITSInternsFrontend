@@ -1,12 +1,19 @@
 export type Request = {
-  date: string
-  result: RequestResult
+  id: string
+  companyId: string
+  studentId: string
+  studentName: string
+  positionId: string
+  positionTitle: string | null
+  requestStatusSnapshots: RequestStatusSnapshot[] | null
+  requestResult: RequestResult | null
 }
 
 export type RequestResult = {
-  description?: string | null | undefined
-  offerGiven: boolean | null
-  status: ResultStatus
+  description: string | null
+  offerGiven: boolean
+  studentResultStatus: ResultStatus
+  schoolResultStatus: ResultStatus
 }
 
 export enum ResultStatus {
@@ -15,7 +22,13 @@ export enum ResultStatus {
   Rejected = 'Rejected',
 }
 
+export type RequestStatusSnapshot = {
+  id: string
+  dateTime: string
+  status: string | null
+}
+
 export type RequestStatusTemplate = {
   id: string
-  name: string
+  name: string | null
 }

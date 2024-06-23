@@ -39,7 +39,7 @@ export const PositionModal = (props: PositionModalProps) => {
   const onFinish = async (rawData: any) => {
     try {
       if (position) {
-        await editPosition(rawData).unwrap()
+        await editPosition({ positionId: position.id, data: rawData }).unwrap()
       } else {
         await createPosition({ ...rawData, seasonYear, companyId }).unwrap()
       }

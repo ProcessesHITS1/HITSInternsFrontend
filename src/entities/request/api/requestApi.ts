@@ -1,5 +1,11 @@
 import { interviewsApi } from '~shared/api'
-import { GetReqStatusesTemplatesResp, GetReqStatusesTemplatesReq } from './types'
+import { API_INTERVIEWS2_URL } from '~shared/config'
+import {
+  GetReqStatusesTemplatesResp,
+  GetReqStatusesTemplatesReq,
+  GetRequestsResp,
+  GetRequestsReq,
+} from './types'
 
 const endpoints = interviewsApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,11 +14,18 @@ const endpoints = interviewsApi.injectEndpoints({
       GetReqStatusesTemplatesReq
     >({
       query: ({ year }) => ({
-        url: `/request/season/${year}/request_statuses`,
+        url: `${API_INTERVIEWS2_URL}/season/${year}/request_statuses`,
       }),
       providesTags: ['reqStatusesList'],
+    }),
+    getRequests: builder.query<GetRequestsResp, GetRequestsReq>({
+      query: (params) => ({
+        url: 'request',
+        params,
+      }),
+      providesTags: ['studentRequests'],
     }),
   }),
 })
 
-export const { useGetReqStatusesQuery } = endpoints
+export const { useGetReqStatusesQuery, useGetRequestsQuery } = endpoints

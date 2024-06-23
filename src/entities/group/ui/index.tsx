@@ -12,6 +12,7 @@ export const GroupList = (props: GroupListInterface) => {
       className='w-full md:w-1/2 bg-white'
       dataSource={props.groups}
       bordered
+      locale={{ emptyText: 'Группы не найдены' }}
       renderItem={(item) => <List.Item>{item.number}</List.Item>}
     />
   )

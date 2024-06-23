@@ -1,7 +1,7 @@
 import { Company } from '~entities/company/@x/companyInSeason'
-//import { Position } from '~entities/position/@x/companyInSeason'
 
-export type CompanyInSeason = Company & {
+export type CompanyInSeason = Pick<Company, 'id' | 'name'> & {
+  seasonYear: number
   nPositions: number
 }
 

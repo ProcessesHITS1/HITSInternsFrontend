@@ -96,3 +96,15 @@ h4.ant-typography {
 .ant-input-number-input {
   color: black !important;
 }
+
+.ant-timeline .ant-timeline-item {
+  padding-bottom: 10px !important;
+}
+
+.ant-timeline .ant-timeline-item-last {
+  padding-bottom: 0 !important;
+}
+
+.ant-timeline .ant-timeline-item-last > .ant-timeline-item-content {
+  min-height: 0 !important;
+}

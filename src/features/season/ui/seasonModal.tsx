@@ -1,4 +1,5 @@
 import { Button, Col, DatePicker, Flex, Form, InputNumber, Modal, Row } from 'antd'
+import cs from 'classnames'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { useEffect } from 'react'
@@ -13,6 +14,7 @@ import { Season } from '~entities/season'
 dayjs.extend(customParseFormat)
 
 export interface SeasonModalProps {
+  showYear?: boolean
   open: boolean
   close: () => void
   season: Season | null
@@ -24,7 +26,7 @@ const minYear = 2015
 const maxYear = 2030
 
 export const SeasonModal = (props: SeasonModalProps) => {
-  const { season, open, close, copy } = props
+  const { season, open, close, copy, showYear = true } = props
 
   const [createSeason, createSeasonResult] = useCreateSeasonMutation()
   const [editSeason, editSeasonResult] = useEditSeasonMutation()
@@ -76,6 +78,7 @@ export const SeasonModal = (props: SeasonModalProps) => {
           await createSeason(data).unwrap()
         }
       }
+      toast.success('Успешно')
       close()
     } catch {
       toast.error('Произошла ошибка')
@@ -122,6 +125,7 @@ export const SeasonModal = (props: SeasonModalProps) => {
                 },
               ]}
               label={`Год (${minYear}-${maxYear})`}
+              className={cs({ hidden: !showYear })}
             >
               <InputNumber
                 className='w-full'
