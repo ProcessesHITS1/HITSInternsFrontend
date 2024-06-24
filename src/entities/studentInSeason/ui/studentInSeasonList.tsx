@@ -1,7 +1,13 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Row, Col, Card, Flex, Spin } from 'antd'
 import { Company } from '~entities/company/@x/studentInSeason'
-import { useGetRequestsQuery, getResultStatusName, Request } from '~entities/request/@x'
+import {
+  useGetRequestsQuery,
+  getResultStatusName,
+  getStudResultStatusName,
+  Request,
+  getOfferGivenStr,
+} from '~entities/request/@x'
 import { getEmplStatusName } from '../lib'
 import { StudentInSeason } from '../model'
 
@@ -69,7 +75,6 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
             {reqsData.map((r) => {
               const hasSnapshots = r.requestStatusSnapshots?.length || 0 > 0
               const currentSnapshot = r.requestStatusSnapshots?.[0]
-              const hasResult = !!r.requestResult
               const result = r.requestResult
               return (
                 <Col xs={24} md={12} lg={8} className='mb-4' key={r.id}>
@@ -89,21 +94,25 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
                     <div className='flex'>
                       <span className='text-stone-500'>Оффер:</span>
                       <span className='ms-[0.25rem]'>
-                        {hasResult ? (result?.offerGiven ? 'Есть' : 'Нет') : 'Неизвестно'}
+                        {getOfferGivenStr(result?.offerGiven)}
                       </span>
                     </div>
-                    <div className='flex'>
-                      <span className='text-stone-500'>Подтверждение студента:</span>
-                      <span className='ms-[0.25rem]'>
-                        {getResultStatusName(result?.studentResultStatus)}
-                      </span>
-                    </div>
-                    <div className='flex'>
-                      <span className='text-stone-500'>Подтверждение школы:</span>
-                      <span className='ms-[0.25rem]'>
-                        {getResultStatusName(result?.schoolResultStatus)}
-                      </span>
-                    </div>
+                    {result?.offerGiven && (
+                      <div className='flex'>
+                        <span className='text-stone-500'>Подтверждение студента:</span>
+                        <span className='ms-[0.25rem]'>
+                          {getStudResultStatusName(result?.studentResultStatus)}
+                        </span>
+                      </div>
+                    )}
+                    {result?.offerGiven && (
+                      <div className='flex'>
+                        <span className='text-stone-500'>Подтверждение школы:</span>
+                        <span className='ms-[0.25rem]'>
+                          {getResultStatusName(result?.schoolResultStatus)}
+                        </span>
+                      </div>
+                    )}
                   </Card>
                 </Col>
               )

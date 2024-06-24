@@ -24,7 +24,7 @@ export const getStudResultStatusName = (status: ResultStatus | null | undefined)
   }
 }
 
-export const getOfferGivenStr = (offerGiven: boolean | null) => {
-  if (offerGiven === null) return 'Неизвестно'
-  return offerGiven ? 'Получен' : 'Провал'
+export const getOfferGivenStr = (offerGiven: boolean | null | undefined) => {
+  if (offerGiven == null) return 'Нет данных'
+  return offerGiven ? 'Есть' : 'Нет'
 }

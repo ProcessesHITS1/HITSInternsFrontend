@@ -143,6 +143,7 @@ export const StudentsInSemesterWidget = (props: StudentsInSemesterWidgetProps) =
           </Checkbox>
         </Flex>
         <StudentInSemesterList
+          isClosed={isClosed}
           marksLoading={getMarksResult.isFetching}
           diaryLoading={getDiaryResult.isFetching}
           studentsInSemester={filtered || []}

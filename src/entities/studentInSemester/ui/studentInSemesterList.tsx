@@ -3,6 +3,7 @@ import { Row, Col, Card, Flex, Button } from 'antd'
 import { StudentInSemester, StudentInSemesterNormal } from '../model'
 
 export interface StudentInSemesterListProps {
+  isClosed: boolean
   studentsInSemester: StudentInSemesterNormal[]
   openStudentModal: (id: string | null | undefined) => void
   openMarkModal: (sisId: string) => void
@@ -19,6 +20,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
     openMarkModal,
     openCompanyModal,
     marksLoading,
+    isClosed,
   } = props
   if (!studentsInSemester.length) {
     return <div className='text-center'>Студенты не найдены</div>
@@ -80,7 +82,7 @@ export const StudentInSemesterList = (props: StudentInSemesterListProps) => {
                   size='small'
                   shape='circle'
                   className='ms-1 btn-edit'
-                  disabled={diaryLoading || marksLoading}
+                  disabled={isClosed || diaryLoading || marksLoading}
                   icon={<EditOutlined />}
                   onClick={() => openCompanyModal(item)}
                 />

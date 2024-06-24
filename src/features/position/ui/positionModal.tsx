@@ -74,7 +74,7 @@ export const PositionModal = (props: PositionModalProps) => {
           <Input placeholder='Введите наименование' />
         </Form.Item>
         <Form.Item
-          label='Количество мест'
+          label='Количество мест (1-100)'
           name='nSeats'
           rules={[{ required: true, message: 'Укажите количество мест' }]}
         >
@@ -82,7 +82,7 @@ export const PositionModal = (props: PositionModalProps) => {
             placeholder='Количество мест'
             className='w-full'
             min='1'
-            max='10000'
+            max='100'
           />
         </Form.Item>
         <Form.Item label='Описание позиции' name='description'>

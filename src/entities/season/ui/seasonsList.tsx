@@ -31,6 +31,7 @@ export const SeasonsList = (props: SeasonsListProps) => {
                   <span>{`Сезон-${season.year}`}</span>
                   <div className='ms-auto my-2 me-2'>
                     <Button
+                      style={{ display: 'none' }}
                       type='primary'
                       shape='circle'
                       icon={<CopyOutlined />}
@@ -40,6 +41,7 @@ export const SeasonsList = (props: SeasonsListProps) => {
                       }}
                     />
                     <Button
+                      disabled={season.isClosed}
                       className='mx-2 btn-edit'
                       shape='circle'
                       icon={<EditOutlined />}

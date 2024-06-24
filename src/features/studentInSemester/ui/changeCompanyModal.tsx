@@ -49,7 +49,7 @@ export const ChangeCompanyModal = (props: ChangeCompanyModalProps) => {
   return (
     <Modal
       forceRender
-      title={'Добавить студента в семестр'}
+      title={'Смена компании'}
       open={open}
       onCancel={wrappedClose}
       maskClosable={false}

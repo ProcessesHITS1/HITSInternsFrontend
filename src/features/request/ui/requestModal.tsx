@@ -3,7 +3,13 @@ import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useCreateReqResultMutation } from '~features/request'
 import { Company } from '~entities/company'
-import { Request, ResultStatus, getStudResultStatusName } from '~entities/request'
+import {
+  Request,
+  ResultStatus,
+  getOfferGivenStr,
+  getResultStatusName,
+  getStudResultStatusName,
+} from '~entities/request'
 
 export interface RequestModalProps {
   closed: boolean
@@ -34,12 +40,23 @@ export const RequestModal = (props: RequestModalProps) => {
     }
   }, [open, request])
 
+  const hasSnapshots = request?.requestStatusSnapshots?.length || 0 > 0
+  const offerGiven = request?.requestResult?.offerGiven
+  const showForm =
+    offerGiven && request.requestResult?.studentResultStatus === ResultStatus.Accepted
+
   const onFinish = async (data: any) => {
+    if (
+      !offerGiven ||
+      request.requestResult?.studentResultStatus !== ResultStatus.Accepted
+    ) {
+      return
+    }
     try {
       if (request) {
         await trigger({
           requestId: request.id,
-          /*offerGiven: data.offerGiven || null,*/
+          offerGiven: request.requestResult.offerGiven,
           schoolResultStatus: data.schoolResultStatus,
         }).unwrap()
         toast.success('Сохранено')
@@ -49,8 +66,6 @@ export const RequestModal = (props: RequestModalProps) => {
       toast.error('Произошла ошибка')
     }
   }
-  const hasSnapshots = request?.requestStatusSnapshots?.length || 0 > 0
-  const offerGiven = request?.requestResult?.offerGiven
 
   return (
     <Modal
@@ -63,9 +78,7 @@ export const RequestModal = (props: RequestModalProps) => {
       style={{ top: 20 }}
     >
       <div className='font-bold'>Основная информация</div>
-      <div>
-        Оффер: {offerGiven === null ? 'неизвестно' : offerGiven ? 'получен' : 'провал'}
-      </div>
+      <div>Оффер: {getOfferGivenStr(offerGiven)}</div>
       {offerGiven && (
         <div>{getStudResultStatusName(request.requestResult?.studentResultStatus)}</div>
       )}
@@ -93,10 +106,14 @@ export const RequestModal = (props: RequestModalProps) => {
         />
       )}
       <div>Комментарий студента: {request?.requestResult?.description || '—'}</div>
-      {offerGiven &&
-        request.requestResult?.studentResultStatus === ResultStatus.Accepted && (
-          <Form form={form} onFinish={onFinish} layout='vertical'>
-            {/*<Form.Item name={'offerGiven'} label='Оффер'>
+
+      <Form
+        form={form}
+        onFinish={onFinish}
+        layout='vertical'
+        style={{ display: showForm ? 'block' : 'none' }}
+      >
+        {/*<Form.Item name={'offerGiven'} label='Оффер'>
           <Select
             disabled={closed}
             placeholder='Статус оффера'
@@ -108,34 +125,33 @@ export const RequestModal = (props: RequestModalProps) => {
           />
         </Form.Item>*/}
 
-            <Form.Item name={'schoolResultStatus'} label='Подтверждение школы'>
-              <Select
-                disabled={closed}
-                placeholder='Подтверждение школы'
-                options={[
-                  { value: ResultStatus.Pending, label: 'В ожидании' },
-                  { value: ResultStatus.Accepted, label: 'Подтвержден' },
-                  { value: ResultStatus.Rejected, label: 'Отклонен' },
-                ]}
-              />
-            </Form.Item>
+        <Form.Item name={'schoolResultStatus'} label='Подтверждение школы'>
+          <Select
+            disabled={closed}
+            placeholder='Подтверждение школы'
+            options={[
+              ResultStatus.Pending,
+              ResultStatus.Accepted,
+              ResultStatus.Rejected,
+            ].map((s) => ({ value: s, label: getResultStatusName(s) }))}
+          />
+        </Form.Item>
 
-            {!closed && (
-              <Form.Item>
-                <Flex>
-                  <Button
-                    type='primary'
-                    htmlType='submit'
-                    className='ms-auto'
-                    disabled={triggerResult.isLoading}
-                  >
-                    Сохранить
-                  </Button>
-                </Flex>
-              </Form.Item>
-            )}
-          </Form>
+        {!closed && (
+          <Form.Item>
+            <Flex>
+              <Button
+                type='primary'
+                htmlType='submit'
+                className='ms-auto'
+                disabled={triggerResult.isLoading}
+              >
+                Сохранить
+              </Button>
+            </Flex>
+          </Form.Item>
         )}
+      </Form>
     </Modal>
   )
 }

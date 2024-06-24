@@ -144,7 +144,7 @@ export const CompanyInSeasonList = (props: CompanyInSeasonListProps) => {
                         e.stopPropagation()
                         openRemoveModal(company.id)
                       }}
-                      disabled={company.nPositions > 0}
+                      disabled={company.nPositions > 0 || isClosed}
                     />
                   </div>
                 </Flex>
