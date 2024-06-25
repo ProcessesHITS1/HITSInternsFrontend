@@ -51,7 +51,11 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
         validateTrigger='onBlur'
         form={form}
         initialValues={{
-          role: hasGroups ? Role.ROLE_STUDENT : Role.ROLE_SCHOOL_REPRESENTATIVE,
+          role: hasGroups
+            ? Role.ROLE_STUDENT
+            : props.isAdmin
+              ? Role.ROLE_SCHOOL_REPRESENTATIVE
+              : null,
           sex: Sex.MALE,
           groupId: hasGroups ? props.groups?.[0]?.id : null,
         }}
@@ -155,8 +159,13 @@ export const RegisterUserModal = (props: RegisterUserModal) => {
             >
               <Input type='password' placeholder='Введите пароль' />
             </Form.Item>
-            <Form.Item name='role' label='Роль'>
+            <Form.Item
+              name='role'
+              label='Роль'
+              rules={[{ required: true, message: 'Укажите роль' }]}
+            >
               <Select
+                placeholder='Укажите роль'
                 options={[
                   {
                     value: Role.ROLE_STUDENT,

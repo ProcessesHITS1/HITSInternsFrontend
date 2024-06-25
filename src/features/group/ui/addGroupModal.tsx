@@ -40,8 +40,9 @@ export const AddGroupModal = (props: RegisterUserModal) => {
         <Form.Item
           name='number'
           rules={[
+            { required: true, message: 'Укажите номер группы' },
             {
-              pattern: /\d{6,}/,
+              pattern: /^\d{6,}$/,
               message: 'Номер не может быть короче 6 симв.',
             },
           ]}

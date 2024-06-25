@@ -1,5 +1,6 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Row, Col, Card, Flex, Spin } from 'antd'
+import cs from 'classnames'
 import { Company } from '~entities/company/@x/studentInSeason'
 import {
   useGetRequestsQuery,
@@ -7,9 +8,10 @@ import {
   getStudResultStatusName,
   Request,
   getOfferGivenStr,
+  ResultStatus,
 } from '~entities/request/@x'
 import { getEmplStatusName } from '../lib'
-import { StudentInSeason } from '../model'
+import { EmploymentStatus, StudentInSeason } from '../model'
 
 export interface StudentInSeasonListProps {
   companies: Company[]
@@ -78,7 +80,19 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
               const result = r.requestResult
               return (
                 <Col xs={24} md={12} lg={8} className='mb-4' key={r.id}>
-                  <Card title={r.positionTitle} hoverable onClick={() => openReqModal(r)}>
+                  <Card
+                    title={r.positionTitle}
+                    hoverable
+                    onClick={() => openReqModal(r)}
+                    className={cs({
+                      'border-sky-500':
+                        !!r.requestResult?.offerGiven &&
+                        r.requestResult?.studentResultStatus !== ResultStatus.Accepted,
+                      'border-green-500':
+                        !!r.requestResult?.offerGiven &&
+                        r.requestResult?.studentResultStatus === ResultStatus.Accepted,
+                    })}
+                  >
                     <div className='flex'>
                       <span className='text-stone-500'>Компания:</span>
                       <span className='ms-[0.25rem]'>
@@ -131,6 +145,10 @@ export const StudentInSeasonList = (props: StudentInSeasonListProps) => {
         return (
           <Col xs={24} md={12} lg={8} className='mb-4' key={student.id}>
             <Card
+              className={cs({
+                'border-green-500':
+                  student.employmentStatus === EmploymentStatus.Employed,
+              })}
               onClick={() => setStudentId(student.id)}
               hoverable
               title={

@@ -69,10 +69,15 @@ export const MessageView = (props: MessageProps) => {
 }
 
 function convertToInitials(fullName: string): string {
-  const nameParts = fullName.trim().split(' ').reverse()
-  let initials = ''
-  for (let i = 0; i < Math.min(2, nameParts.length); ++i)
-    initials += nameParts[i][0]?.toUpperCase()
+  try {
+    const _nameParts = fullName.trim().split(' ')
+    const nameParts = _nameParts.length < 3 ? _nameParts : _nameParts.slice(1)
+    let initials = ''
+    for (let i = 0; i < Math.min(2, nameParts.length); ++i)
+      initials += nameParts[i][0]?.toUpperCase()
 
-  return initials
+    return initials
+  } catch {
+    return '-'
+  }
 }

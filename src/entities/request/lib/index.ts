@@ -18,7 +18,7 @@ export const getStudResultStatusName = (status: ResultStatus | null | undefined)
     case ResultStatus.Accepted:
       return 'Оффер принят студентом'
     case ResultStatus.Rejected:
-      return 'Студент отказался от оффера'
+      return 'Студент отказался'
     case ResultStatus.Pending:
       return 'Студент думает'
   }

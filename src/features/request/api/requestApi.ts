@@ -17,7 +17,7 @@ const endpoints = interviewsApi.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['studentRequests'],
+      invalidatesTags: ['studentRequests', 'studentsInSeasonList'],
     }),
   }),
 })

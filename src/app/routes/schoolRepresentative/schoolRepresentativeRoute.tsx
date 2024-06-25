@@ -1,7 +1,8 @@
+import { Button } from 'antd'
 import { ReactNode } from 'react'
 import { Navigate, RouteObject } from 'react-router-dom'
 import { Role, useGetMyInfoQuery } from '~entities/user'
-import { AppRoutes } from '~shared/config'
+import { AppRoutes, JWT_LS_KEYNAME } from '~shared/config'
 import { selectIsAuth, useAppSelector } from '~shared/lib/store'
 
 export const SchoolRepresentativeRoute = ({ elem }: { elem: ReactNode }) => {
@@ -19,7 +20,19 @@ export const SchoolRepresentativeRoute = ({ elem }: { elem: ReactNode }) => {
   }
 
   if (infoQuery.isError) {
-    return 'Произошла ошибка при получении прав доступа'
+    return (
+      <>
+        <div>Произошла ошибка при получении прав доступа</div>
+        <Button
+          onClick={() => {
+            localStorage.removeItem(JWT_LS_KEYNAME)
+            location.reload()
+          }}
+        >
+          Выход
+        </Button>
+      </>
+    )
   }
 
   const hasAccess = infoQuery.data?.roles.some(

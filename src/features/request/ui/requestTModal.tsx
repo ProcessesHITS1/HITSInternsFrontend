@@ -40,10 +40,11 @@ export const RequestTemplateModal = (props: RequestTemplateModalProps) => {
       footer={null}
       style={{ top: 20 }}
     >
-      <Form form={form} onFinish={onFinish}>
+      <Form form={form} onFinish={onFinish} layout='vertical'>
         <Form.Item
           name={'statusName'}
           rules={[{ required: true, whitespace: true, message: 'Введите название' }]}
+          label='Название этапа'
         >
           <Input placeholder='Название этапа' autoComplete='off' />
         </Form.Item>
