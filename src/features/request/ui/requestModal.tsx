@@ -77,15 +77,15 @@ export const RequestModal = (props: RequestModalProps) => {
       footer={null}
       style={{ top: 20 }}
     >
-      <div className='font-bold'>Основная информация</div>
+      <div>Позиция: {`${request?.positionTitle}`}</div>
+      <div>Компания: {company?.name}</div>
+      <div>Контакты компании: {company?.contacts?.join(' • ') || 'отсутствуют'}</div>
+      <div className='font-bold mt-1'>Основная информация</div>
       <div>Оффер: {getOfferGivenStr(offerGiven)}</div>
       {offerGiven && (
         <div>{getStudResultStatusName(request.requestResult?.studentResultStatus)}</div>
       )}
-      <div>Позиция: {`${request?.positionTitle}`}</div>
-      <div>Компания: {company?.name}</div>
-      <div>Контакты компании: {company?.contacts?.join(' • ') || 'отсутствуют'}</div>
-      <div className='font-bold'>История</div>
+      <div className='font-bold mt-1'>История</div>
       {!hasSnapshots && 'История отсутствует'}
       {hasSnapshots && (
         <Timeline
